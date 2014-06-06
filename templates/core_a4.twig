@@ -1,0 +1,59 @@
+{% if mode == 'cli' %}
+    <style type="text/css">
+        body {
+            margin : 0px;
+        }
+    </style>
+{% endif%}
+<div id="container">
+    {#
+    {% set cardWidth = width is defined ? width : 320 %}
+        {% set ratio = cardWidth / (841.89 / 2) %}
+            {% set cardHeight = 595.275 / 2 * ratio %}
+                #}
+    {% set ratio = 1 %}
+        {% for elt in inputData %}
+            {% set token = elt %}
+                {% if token.type == 'img' %}
+                    <div class="elt" id="{{ token.id }}" style="
+                         z-index:{{ token.z }};
+                         position: absolute;
+                         /*left: {{(token.x-(token.w/2))*ratio}}%;
+                         top:  {{((token.y)-(token.h/2))*ratio}}%;*/
+                         left: {{(token.x)*ratio}}%;
+                         top:  {{(token.y)*ratio}}%;
+                         width:       {{token.w*ratio}}px;
+                         height:      {{token.h*ratio}}px;
+                         line-height:      {{token.h*ratio}}px;
+                         text-align: center;
+                         {% if token.angle is defined%}
+                             -webkit-transform: rotate({{((token.angle))}}deg);
+                             -moz-transform: rotate({{((token.angle))}}deg);
+                             transform: rotate({{((token.angle))}}deg);
+                             {#
+                                 -webkit-transform: rotate({{((token.Angle.angle))}}deg);
+                                 -moz-transform: rotate({{((token.Angle.angle))}}deg);
+                                 transform: rotate({{((token.Angle.angle))}}deg);
+                             #}
+                         {%endif%}
+                         " >
+                        <img  src="{{token.src|default('')}}"  style="
+                              height: {{((token.h))*ratio}}px;
+                              width: {{((token.w))*ratio}}px;
+                              "/>
+                        <!--
+                        <img  src="{{token.src|default('')}}" style="
+                              position: absolute;
+                              top: {{((card.computed.values[key].Pos.y|default(0)))*ratio - (token.h - ((card.computed.values[key].Dim.height|default(0))))*ratio /2}}px;
+                              left: {{((card.computed.values[key].Pos.x|default(0)))*ratio + (token.w - ((card.computed.values[key].Dim.width|default(0))))*ratio /2}}px;
+
+                              bottom: 0;
+                              right: 0;
+                              margin: auto;
+                              height: {{((card.computed.values[key].Dim.height))*ratio}}px;
+                              width: {{((card.computed.values[key].Dim.width))*ratio}}px;" />
+                        -->
+                    </div>
+                {% endif %}
+                {% endfor %}
+                </div>

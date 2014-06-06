@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Grister</title>
+        <link rel="stylesheet" href="/css/demo.css" type="text/css">
+
+    </head>
+    <body>
+        <div>
+            <h1>Entete de l'éditor</h1>
+        </div>
+        <a id="saveData">Save</a>
+        {% include 'core_a4.twig' %}
+
+        <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script>window.jQuery || document.write('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/TweenMax.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/jquery.gsap.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/plugins/CSSRulePlugin.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/plugins/RaphaelPlugin.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/plugins/ColorPropsPlugin.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/plugins/EaselPlugin.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/plugins/TextPlugin.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/plugins/ScrollToPlugin.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/plugins/KineticPlugin.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/utils/Draggable.min.js"></script>
+        <script>
+
+            jQuery(document).ready(function($) {
+                $container = $("#container");
+                Draggable.create(".elt", {
+                    bounds: $container,
+                    type: "x,y",
+                    throwProps: false,
+                    onClick: function() {
+
+                    },
+                    onDragEnd: function() {
+                        var gl = $(this.target).position();
+                        var w = $container.width();
+                        var h = $container.height();
+                        var px = gl.left * 100 / w;
+                        var py = gl.top * 100 / h;
+                        console.log("Position in percente", px, py);
+                    },
+                    onUpdate: function() {
+
+                    },
+                });
+                $("#saveData").click(function() {
+                    event.preventDefault();
+
+                    var _data = {};
+                    $container.children().each(function(index, elt) {
+                        var gl = $(elt).position();
+                        var z = $(elt).css('z-index');
+                        var w = $container.width();
+                        var h = $container.height();
+                        var px = gl.left * 100 / w;
+                        var py = gl.top * 100 / h;
+                        _data[elt.id] = {'x': Math.ceil(px), 'y': Math.ceil(py), 'z': z};
+                    });
+                    console.log("Position in percente", _data);
+                    $.ajax({
+                        type: "POST",
+                        url: "save.php",
+                        data: {'elt': _data}
+                    }).done(function(msg) {
+                        //alert("Data Saved: ");
+                    });
+                });
+            });
+
+        </script>
+    </body>
+</html>
