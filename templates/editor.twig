@@ -31,6 +31,7 @@
                 $container = $("#container");
                 Draggable.create(".elt", {
                     bounds: $container,
+                    zIndexBoost: false,
                     type: "x,y",
                     throwProps: false,
                     onClick: function() {
@@ -40,9 +41,12 @@
                         var gl = $(this.target).position();
                         var w = $container.width();
                         var h = $container.height();
-                        var px = gl.left * 100 / w;
-                        var py = gl.top * 100 / h;
-                        console.log("Position in percente", px, py);
+                        /*var px = gl.left * 100 / w;
+                         var py = gl.top * 100 / h;*/
+                        var px = gl.left;
+                        var py = gl.top;
+
+                        //console.log("Position in percente", px, py);
                     },
                     onUpdate: function() {
 
@@ -50,22 +54,23 @@
                 });
                 $("#saveData").click(function() {
                     event.preventDefault();
-
                     var _data = {};
                     $container.children().each(function(index, elt) {
                         var gl = $(elt).position();
                         var z = $(elt).css('z-index');
                         var w = $container.width();
                         var h = $container.height();
-                        var px = gl.left * 100 / w;
-                        var py = gl.top * 100 / h;
-                        _data[elt.id] = {'x': Math.ceil(px), 'y': Math.ceil(py), 'z': z};
+                        /*var px = gl.left * 100 / w;
+                         var py = gl.top * 100 / h;*/
+                        var px = gl.left;
+                        var py = gl.top;
+                        _data[elt.id] = {'x': Math.floor(px), 'y': Math.floor(py), 'z': z};
                     });
-                    console.log("Position in percente", _data);
+                    //console.log("Position in percente", _data);
                     $.ajax({
                         type: "POST",
                         url: "save.php",
-                        data: {'elt': _data}
+                        data: {'elt': _data, 'container': {'w': $container.width(), 'h': $container.height()}, 'format': 'a4'}
                     }).done(function(msg) {
                         //alert("Data Saved: ");
                     });

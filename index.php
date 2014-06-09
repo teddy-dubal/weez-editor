@@ -17,8 +17,8 @@ $twig = new Twig_Environment($loader, array(
     'debug' => true
         ));
 
-if (file_exists('poc.pdf')) {
-    unlink('poc.pdf');
+if (file_exists('pdf/poc.pdf')) {
+    unlink('pdf/poc.pdf');
 }
 
 $snappy = new Pdf($vendorDir . 'bin/wkhtmltopdf-amd64');
@@ -30,7 +30,7 @@ $snappy->setOption('margin-bottom', 0);
 //$snappy->setOption('zoom', 2.09);
 //$snappy->generateFromHtml($twig->render('index.twig', array('ev_nom' => 'Fabien')), 'poc.pdf');
 //$snappy->generateFromHtml($twig->render('editor.twig', array('ev_nom' => 'Fabien')), 'poc.pdf');
-$info = $snappy->generate('http://localhost:8888/editor.php?mode=cli', 'poc.pdf');
+$info = $snappy->generate('http://localhost:8888/editor.php?mode=cli', 'pdf/poc.pdf');
 var_dump($info);
 //$snappy->generate('http://fr.wikipedia.org/wiki/Rihanna', 'poc.pdf');
 //echo $twig->display('index.twig', array('ev_nom' => 'Fabien'));

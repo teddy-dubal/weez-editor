@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6ca7abe6e0d6cc3a989c0c00ce1d80a2",
+    "hash": "918cae57a937831dd5467ed05596cb2b",
     "packages": [
         {
             "name": "h4cc/wkhtmltoimage-amd64",
@@ -393,6 +393,63 @@
             "time": "2014-05-22 13:47:45"
         },
         {
+            "name": "tecnick.com/tcpdf",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git://git.code.sf.net/p/tcpdf/code",
+                "reference": "d6a2206ab366f493680a22151429f17fd045fe04"
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "fonts",
+                    "config",
+                    "include",
+                    "tcpdf.php",
+                    "tcpdf_parser.php",
+                    "tcpdf_import.php",
+                    "tcpdf_barcodes_1d.php",
+                    "tcpdf_barcodes_2d.php",
+                    "include/tcpdf_colors.php",
+                    "include/tcpdf_filters.php",
+                    "include/tcpdf_font_data.php",
+                    "include/tcpdf_fonts.php",
+                    "include/tcpdf_images.php",
+                    "include/tcpdf_static.php",
+                    "include/barcodes/datamatrix.php",
+                    "include/barcodes/pdf417.php",
+                    "include/barcodes/qrcode.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Nicola Asuni",
+                    "email": "info@tecnick.com",
+                    "homepage": "http://nicolaasuni.tecnick.com"
+                }
+            ],
+            "description": "TCPDF is a PHP class for generating PDF documents.",
+            "homepage": "http://www.tcpdf.org/",
+            "keywords": [
+                "PDFD32000-2008",
+                "TCPDF",
+                "barcodes",
+                "datamatrix",
+                "pdf",
+                "pdf417",
+                "qrcode"
+            ],
+            "time": "2014-05-29 18:28:56"
+        },
+        {
             "name": "twig/twig",
             "version": "dev-master",
             "source": {
@@ -448,204 +505,6 @@
                 "templating"
             ],
             "time": "2014-05-26 15:15:28"
-        },
-        {
-            "name": "zf1/zend-cache",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zf1/zend-cache.git",
-                "reference": "466c3e48b559f3b3c6475170e84ad93bb79dad74"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zf1/zend-cache/zipball/466c3e48b559f3b3c6475170e84ad93bb79dad74",
-                "reference": "466c3e48b559f3b3c6475170e84ad93bb79dad74",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.11",
-                "zf1/zend-exception": "self.version"
-            },
-            "suggest": {
-                "zf1/zend-log": "Used in special situations or with special adapters"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Zend_Cache": "library/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Zend Framework 1 Cache package",
-            "homepage": "http://framework.zend.com/",
-            "keywords": [
-                "ZF1",
-                "cache",
-                "framework",
-                "zend"
-            ],
-            "time": "2014-05-21 16:06:11"
-        },
-        {
-            "name": "zf1/zend-exception",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zf1/zend-exception.git",
-                "reference": "ee61f139d1ad7070c1ff4d0f4bd7ccd441172f11"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zf1/zend-exception/zipball/ee61f139d1ad7070c1ff4d0f4bd7ccd441172f11",
-                "reference": "ee61f139d1ad7070c1ff4d0f4bd7ccd441172f11",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.11"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Zend_Exception": "library/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Zend Framework 1 Exception package",
-            "homepage": "http://framework.zend.com/",
-            "keywords": [
-                "ZF1",
-                "exception",
-                "framework",
-                "zend"
-            ],
-            "time": "2014-05-21 15:17:51"
-        },
-        {
-            "name": "zf1/zend-log",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zf1/zend-log.git",
-                "reference": "4c39db541f1372b8732ec41585274c7882a37116"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zf1/zend-log/zipball/4c39db541f1372b8732ec41585274c7882a37116",
-                "reference": "4c39db541f1372b8732ec41585274c7882a37116",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.11",
-                "zf1/zend-exception": "self.version"
-            },
-            "suggest": {
-                "zf1/zend-wildfire": "Used in special situations or with special adapters"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Zend_Log": "library/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Zend Framework 1 Log package",
-            "homepage": "http://framework.zend.com/",
-            "keywords": [
-                "ZF1",
-                "framework",
-                "log",
-                "zend"
-            ],
-            "time": "2014-05-21 15:17:58"
-        },
-        {
-            "name": "zf1/zend-memory",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zf1/zend-memory.git",
-                "reference": "6f6c20eba98305b469b7da97fc420543af168367"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zf1/zend-memory/zipball/6f6c20eba98305b469b7da97fc420543af168367",
-                "reference": "6f6c20eba98305b469b7da97fc420543af168367",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.11",
-                "zf1/zend-cache": "self.version",
-                "zf1/zend-exception": "self.version"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Zend_Memory": "library/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Zend Framework 1 Memory package",
-            "homepage": "http://framework.zend.com/",
-            "keywords": [
-                "ZF1",
-                "framework",
-                "memory",
-                "zend"
-            ],
-            "time": "2014-05-21 15:17:58"
-        },
-        {
-            "name": "zf1/zend-pdf",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zf1/zend-pdf.git",
-                "reference": "f019bb8c49f20ac5170ed31caef37b68160eb921"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zf1/zend-pdf/zipball/f019bb8c49f20ac5170ed31caef37b68160eb921",
-                "reference": "f019bb8c49f20ac5170ed31caef37b68160eb921",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.11",
-                "zf1/zend-exception": "self.version",
-                "zf1/zend-log": "self.version",
-                "zf1/zend-memory": "self.version"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Zend_Pdf": "library/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Zend Framework 1 Pdf package",
-            "homepage": "http://framework.zend.com/",
-            "keywords": [
-                "ZF1",
-                "framework",
-                "pdf",
-                "zend"
-            ],
-            "time": "2014-05-21 15:17:48"
         }
     ],
     "packages-dev": [],
@@ -656,11 +515,7 @@
         "h4cc/wkhtmltoimage-amd64": 20,
         "knplabs/knp-snappy": 20,
         "intervention/image": 20,
-        "zf1/zend-pdf": 20,
-        "zf1/zend-log": 20,
-        "zf1/zend-exception": 20,
-        "zf1/zend-cache": 20,
-        "zf1/zend-memory": 20,
+        "tecnick.com/tcpdf": 20,
         "twig/twig": 20
     },
     "platform": [],

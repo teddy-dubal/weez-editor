@@ -12,11 +12,7 @@
         "h4cc/wkhtmltoimage-amd64": "dev-master",
         "knplabs/knp-snappy": "dev-master",
         "intervention/image": "dev-master",
-        "zf1/zend-pdf": "dev-master",
-        "zf1/zend-log": "dev-master",
-        "zf1/zend-exception": "dev-master",
-        "zf1/zend-cache": "dev-master",
-        "zf1/zend-memory": "dev-master",
+        "tecnick.com/tcpdf": "dev-master",
         "twig/twig": "dev-master"
     }
 }
