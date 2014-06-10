@@ -31,11 +31,12 @@ foreach ($elt as $key => $value) {
 }
 if (file_put_contents($files, json_encode($inputData))){
     echo 'OK';
-    $pdf = new TCPDF();
+    $pdf = new TCPDF($orientation='P', $unit='mm', $format='A4', $unicode=true, $encoding='UTF-8', $diskcache=false, $pdfa=false);
     // remove default header/footer
     $pdf->setPrintHeader(false);
     $pdf->setPrintFooter(false);
     $pdf->SetMargins(0, 0);
+    $pdf->SetAutoPageBreak(false, 0);
     $pdf->AddPage();
     foreach ($inputData as $key => $value) {
         $x = isset($value['x']) ? $value['x'] : 0;
