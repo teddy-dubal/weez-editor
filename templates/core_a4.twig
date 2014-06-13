@@ -36,7 +36,7 @@
                          transform: rotate({{((token.Angle.angle))}}deg);
                      #}
                  {%endif%}
-                 " >
+                 " data-info='{{token|json_encode()}}' >
                 <img  src="{{token.src|default('')}}"  style="
                       height: {{((token.h))*yratio}}px;
                       width: {{((token.w))*xratio}}px;
@@ -71,7 +71,7 @@
                  font-family: {{ token.font|default('arial.ttf')|replace({'.ttf': '', '.TTF': ''}) }};
                  font-size: {{token.size*xratio}}px;
                  <!-- line-height:     {{token.size*yratio}}px; -->
-                 " >
+                 "  data-info='{{token|json_encode()}}'>
                 {{token.txt|nl2br}}
             </div>
         {% endif %}

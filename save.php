@@ -2,9 +2,6 @@
 
 use Intervention\Image\ImageManagerStatic as Image;
 
-
-
-
 $rootDir = __DIR__;
 $vendorDir = $rootDir . '/vendor/';
 
@@ -25,9 +22,10 @@ $inputData = json_decode(file_get_contents($files),true);
   $xratio = 210/596;  
   $yratio = 297/842;  
 foreach ($elt as $key => $value) {
+    //Unit [mm]
     $value['x'] = ceil($xratio * $value['x']);
     $value['y'] =  ceil($xratio * $value['y']);
-    $inputData[$key] = array_merge($inputData[$key],$value);
+    $inputData[$key] = isset($inputData[$key]) ? array_merge($inputData[$key],$value) : $value;
 }
 if (file_put_contents($files, json_encode($inputData))){
     echo 'OK';
@@ -96,3 +94,4 @@ function hex2RGB($hexStr, $returnAsString = false, $seperator = ',') {
     }
     return $returnAsString ? implode($seperator, $rgbArray) : $rgbArray; // returns the rgb string or the associative array
 }
+

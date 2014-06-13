@@ -1,18 +1,32 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8">
-        <title>Grister</title>
-        <link rel="stylesheet" href="/css/demo.css" type="text/css">
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <title>PDF</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="/css/demo.css" type="text/css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
     </head>
     <body>
         <div>
             <h1>Entete de l'éditor</h1>
         </div>
         <a id="saveData">Save</a>
-        {% include 'toolbox.twig' %}
-        {% include 'core_a4.twig' %}
+        <div class="row">
+            <div class="col-md-7">{% include 'core_a4.twig' %}</div>
+            <div class="col-md-5">{% include 'toolbox.twig' %}</div>
+        </div>
         <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
         <script>window.jQuery || document.write('<script src="/js/jquery-1.9.1.min.js"><\/script>')</script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/TweenMax.min.js"></script>
@@ -25,58 +39,9 @@
         <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/plugins/ScrollToPlugin.min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/plugins/KineticPlugin.min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/utils/Draggable.min.js"></script>
-        <script>
-
-            jQuery(document).ready(function($) {
-                $container = $("#container");
-                Draggable.create(".elt", {
-                    bounds: $container,
-                    zIndexBoost: false,
-                    type: "x,y",
-                    throwProps: false,
-                    onClick: function() {
-
-                    },
-                    onDragEnd: function() {
-                        var gl = $(this.target).position();
-                        var w = $container.width();
-                        var h = $container.height();
-                        /*var px = gl.left * 100 / w;
-                         var py = gl.top * 100 / h;*/
-                        var px = gl.left;
-                        var py = gl.top;
-
-                        //console.log("Position in percente", px, py);
-                    },
-                    onUpdate: function() {
-
-                    },
-                });
-                $("#saveData").click(function() {
-                    event.preventDefault();
-                    var _data = {};
-                    $container.children().each(function(index, elt) {
-                        var gl = $(elt).position();
-                        var z = $(elt).css('z-index');
-                        var w = $container.width();
-                        var h = $container.height();
-                        /*var px = gl.left * 100 / w;
-                         var py = gl.top * 100 / h;*/
-                        var px = gl.left;
-                        var py = gl.top;
-                        _data[elt.id] = {'x': Math.floor(px), 'y': Math.floor(py), 'z': z};
-                    });
-                    //console.log("Position in percente", _data);
-                    $.ajax({
-                        type: "POST",
-                        url: "save.php",
-                        data: {'elt': _data, 'container': {'w': $container.width(), 'h': $container.height()}, 'format': 'a4'}
-                    }).done(function(msg) {
-                        //alert("Data Saved: ");
-                    });
-                });
-            });
-
-        </script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/utils/Draggable.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="/js/demo.js"></script>
     </body>
 </html>
