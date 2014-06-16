@@ -21,6 +21,10 @@ body {
     z-index: 51;
 }
 
+#editbox {
+    display: none;
+}
+
 .box {
     background-color: #91e600;
     text-align: center;
@@ -36,3 +40,6 @@ body {
     border-radius: 10px;
 }
 
+.elt {
+    border: 1px solid black;
+}

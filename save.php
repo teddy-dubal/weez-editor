@@ -19,12 +19,8 @@ $format = $_POST['format'];
 $container = $_POST['container'];
 $inputData = json_decode(file_get_contents($files),true);
 # A4 (Mm = 210x297) : (Px : 596x842 en 72dpi) #
-  $xratio = 210/596;  
-  $yratio = 297/842;  
 foreach ($elt as $key => $value) {
     //Unit [mm]
-    $value['x'] = ceil($xratio * $value['x']);
-    $value['y'] =  ceil($xratio * $value['y']);
     $inputData[$key] = isset($inputData[$key]) ? array_merge($inputData[$key],$value) : $value;
 }
 if (file_put_contents($files, json_encode($inputData))){
@@ -46,7 +42,6 @@ if (file_put_contents($files, json_encode($inputData))){
             case 'img':
                 $imgPath = 'tmp/bar.jpg';
                 $imgPic = Image::make($value['src'])->save($imgPath);
-                var_dump('img',$x,$y,$w,$h);
                 $pdf->Image($imgPath,$x,$y,$w,$h,$type='', $link='', $align='', $resize=false, $dpi=300, $palign='T', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false, $alt=false, $altimgs=array());
                 break;
             case 'txt':

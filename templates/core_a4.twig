@@ -5,72 +5,57 @@
         }
     </style>
 {% endif%}
-<div id="container">
-    {# A4 (Mm = 210x297) : (Px : 596x842 en 72dpi) #}
-    {#
-    {% set cardWidth = width is defined ? width : 320 %}
-        {% set ratio = cardWidth / (841.89 / 2) %}
-            {% set cardHeight = 595.275 / 2 * ratio %}
-                #}
-    {% set xratio = 596/210 %}
-    {% set yratio = 842/297 %}
+{# A4 (Mm = 210x297) : (Px : 596x842 en 72dpi) #}
+
+{% set tmpratio = 596/210 %}
+{% set ratio = tmpratio %}
+
+<div id="container" data-info='{"ratio":{{ ratio }}}'>
     {% for elt in inputData %}
         {% set token = elt %}
         {% if token.type == 'img' %}
             <div class="elt" id="{{ token.id }}" style="
                  z-index:{{ token.z }};
                  position: absolute;
-                 left: {{(token.x)*xratio}}px;
-                 top:  {{(token.y)*yratio}}px;
-                 width:       {{token.w*xratio}}px;
-                 height:      {{token.h*yratio}}px;
-                 line-height:      {{token.h*yratio}}px;
+                 left: {{(token.x)*ratio}}px;
+                 top:  {{(token.y)*ratio}}px;
+                 width:       {{token.w*ratio}}px;
+                 height:      {{token.h*ratio}}px;
+                 line-height:      {{token.h*ratio}}px;
                  text-align: center;
                  {% if token.angle is defined%}
                      -webkit-transform: rotate({{((token.angle))}}deg);
                      -moz-transform: rotate({{((token.angle))}}deg);
                      transform: rotate({{((token.angle))}}deg);
-                     {#
-                         -webkit-transform: rotate({{((token.Angle.angle))}}deg);
-                         -moz-transform: rotate({{((token.Angle.angle))}}deg);
-                         transform: rotate({{((token.Angle.angle))}}deg);
-                     #}
                  {%endif%}
                  " data-info='{{token|json_encode()}}' >
                 <img  src="{{token.src|default('')}}"  style="
-                      height: {{((token.h))*yratio}}px;
-                      width: {{((token.w))*xratio}}px;
+                      height: {{((token.h))*ratio}}px;
+                      width: {{((token.w))*ratio}}px;
                       bottom: 0;
                       right: 0;
                       margin: auto;
                       "/>
-                <!--
-                <img  src="{{token.src|default('')}}" style="
-                      position: absolute;
-                      top: {{((card.computed.values[key].Pos.y|default(0)))*ratio - (token.h - ((card.computed.values[key].Dim.height|default(0))))*ratio /2}}px;
-                      left: {{((card.computed.values[key].Pos.x|default(0)))*ratio + (token.w - ((card.computed.values[key].Dim.width|default(0))))*ratio /2}}px;
-
-                      bottom: 0;
-                      right: 0;
-                      margin: auto;
-                      height: {{((card.computed.values[key].Dim.height))*ratio}}px;
-                      width: {{((card.computed.values[key].Dim.width))*ratio}}px;" />
-                -->
             </div>
         {% endif %}
         {% if token.type == 'txt' %}
             <div class="elt" id="{{ token.id }}" {% if isEditable %}contenteditable=""{% endif %} style="
                  z-index:{{ token.z }};
-                 left: {{(token.x)*xratio}}px;
-                 top:  {{(token.y)*yratio}}px;
-                 width:      {{token.w*xratio}}px;
-                 height:     {{token.h*yratio}}px;
+                 left: {{(token.x)*ratio}}px;
+                 top:  {{(token.y)*ratio}}px;
+                 width:      {{token.w*ratio}}px;
+                 height:     {{token.h*ratio}}px;
                  position:   absolute;
                  text-align: {{token.align}};
                  color:      {{token.color}};
                  font-family: {{ token.font|default('arial.ttf')|replace({'.ttf': '', '.TTF': ''}) }};
-                 font-size: {{token.size*xratio}}px;
-                 <!-- line-height:     {{token.size*yratio}}px; -->
+                 font-size: {{token.size*ratio}}px;
+                 {% if token.angle is defined%}
+                     -webkit-transform: rotate({{((token.angle))}}deg);
+                     -moz-transform: rotate({{((token.angle))}}deg);
+                     transform: rotate({{((token.angle))}}deg);
+                 {%endif%}
+                 <!-- line-height:     {{token.size*ratio}}px; -->
                  "  data-info='{{token|json_encode()}}'>
                 {{token.txt|nl2br}}
             </div>

@@ -1,14 +1,35 @@
 <div id="editbox">
     <form action="" id="data_elt" role="form">
         <div id="common">
-            <input type="text" class="form-control" placeholder="x" id="x">
-            <input type="text" class="form-control" placeholder="y" id="y">
-            <input type="text" class="form-control" placeholder="z" id="z">
-            <input type="text" class="form-control" placeholder="w" id="w">
-            <input type="text" class="form-control" placeholder="h" id="h">
+            <input type="hidden" class="form-control"  id="id">
+            <div class="input-group">
+                <span class="input-group-addon">x</span>
+                <input type="text" class="form-control" placeholder="x" id="x">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">y</span>
+                <input type="text" class="form-control" placeholder="y" id="y">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">z</span>
+                <input type="text" class="form-control" placeholder="z" id="z">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">w</span>
+                <input type="text" class="form-control" placeholder="w" id="w">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">h</span>
+                <input type="text" class="form-control" placeholder="h" id="h">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">°</span>
+                <input type="text" class="form-control" placeholder="°" id="angle">
+            </div>
         </div>
         <div id="txt"></div>
         <div id="img"></div>
-        <button type="submit" class="btn btn-danger">Delete</button>
+        <button type="button" class="btn btn-danger" id="deleteEditorboxBtn">Delete</button>
+        <button type="button" class="btn btn-primary" id="validateEditorboxBtn">Validate</button>
     </form>
 </div>
