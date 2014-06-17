@@ -33,11 +33,12 @@
         $('.form-control').each(function(index, _elt) {
             $(_elt).val(data_info[_elt.id]);
         });
+        console.info('getEltInfo',elt.position().left,elt.position().top);
     }
     
     function setEltInfo() {
-        var currentId = $('#id').val();
-        var json_data_info = $('#'+currentId).attr('data-info') || '{}';
+        var elt = $('#'+$('#id').val());
+        var json_data_info = elt.attr('data-info') || '{}';
         var data_info = jQuery.parseJSON(json_data_info);
         var mappedAttribute = {};
         $('.form-control').each(function(index, _elt) {
@@ -46,11 +47,9 @@
         var tmp = mmToPixel({'w' : mappedAttribute.w, 'h' : mappedAttribute.h ,'y' : mappedAttribute.y ,'x':mappedAttribute.x});
         tmp.angle = mappedAttribute.angle;
         jQuery.extend( data_info, mappedAttribute );
-        $('.elt').each(function(index, _elt) {
-            Draggable.get($(_elt)).kill();
-        });
-        $('#'+currentId).css({width : tmp.w, height : tmp.h, top : tmp.y, left : tmp.x , "-webkit-transform" : "rotate("+tmp.angle+"deg)", "-moz-transform" : "rotate("+tmp.angle+"deg)", "transform" : "rotate("+tmp.angle+"deg)"}).attr('data-info',JSON.stringify(data_info));
-        //amplify.publish( 'set.draggable.on.element');
+        elt.css({width : tmp.w, height : tmp.h, top : tmp.y, left : tmp.x }).attr('data-info',JSON.stringify(data_info));
+        TweenMax.to(elt, 0.5, { rotation: tmp.angle});
+        console.info('setEltInfo',elt.position().left,elt.position().top);
     }
     /**
      * 
@@ -67,7 +66,9 @@
         var tmp = pixelToMm({'x' : px,'y':py});
         data_info.x = tmp.x;
         data_info.y = tmp.y;
-        elt.attr('data-info',JSON.stringify(data_info));
+        console.info('setDataInfoElement',px,py);
+        //Update css of element
+        elt.css({/*width : tmp.w, height : tmp.h, top : py, left : px */}).attr('data-info',JSON.stringify(data_info));
     }
     /**
      * 
@@ -105,11 +106,6 @@
         });
         return values;
     }
-    
-//    function createDraggable() {
-//        $("<div class='elt' id='_"+jQuery.now()+"'/>").css({position:"absolute", backgroundColor: 'white', border:"1px solid #454545", width:data_info.w, height:data_info.h, top:data_info.y, left:data_info.x}).attr('data-info',json_data_info).prependTo($container);
-//        amplify.publish( 'set.draggable.on.element');
-//    }
     
     //Draggable element on toolbox
     Draggable.create("li", {

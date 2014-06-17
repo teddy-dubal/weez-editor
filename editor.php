@@ -18,7 +18,7 @@ $twig = new Twig_Environment($loader, array(
     'debug' => true
         ));
 
-if (!file_exists($files = $rootDir.'/data/a4.json')) {
+if (!file_exists($files = $rootDir.'/data/default_a4.json')) {
     die('no input data');
     exit;
 }

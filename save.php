@@ -10,7 +10,7 @@ require_once $vendorDir . 'autoload.php';
 if (empty($_POST))
     die ('No Hack');
 
-if (!file_exists($files = $rootDir.'/data/a4.json')) {
+if (!file_exists($files = $rootDir.'/data/default_a4.json')) {
     die('no input data');
     exit;
 }
@@ -38,20 +38,26 @@ if (file_put_contents($files, json_encode($inputData))){
         $z = isset($value['z']) ? $value['z'] : 0;
         $w = isset($value['w']) ? $value['w'] : 0;
         $h = isset($value['h']) ? $value['h'] : 0;
+        // ROTATION SYNTAXE $pdf->Rotate($this->getRotate(), $this->getRotateOriX(), $this->getRotateOriY());
         switch ($value['type']) {
             case 'img':
                 $imgPath = 'tmp/bar.jpg';
-                $imgPic = Image::make($value['src'])->save($imgPath);
+                $imgPic = Image::make($value['default'])->save($imgPath);
+                $pdf->Image($imgPath,$x,$y,$w,$h,$type='', $link='', $align='', $resize=false, $dpi=300, $palign='T', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false, $alt=false, $altimgs=array());
+                break;
+            case 'qrcode':
+                $imgPath = 'tmp/qrcode.jpg';
+                $imgPic = Image::make($value['default'])->save($imgPath);
                 $pdf->Image($imgPath,$x,$y,$w,$h,$type='', $link='', $align='', $resize=false, $dpi=300, $palign='T', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false, $alt=false, $altimgs=array());
                 break;
             case 'txt':
-                $color = isset($value['color']) ? $value['color'] : '#000000';
+                $color = isset($value['style']['color']) ? $value['style']['color'] : '#000000';
                 $color = hex2RGB($color);
-                $size = isset($value['size']) ? $value['size'] : 12;
+                $size = isset($value['style']['size']) ? $value['size'] : 12;
                 $baseAlign = array('left'=> 'L','center'=>'C','right'=>'R','justify'=>'J');
                 $pdf->SetFont('helvetica', $style='', $size=$size, $fontfile='', $subset='default', $out=true);
                 $pdf->SetTextColor($color['r'], $color['g'], $color['b']);
-                $pdf->Text($x, $y, $value['txt'], $fstroke=false, $fclip=false, $ffill=true, $border=0, $ln=0, $align=$baseAlign[$value['align']], $fill=false, $link='', $stretch=0, $ignore_min_height=false, $calign='T', $valign='M', $rtloff=false) ;
+                $pdf->Text($x, $y, $value['default'], $fstroke=false, $fclip=false, $ffill=true, $border=0, $ln=0, $align=$baseAlign[$value['style']['align']], $fill=false, $link='', $stretch=0, $ignore_min_height=false, $calign='T', $valign='M', $rtloff=false) ;
                 break;
             default:
                 break;

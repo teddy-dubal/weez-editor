@@ -7,8 +7,7 @@
 {% endif%}
 {# A4 (Mm = 210x297) : (Px : 596x842 en 72dpi) #}
 
-{% set tmpratio = 596/210 %}
-{% set ratio = tmpratio %}
+{% set ratio = 596/210 %}
 
 <div id="container" data-info='{"ratio":{{ ratio }}}'>
     {% for elt in inputData %}
@@ -29,7 +28,7 @@
                      transform: rotate({{((token.angle))}}deg);
                  {%endif%}
                  " data-info='{{token|json_encode()}}' >
-                <img  src="{{token.src|default('')}}"  style="
+                <img  src="{{token.default|default('')}}"  style="
                       height: {{((token.h))*ratio}}px;
                       width: {{((token.w))*ratio}}px;
                       bottom: 0;
@@ -39,17 +38,17 @@
             </div>
         {% endif %}
         {% if token.type == 'txt' %}
-            <div class="elt" id="{{ token.id }}" {% if isEditable %}contenteditable=""{% endif %} style="
+            <div class="elt" id="{{ token.id }}"  style="
                  z-index:{{ token.z }};
                  left: {{(token.x)*ratio}}px;
                  top:  {{(token.y)*ratio}}px;
                  width:      {{token.w*ratio}}px;
                  height:     {{token.h*ratio}}px;
                  position:   absolute;
-                 text-align: {{token.align}};
-                 color:      {{token.color}};
-                 font-family: {{ token.font|default('arial.ttf')|replace({'.ttf': '', '.TTF': ''}) }};
-                 font-size: {{token.size*ratio}}px;
+                 text-align: {{token.style.align}};
+                 color:      {{token.style.color}};
+                 font-family: {{ token.style.font|default('arial.ttf')|replace({'.ttf': '', '.TTF': ''}) }};
+                 font-size: {{token.style.size*ratio}}px;
                  {% if token.angle is defined%}
                      -webkit-transform: rotate({{((token.angle))}}deg);
                      -moz-transform: rotate({{((token.angle))}}deg);
@@ -57,7 +56,32 @@
                  {%endif%}
                  <!-- line-height:     {{token.size*ratio}}px; -->
                  "  data-info='{{token|json_encode()}}'>
-                {{token.txt|nl2br}}
+                {{token.default|nl2br}}
+            </div>
+        {% endif %}
+        {% if token.type == 'qrcode' %}
+            <div class="elt" id="{{ token.id }}" style="
+                 z-index:{{ token.z }};
+                 position: absolute;
+                 left: {{(token.x)*ratio}}px;
+                 top:  {{(token.y)*ratio}}px;
+                 width:       {{token.w*ratio}}px;
+                 height:      {{token.h*ratio}}px;
+                 line-height:      {{token.h*ratio}}px;
+                 text-align: center;
+                 {% if token.angle is defined%}
+                     -webkit-transform: rotate({{((token.angle))}}deg);
+                     -moz-transform: rotate({{((token.angle))}}deg);
+                     transform: rotate({{((token.angle))}}deg);
+                 {%endif%}
+                 " data-info='{{token|json_encode()}}' >
+                <img  src="{{token.default|default('')}}"  style="
+                      height: {{((token.h))*ratio}}px;
+                      width: {{((token.w))*ratio}}px;
+                      bottom: 0;
+                      right: 0;
+                      margin: auto;
+                      "/>
             </div>
         {% endif %}
     {% endfor %}
