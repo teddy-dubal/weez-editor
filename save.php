@@ -4,8 +4,11 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 $rootDir = __DIR__;
 $vendorDir = $rootDir . '/vendor/';
+$tmpDir = sys_get_temp_dir().'/';
 
 require_once $vendorDir . 'autoload.php';
+//Data mock
+require_once $rootDir.'/data/mock.php';
 
 if (empty($_POST))
     die ('No Hack');
@@ -18,6 +21,7 @@ $elt = $_POST['elt'];
 $format = $_POST['format'];
 $container = $_POST['container'];
 $inputData = json_decode(file_get_contents($files),true);
+$idclient = 8300487;
 # A4 (Mm = 210x297) : (Px : 596x842 en 72dpi) #
 foreach ($elt as $key => $value) {
     //Unit [mm]
@@ -38,16 +42,19 @@ if (file_put_contents($files, json_encode($inputData))){
         $z = isset($value['z']) ? $value['z'] : 0;
         $w = isset($value['w']) ? $value['w'] : 0;
         $h = isset($value['h']) ? $value['h'] : 0;
+        $data_src = isset($mock['data'][$idclient][$value['tag']]) ? $mock['data'][$idclient][$value['tag']] : $value['default'];
         // ROTATION SYNTAXE $pdf->Rotate($this->getRotate(), $this->getRotateOriX(), $this->getRotateOriY());
         switch ($value['type']) {
             case 'img':
-                $imgPath = 'tmp/bar.jpg';
-                $imgPic = Image::make($value['default'])->save($imgPath);
+                $ext = pathinfo($data_src, PATHINFO_EXTENSION);
+                $imgPath = $tmpDir.  uniqid().'.'.$ext;
+                $imgPic = Image::make($data_src)->save($imgPath);
                 $pdf->Image($imgPath,$x,$y,$w,$h,$type='', $link='', $align='', $resize=false, $dpi=300, $palign='T', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false, $alt=false, $altimgs=array());
                 break;
             case 'qrcode':
-                $imgPath = 'tmp/qrcode.jpg';
-                $imgPic = Image::make($value['default'])->save($imgPath);
+                $barcodeobj = new TCPDF2DBarcode($data_src, 'QRCODE,H');
+                $imgPath = $tmpDir.  uniqid().'.png';
+                $imgPic = Image::make($barcodeobj->getBarcodePngData(10, 10))->save($imgPath);
                 $pdf->Image($imgPath,$x,$y,$w,$h,$type='', $link='', $align='', $resize=false, $dpi=300, $palign='T', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false, $alt=false, $altimgs=array());
                 break;
             case 'txt':
@@ -57,7 +64,7 @@ if (file_put_contents($files, json_encode($inputData))){
                 $baseAlign = array('left'=> 'L','center'=>'C','right'=>'R','justify'=>'J');
                 $pdf->SetFont('helvetica', $style='', $size=$size, $fontfile='', $subset='default', $out=true);
                 $pdf->SetTextColor($color['r'], $color['g'], $color['b']);
-                $pdf->Text($x, $y, $value['default'], $fstroke=false, $fclip=false, $ffill=true, $border=0, $ln=0, $align=$baseAlign[$value['style']['align']], $fill=false, $link='', $stretch=0, $ignore_min_height=false, $calign='T', $valign='M', $rtloff=false) ;
+                $pdf->Text($x, $y, $data_src, $fstroke=false, $fclip=false, $ffill=true, $border=0, $ln=0, $align=$baseAlign[$value['style']['align']], $fill=false, $link='', $stretch=0, $ignore_min_height=false, $calign='T', $valign='M', $rtloff=false) ;
                 break;
             default:
                 break;
@@ -96,3 +103,44 @@ function hex2RGB($hexStr, $returnAsString = false, $seperator = ',') {
     return $returnAsString ? implode($seperator, $rgbArray) : $rgbArray; // returns the rgb string or the associative array
 }
 
+/*
+ $params = array();
+$client = new Client();
+$tickets = $client->getClienEvenementTransactionsBillets(array('id_client' => array(8300487, 8300488)));
+foreach ($tickets as $data) {
+    $ticket = new ModelTicket();
+    $params[] = $ticket->getContentBilletPDF(true, $data['id_evenement'], $data['id_billet'], $data['id_transaction'], $data['id_client']);
+}
+$cfg['data'] = $params;
+ */
+
+/**
+     * Get elements from table ClienEvenementTransactionsBillets according to criteria
+     * Ex : $this->getClienEvenementTransactionsBillets(array('id_client' => array(8300487, 8300488)))
+     * @param array $criteria
+     * @return array
+     * @throws \Exception
+     */
+/*
+    public function getClienEvenementTransactionsBillets($criteria = array())
+    {
+        if (!is_array($criteria))
+            throw new \Exception('You must supply an array');
+
+        $sql = 'SELECT *
+                FROM clients_evenement_transactions_billets
+                WHERE ';
+        $c = count($criteria);
+        foreach ($criteria as $k => $v) {
+            $sql .= $k . ' IN ( %s ) ';
+            $sql = sprintf($sql, implode(',', $v));
+            if ($c > 1)
+                $sql .= ' OR ';
+}
+        $sql = trim($sql, "OR ") . ';';
+        if ($c)
+            return $GLOBALS['CON']->fetchAll($GLOBALS['CON']->executeRequeteSM($sql));
+        return array();
+    }
+ 
+ */
