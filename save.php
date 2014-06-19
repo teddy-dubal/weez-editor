@@ -65,6 +65,12 @@ if (file_put_contents($files, json_encode($inputData))) {
                 $imgPic = Image::make($barcodeobj->getBarcodePngData(10, 10))->save($imgPath);
                 $pdf->Image($imgPath, $x, $y, $w, $h, $type = '', $link = '', $align = '', $resize = false, $dpi = 300, $palign = 'T', $ismask = false, $imgmask = false, $border = 0, $fitbox = false, $hidden = false, $fitonpage = false, $alt = false, $altimgs = array());
                 break;
+            case 'barcode':
+                $barcodeobj = new TCPDFBarcode($data_src, 'C128');
+                $imgPath = $tmpDir . uniqid() . '.png';
+                $imgPic = Image::make($barcodeobj->getBarcodePngData(10, 10))->save($imgPath);
+                $pdf->Image($imgPath, $x, $y, $w, $h, $type = '', $link = '', $align = '', $resize = false, $dpi = 300, $palign = 'T', $ismask = false, $imgmask = false, $border = 0, $fitbox = false, $hidden = false, $fitonpage = false, $alt = false, $altimgs = array());
+                break;
             case 'shape':
                 $pdf->Line($x, $y, $x + $w, $y + $h, $style = array('color' => array($color['r'], $color['g'], $color['b'])));
                 break;

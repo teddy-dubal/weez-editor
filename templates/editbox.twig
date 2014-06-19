@@ -2,6 +2,7 @@
     <form action="" id="data_elt" role="form">
         <div id="common">
             <input type="hidden" class="form-control"  id="id">
+            <input type="hidden" class="form-control"  id="type">
             <div class="input-group">
                 <span class="input-group-addon">x</span>
                 <input type="text" class="form-control" placeholder="x" id="x">
@@ -22,13 +23,46 @@
                 <span class="input-group-addon">h</span>
                 <input type="text" class="form-control" placeholder="h" id="h">
             </div>
+            {#
             <div class="input-group">
                 <span class="input-group-addon">°</span>
                 <input type="text" class="form-control" placeholder="°" id="angle">
             </div>
+            #}
         </div>
-        <div id="txt"></div>
-        <div id="img"></div>
+        <div id="txt" class="txt tool">TXT
+            <select class="form-control" id="tag">
+                <option value="main_pic">main_pic</option>
+                <option value="ev_nom">ev_nom</option>
+                <option value="barcode_id">barcode_id</option>
+                <option value="acheteur_id">acheteur_id</option>
+                <option value="ev_id">ev_id</option>
+                <option value="ev_nom">ev_nom</option>
+                <option value="lieu_nom">lieu_nom</option>
+                <option value="lieu_adresse">lieu_adresse</option>
+                <option value="lieu_ville">lieu_ville</option>
+                <option value="billet_nom">billet_nom</option>
+                <option value="billet_categorie">billet_categorie</option>
+                <option value="cmd_client">cmd_client</option>
+                <option value="cmd_client_prenom">cmd_client_prenom</option>
+                <option value="cmd_client_nom">cmd_client_nom</option>
+                <option value="billet_prix">billet_prix</option>
+                <option value="billet_frais">billet_frais</option>
+                <option value="billet_num">billet_num</option>
+                <option value="id_orga">id_orga</option>
+                <option value="ev_orga">ev_orga</option>
+                <option value="cmd_date">cmd_date</option>
+                <option value="cmd_num">cmd_num</option>
+                <option value="ev_url">ev_url</option>
+                <option value="id_transaction_billet">id_transaction_billet</option>
+                <option value="ev_email">ev_email</option>
+                <option value="address">address</option>
+                <option value="ev_orga_txt">ev_orga_txt</option>
+                <option value="ev_dates">ev_dates</option>
+                <option value="cgu">cgu</option>
+            </select>
+        </div>
+        <div id="img" class="img qrcode barcode tool">IMG</div>
         <button type="button" class="btn btn-danger" id="deleteEditorboxBtn">Delete</button>
         <button type="button" class="btn btn-primary" id="validateEditorboxBtn">Validate</button>
     </form>

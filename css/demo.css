@@ -25,6 +25,10 @@ body {
     display: none;
 }
 
+.tool {
+    display: none;
+}
+
 .box {
     background-color: #91e600;
     text-align: center;

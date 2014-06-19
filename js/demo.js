@@ -16,7 +16,6 @@
                 amplify.publish( 'drag.on.draggable.element', $(this.target) );
             },
             onDragEnd: function() {
-                amplify.publish( 'set.datainfo.on.element', $(this.target) );
                 amplify.publish( 'drag.on.draggable.element', $(this.target) );
             }
         });
@@ -46,8 +45,9 @@
         });
         var tmp = mmToPixel({'w' : mappedAttribute.w, 'h' : mappedAttribute.h ,'y' : mappedAttribute.y ,'x':mappedAttribute.x});
         tmp.angle = mappedAttribute.angle;
+        tmp.z = mappedAttribute.z;
         jQuery.extend( data_info, mappedAttribute );
-        elt.css({width : tmp.w, height : tmp.h, top : tmp.y, left : tmp.x }).attr('data-info',JSON.stringify(data_info));
+        elt.css({width : tmp.w, height : tmp.h, top : tmp.y, left : tmp.x ,'z-index' : tmp.z}).attr('data-info',JSON.stringify(data_info));
         TweenMax.to(elt, 0.5, { rotation: tmp.angle});
         console.info('setEltInfo',elt.position().left,elt.position().top);
     }
@@ -56,9 +56,9 @@
      * @param {type} elt
      * @returns {undefined}
      */
+    /*
     function setDataInfoElement(elt) {
         var gl = elt.position();
-        var z = elt.css('z-index');
         var px = gl.left;
         var py = gl.top;
         var json_data_info = elt.attr('data-info') || '{}';
@@ -66,10 +66,11 @@
         var tmp = pixelToMm({'x' : px,'y':py});
         data_info.x = tmp.x;
         data_info.y = tmp.y;
-        console.info('setDataInfoElement',px,py);
         //Update css of element
-        elt.css({/*width : tmp.w, height : tmp.h, top : py, left : px */}).attr('data-info',JSON.stringify(data_info));
+        //elt.css({width : tmp.w, height : tmp.h, top : py, left : px ,'z-index' : data_info.z}).attr('data-info',JSON.stringify(data_info));
+        console.info('setDataInfoElement',px,py);
     }
+    */
     /**
      * 
      * @param {type} elt
@@ -77,6 +78,16 @@
      */
     function displayEditorBox() {
          $('#editbox').show();
+         $('.tool').hide();
+         $('.'+$('#type').val()).show();
+         /*
+         switch ($('#type').val()) {
+             case 'txt':
+                 break;
+             case 'img':
+                 break;
+         }
+         */
     }
     
     /**
@@ -129,7 +140,6 @@
         amplify.subscribe( "click.on.draggable.element", function () {displayEditorBox();});
         amplify.subscribe( "drag.on.draggable.element",function (elt){ getEltInfo(elt);});
         amplify.subscribe( "drag.on.draggable.element", function () {displayEditorBox();});
-        amplify.subscribe( "set.datainfo.on.element", function (elt) {setDataInfoElement(elt);});
         amplify.subscribe( "set.data.from.editor", function () {setEltInfo();});
     }
     /**
