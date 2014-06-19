@@ -143,25 +143,6 @@
         "filter": "",
         "default": "tarif_license"
     },
-    "_9": {
-        "id": "_3",
-        "x": "120.086",
-        "y": "143.933",
-        "z": "1",
-        "angle": "0",
-        "w": "75",
-        "h": "39.295",
-        "type": "txt",
-        "tag": "desc",
-        "style": {
-            "size": "8",
-            "color": "#000000",
-            "line-height": 25,
-            "font": "dejavusanscondensed"
-        },
-        "filter": "",
-        "default": "desc"
-    },
     "_10": {
         "id": "_10",
         "x": "142.587",

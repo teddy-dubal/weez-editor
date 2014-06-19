@@ -16,6 +16,7 @@
                 amplify.publish( 'drag.on.draggable.element', $(this.target) );
             },
             onDragEnd: function() {
+                amplify.publish( 'update.element.position', $(this.target) );
                 amplify.publish( 'drag.on.draggable.element', $(this.target) );
             }
         });
@@ -56,21 +57,20 @@
      * @param {type} elt
      * @returns {undefined}
      */
-    /*
-    function setDataInfoElement(elt) {
+    
+    function updateElementPosition(elt) {
         var gl = elt.position();
         var px = gl.left;
         var py = gl.top;
+        var tmp = pixelToMm({'x' : px,'y':py});
         var json_data_info = elt.attr('data-info') || '{}';
         var data_info = jQuery.parseJSON(json_data_info);
-        var tmp = pixelToMm({'x' : px,'y':py});
         data_info.x = tmp.x;
         data_info.y = tmp.y;
-        //Update css of element
-        //elt.css({width : tmp.w, height : tmp.h, top : py, left : px ,'z-index' : data_info.z}).attr('data-info',JSON.stringify(data_info));
-        console.info('setDataInfoElement',px,py);
+        elt.attr('data-info',JSON.stringify(data_info));
+        console.info('updateElementPosition',px,py);
     }
-    */
+    
     /**
      * 
      * @param {type} elt
@@ -80,14 +80,6 @@
          $('#editbox').show();
          $('.tool').hide();
          $('.'+$('#type').val()).show();
-         /*
-         switch ($('#type').val()) {
-             case 'txt':
-                 break;
-             case 'img':
-                 break;
-         }
-         */
     }
     
     /**
@@ -141,6 +133,7 @@
         amplify.subscribe( "drag.on.draggable.element",function (elt){ getEltInfo(elt);});
         amplify.subscribe( "drag.on.draggable.element", function () {displayEditorBox();});
         amplify.subscribe( "set.data.from.editor", function () {setEltInfo();});
+        amplify.subscribe( "update.element.position", function (elt) {updateElementPosition(elt);});
     }
     /**
      * ACTION BTN
