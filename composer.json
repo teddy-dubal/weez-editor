@@ -3,14 +3,12 @@
     "description": "Description of project EditorPdf.",
     "authors": [
         {
-            "name": "teddy",
-            "email": "your@email.here"
+            "name": "T.ED",
+            "email": "t.erembertdubal@weezevent.com"
         }
     ],
     "require": {
-        "h4cc/wkhtmltopdf-amd64": "dev-master",
-        "h4cc/wkhtmltoimage-amd64": "dev-master",
-        "knplabs/knp-snappy": "dev-master",
+        "php": ">=5.5",
         "intervention/image": "dev-master",
         "tecnick.com/tcpdf": "dev-master",
         "twig/twig": "dev-master"

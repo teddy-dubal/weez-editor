@@ -29,6 +29,9 @@ body {
     display: none;
 }
 
+.alert {
+    display: none;
+}
 .box {
     background-color: #91e600;
     text-align: center;

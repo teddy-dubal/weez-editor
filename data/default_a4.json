@@ -9,7 +9,6 @@
         "h": "100",
         "type": "img",
         "tag": "main_pic",
-        "filter": "",
         "default": "http:\/\/vttbapaume.unblog.fr\/files\/2012\/06\/mire.jpg"
     },
     "_2": {
@@ -30,14 +29,14 @@
             "font-style": "bold",
             "font": "dejavusanscondensed"
         },
-        "filter": "upper",
+        "filter": ["upper"],
         "default": "event_title"
     },
     "_3": {
         "id": "_3",
         "x": "120.086",
         "y": "143.933",
-        "z": "1",
+        "z": "2",
         "angle": "0",
         "w": "75",
         "h": "39.295",
@@ -49,14 +48,13 @@
             "line-height": "25",
             "font": "dejavusanscondensed"
         },
-        "filter": "",
         "default": "desc"
     },
     "_4": {
         "id": "_4",
         "x": "15",
         "y": "114",
-        "z": "1",
+        "z": "3",
         "angle": "0",
         "w": "80",
         "h": "6.298",
@@ -67,14 +65,14 @@
             "color": "#000000",
             "font": "dejavusanscondensed"
         },
-        "filter": "upper",
+        "filter": ["upper"],
         "default": "cmd_client"
     },
     "_5": {
         "id": "_5",
         "x": "15",
         "y": "121.151",
-        "z": "1",
+        "z": "4",
         "angle": "0",
         "w": "80",
         "h": "10.998",
@@ -85,14 +83,13 @@
             "color": "#000000",
             "font": "dejavusanscondensed"
         },
-        "filter": "",
         "default": "tarif_details"
     },
     "_6": {
         "id": "_6",
         "x": "15",
         "y": "136.208",
-        "z": "1",
+        "z": "5",
         "angle": "0",
         "w": "80",
         "h": "8.588",
@@ -104,14 +101,13 @@
             "line-height": "25",
             "font": "dejavusanscondensed"
         },
-        "filter": "",
         "default": "details"
     },
     "_7": {
         "id": "_7",
         "x": "15",
         "y": "149.273",
-        "z": "1",
+        "z": "6",
         "angle": "0",
         "w": "80",
         "h": "6.866",
@@ -122,14 +118,13 @@
             "color": "#000000",
             "font": "dejavusanscondensed"
         },
-        "filter": "",
         "default": "address"
     },
     "_8": {
         "id": "_8",
         "x": "15",
         "y": "161.52",
-        "z": "1",
+        "z": "7",
         "angle": "0",
         "w": "80",
         "h": "13.792",
@@ -140,27 +135,25 @@
             "color": "#000000",
             "font": "dejavusanscondensed"
         },
-        "filter": "",
         "default": "tarif_license"
     },
     "_10": {
         "id": "_10",
         "x": "142.587",
         "y": "110.421",
-        "z": "1",
+        "z": "8",
         "angle": "0",
         "w": "30",
         "h": "30",
         "type": "qrcode",
         "tag": "barcode_id",
-        "filter": "",
         "default": "http:\/\/upload.wikimedia.org\/wikipedia\/commons\/5\/55\/Qrcode_wikipedia_fr.jpg"
     },
     "_11": {
         "id": "_11",
         "x": "15",
         "y": "213",
-        "z": "1",
+        "z": "9",
         "angle": "0",
         "w": "180",
         "h": "49.414",
@@ -172,14 +165,13 @@
             "line-height": "25",
             "font": "times"
         },
-        "filter": "",
         "default": "legacy"
     },
     "_12": {
         "id": "_12",
         "x": "105",
         "y": "114",
-        "z": "1",
+        "z": "10",
         "angle": "0",
         "w": "0.2",
         "h": "69",
@@ -188,14 +180,13 @@
         "style": {
             "color": "#000000"
         },
-        "filter": "",
         "default": ""
     },
     "_13": {
         "id": "_13",
         "x": "15",
         "y": "198",
-        "z": "1",
+        "z": "111",
         "angle": "0",
         "w": "180",
         "h": "0.2",
@@ -204,14 +195,13 @@
         "style": {
             "color": "#000000"
         },
-        "filter": "",
         "default": ""
     },
     "_14": {
         "id": "_14",
         "x": "15",
         "y": "75.372",
-        "z": "1",
+        "z": "12",
         "angle": "0",
         "w": "180",
         "h": "10",
@@ -222,20 +212,18 @@
             "color": "#000000",
             "font": "dejavusanscondensed"
         },
-        "filter": "",
         "default": "ev_dates"
     },
     "_15": {
         "id": "_15",
         "x": "15",
         "y": "178",
-        "z": "1",
+        "z": "13",
         "angle": "0",
         "w": "80",
         "h": "10",
         "type": "barcode",
         "tag": "barcode_id",
-        "filter": "",
         "default": "http:\/\/www.zeeatelier.fr\/content\/embeddedImages\/00\/00\/02\/751\/codebar.jpg"
     }
 }

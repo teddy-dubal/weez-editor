@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>PDF</title>
         <!-- Latest compiled and minified CSS -->
@@ -11,18 +11,40 @@
         <!-- Optional theme -->
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="/css/demo.css" type="text/css">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
     </head>
     <body>
+        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
         <div>
             <h1>Entete de l'éditor</h1>
         </div>
-        <a id="saveData">Save</a>
+        <div class="row">
+            <div class="col-md-3"><button type="button" class="btn btn-primary" id="saveData">Save</button>
+            </div>
+            <div class="col-md-3"><button type="button" class="btn btn-primary" id="duplicateData">Duplicate</button>
+            </div>
+            <div class="col-md-4">
+                <select class="form-control" name="{{name}}" id="persoFile">
+                    {% for file in persoFiles %}
+                        <option value="{{file}}" {% if loop.last %}selected{%endif%}>{{ file }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-primary" id="deletePersoFile">Delete</button>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-7">{% include 'core_a4.twig' %}</div>
             <div class="col-md-5">{% include 'toolbox.twig' %}</div>
@@ -43,6 +65,7 @@
         <!-- Latest compiled and minified JavaScript -->
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <script src="/js/amplify-1.1.2/amplify.min.js"></script>
+        <script src="/js/underscore-min.js"></script>
         <script src="/js/demo.js"></script>
     </body>
 </html>

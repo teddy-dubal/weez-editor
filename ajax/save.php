@@ -2,7 +2,7 @@
 
 use Intervention\Image\ImageManagerStatic as Image;
 
-$rootDir = __DIR__;
+$rootDir = __DIR__ . '/..';
 $vendorDir = $rootDir . '/vendor/';
 $tmpDir = sys_get_temp_dir() . '/';
 
@@ -14,22 +14,30 @@ if (empty($_POST)) {
     die('No Hack');
 }
 
-if (!file_exists($files = $rootDir . '/data/default_a4.json')) {
-    die('no input data');
-    exit;
-}
+
 $elt = $_POST['elt'];
 $format = $_POST['format'];
 $container = $_POST['container'];
-$inputData = json_decode(file_get_contents($files), true);
+$duplicate = $_POST['duplicate'];
+$file = $_POST['file'];
 $idclient = 8300487;
 # A4 (Mm = 210x297) : (Px : 596x842 en 72dpi) #
+if (!file_exists($files = $rootDir . '/data/' . $file) && !file_exists($files = $rootDir . '/data/perso/' . $file)) {
+    die('no input data');
+    exit;
+}
+$inputData = json_decode(file_get_contents($files), true);
 foreach ($elt as $key => $value) {
 //Unit [mm]
     $inputData[$key] = isset($inputData[$key]) ? array_merge($inputData[$key], $value) : $value;
 }
+
+if ($duplicate) {
+    @mkdir($rootDir . '/data/perso');
+    $files = $rootDir . '/data/perso/' . date('YmdHis') . '_a4.json';
+}
 if (file_put_contents($files, json_encode($inputData))) {
-    if (file_exists($pdfOuput = 'pdf/poc.pdf')) {
+    if (file_exists($pdfOuput = $rootDir . '/pdf/poc.pdf')) {
         unlink($pdfOuput);
     }
     $pdf = new TCPDF($orientation = 'P', $unit = 'mm', $format = 'A4', $unicode = true, $encoding = 'UTF-8', $diskcache = false, $pdfa = false);
@@ -79,7 +87,7 @@ if (file_put_contents($files, json_encode($inputData))) {
                 $style = isset($baseFontStyle[$value['style']['font-style']]) ? $baseFontStyle[$value['style']['font-style']] : '';
                 $pdf->setFont($value['style']['font'], $style = $style, $size = $size, $fontfile = '', $subset = 'default', $out = true);
                 $pdf->SetTextColor($color['r'], $color['g'], $color['b']);
-                $html = setFilter($data_src, explode('|', $value['filter']));
+                $html = setFilter($data_src, $value['filter']);
                 $pdf->MultiCell($w, $h, $html = $html, $border = 0, $align = $align, $fill = false, $ln = 1, $x, $y, $reseth = true, 0, false, $autopadding = true, $h, 'T', true);
                 break;
             default:
