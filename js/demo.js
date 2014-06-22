@@ -67,7 +67,9 @@ var WeezPdfEngine = (function($, Draggable, Amplify, TweenMax, _) {
         var data_info = $.parseJSON(json_data_info);
         var mappedAttribute = {};
         $('#editbox .form-control').each(function(index, _elt) {
-            mappedAttribute[_elt.id] = $(_elt).val();
+            //console.info();
+            _o(_elt.id, mappedAttribute, $(_elt).val())
+            //mappedAttribute[_elt.id] = $(_elt).val();
         });
         var tmp = mmToPixel({'w': mappedAttribute.w, 'h': mappedAttribute.h, 'y': mappedAttribute.y, 'x': mappedAttribute.x});
         tmp.angle = mappedAttribute.angle;
@@ -75,7 +77,7 @@ var WeezPdfEngine = (function($, Draggable, Amplify, TweenMax, _) {
         $.extend(data_info, mappedAttribute);
         elt.css({width: tmp.w, height: tmp.h, top: tmp.y, left: tmp.x, 'z-index': tmp.z}).attr('data-info', JSON.stringify(data_info));
         TweenMax.to(elt, 0.5, {rotation: tmp.angle});
-        !_debug || console.info('setEltInfo', elt.position().left, elt.position().top);
+        !_debug || console.info('updateElementFromFormData', mappedAttribute);
     };
     /**
      *
@@ -141,16 +143,45 @@ var WeezPdfEngine = (function($, Draggable, Amplify, TweenMax, _) {
     };
     /**
      *
-     * @param {type} key
-     * @param {type} obj
+     * @param {String} key
+     * @param {Object} obj
      * @returns {mixed}
      */
-    var _o = function(key, obj) {
-        var res = _(key.split('.')).reduce(function(m, n) {
+    var _oo = function(key, obj, value) {
+        var ks = key.split('.'),
+                ksl = ks.length;
+        var res = _(ks).reduce(function(m, n) {
+            if (typeof value !== 'undefined') {
+                console.info(ksl, m, n);
+                return m[n] = {};
+            }
             return m[n] || '';
         }, obj);
         return res;
-    }
+    };
+    /**
+     *
+     * @param {string} key
+     * @param {object} obj
+     * @param {mixed} value
+     * @returns {@var;value|String}
+     */
+    var _o = function(key, obj, value) {
+        if (typeof key === 'string')
+            return _o(key.split('.'), obj, value);
+        else if (key.length === 1 && typeof value !== 'undefined')
+            return obj[key[0]] = value;
+        else if (key.length === 0)
+            return obj || '';
+        else {
+            if (typeof value !== 'undefined' && typeof obj[key[0]] === 'undefined')
+                obj[key[0]] = {};
+            return _o(key.slice(1), obj[key[0]], value);
+        }
+
+
+    };
+
     /**
      *
      * @returns {Number}
