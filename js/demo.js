@@ -176,7 +176,7 @@ var WeezPdfEngine = (function($, Draggable, Amplify, TweenMax, _) {
         else {
             if (typeof value !== 'undefined' && typeof obj[key[0]] === 'undefined')
                 obj[key[0]] = {};
-            return _o(key.slice(1), obj[key[0]], value);
+            return _o(key.slice(1), obj[key[0]] || '', value);
         }
 
 
