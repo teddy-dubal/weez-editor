@@ -18,7 +18,7 @@ if (empty($_POST)) {
 $elt = $_POST['elt'];
 $format = $_POST['format'];
 $container = $_POST['container'];
-$duplicate = $_POST['duplicate'];
+$duplicate = isset($_POST['duplicate']) ? $_POST['duplicate'] : false;
 $file = $_POST['file'];
 $idclient = 8300487;
 # A4 (Mm = 210x297) : (Px : 596x842 en 72dpi) #
@@ -47,8 +47,8 @@ if (file_put_contents($files, json_encode($inputData))) {
     $pdf->SetMargins(0, 0);
     $pdf->SetAutoPageBreak(false, 0);
     $pdf->AddPage();
-    $baseAlign = array('left' => 'L', 'center' => 'C', 'right' => 'R', 'justify' => 'J');
-    $baseFontStyle = array('bold' => 'B', 'italic' => 'C', 'bold_italic' => 'BI');
+    $baseAlign = array('left' => 'L', 'center' => 'C', 'right' => 'R', 'justify' => 'J',''=>'');
+    $baseFontStyle = array('bold' => 'B', 'italic' => 'C', 'bold_italic' => 'BI',''=>'');
     foreach ($inputData as $key => $value) {
         $x = isset($value['x']) ? $value['x'] : 0;
         $y = isset($value['y']) ? $value['y'] : 0;
@@ -62,6 +62,13 @@ if (file_put_contents($files, json_encode($inputData))) {
 // ROTATION SYNTAXE $pdf->Rotate($this->getRotate(), $this->getRotateOriX(), $this->getRotateOriY());
         switch ($value['type']) {
             case 'img':
+                if(filter_var($data_src, FILTER_VALIDATE_URL) === false) {
+                    if (!file_exists($rootDir.$data_src)) {
+                        continue;
+                    } else {
+                        $data_src = $rootDir.$data_src;
+                    }
+                }
                 $ext = pathinfo($data_src, PATHINFO_EXTENSION);
                 $imgPath = $tmpDir . uniqid() . '.' . $ext;
                 $imgPic = Image::make($data_src)->save($imgPath);

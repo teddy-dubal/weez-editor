@@ -178,8 +178,6 @@ var WeezPdfEngine = (function($, Draggable, Amplify, TweenMax, _) {
                 obj[key[0]] = {};
             return _o(key.slice(1), obj[key[0]] || '', value);
         }
-
-
     };
 
     /**
@@ -219,6 +217,10 @@ var WeezPdfEngine = (function($, Draggable, Amplify, TweenMax, _) {
         });
         Amplify.subscribe("update.element.position", function(elt) {
             updateElementCoordinate(elt);
+        });
+        Amplify.subscribe("upload.pic.done", function(url) {
+            console.info(url);
+            $('#default').val(url);
         });
     };
     /**

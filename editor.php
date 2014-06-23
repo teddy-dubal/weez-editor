@@ -32,7 +32,7 @@ if (isset($_GET['file'])) {
         $fd = $rootDir . '/data/perso/';
     }
 }
-var_dump($persofiles);
+$mode = 'web';
 $files = $fd . $persofiles[count($persofiles) - 1];
 $inputData = json_decode(file_get_contents($files), true);
 $modeToInclude = 'cli' == $mode ? 'core_a4.twig' : 'editor.twig';

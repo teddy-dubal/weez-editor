@@ -4,101 +4,72 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "918cae57a937831dd5467ed05596cb2b",
+    "hash": "e9d8b333fb1920058ce261be076a1ce0",
     "packages": [
         {
-            "name": "h4cc/wkhtmltoimage-amd64",
+            "name": "blueimp/jquery-file-upload",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/h4cc/wkhtmltoimage-amd64.git",
-                "reference": "606efc36579444fffcf304bc3bd3bc0c3c032538"
+                "url": "https://github.com/vkhramtsov/jQuery-File-Upload.git",
+                "reference": "b9c0a449f1b8e9274870b8d1173bb0a6849eab6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/h4cc/wkhtmltoimage-amd64/zipball/606efc36579444fffcf304bc3bd3bc0c3c032538",
-                "reference": "606efc36579444fffcf304bc3bd3bc0c3c032538",
+                "url": "https://api.github.com/repos/vkhramtsov/jQuery-File-Upload/zipball/b9c0a449f1b8e9274870b8d1173bb0a6849eab6b",
+                "reference": "b9c0a449f1b8e9274870b8d1173bb0a6849eab6b",
                 "shasum": ""
             },
-            "bin": [
-                "bin/wkhtmltoimage-amd64"
-            ],
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL Version 3"
+                "MIT"
             ],
             "authors": [
                 {
-                    "name": "Julius Beckmann",
-                    "email": "github@h4cc.de"
+                    "name": "Sebastian Tschan",
+                    "homepage": "https://blueimp.net",
+                    "role": "Developer"
                 }
             ],
-            "description": "Convert html to image using webkit (qtwebkit). Static linked linux binary for amd64 systems.",
-            "homepage": "http://wkhtmltopdf.org/",
+            "description": "File Upload widget for jQuery.",
+            "homepage": "https://github.com/blueimp/jQuery-File-Upload",
             "keywords": [
-                "binary",
-                "convert",
-                "image",
-                "snapshot",
-                "thumbnail",
-                "wkhtmltoimage"
+                "bootstrap",
+                "chunk",
+                "cross-domain",
+                "cross-site",
+                "drag",
+                "drop",
+                "file",
+                "gae",
+                "go",
+                "jquery",
+                "multiple",
+                "php",
+                "preview",
+                "progress",
+                "python",
+                "resume",
+                "selection",
+                "upload",
+                "widget"
             ],
-            "time": "2014-03-20 10:40:06"
-        },
-        {
-            "name": "h4cc/wkhtmltopdf-amd64",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/h4cc/wkhtmltopdf-amd64.git",
-                "reference": "babdf55d7206c76f3c9b70e3928a3ac59a7876ed"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/h4cc/wkhtmltopdf-amd64/zipball/babdf55d7206c76f3c9b70e3928a3ac59a7876ed",
-                "reference": "babdf55d7206c76f3c9b70e3928a3ac59a7876ed",
-                "shasum": ""
-            },
-            "bin": [
-                "bin/wkhtmltopdf-amd64"
-            ],
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL Version 3"
-            ],
-            "authors": [
-                {
-                    "name": "Julius Beckmann",
-                    "email": "github@h4cc.de"
-                }
-            ],
-            "description": "Convert html to pdf using webkit (qtwebkit). Static linked linux binary for amd64 systems.",
-            "homepage": "http://wkhtmltopdf.org/",
-            "keywords": [
-                "binary",
-                "convert",
-                "pdf",
-                "snapshot",
-                "thumbnail",
-                "wkhtmltopdf"
-            ],
-            "time": "2014-03-24 18:53:41"
+            "time": "2014-05-15 05:27:33"
         },
         {
             "name": "illuminate/config",
-            "version": "v4.2.1",
+            "version": "v4.2.4",
             "target-dir": "Illuminate/Config",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/config.git",
-                "reference": "cd99d3dc2ca192b7b4003b5f6b31a4b1dd3c8167"
+                "reference": "33396894a35428074e8c41583bf308a7c019610a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/config/zipball/cd99d3dc2ca192b7b4003b5f6b31a4b1dd3c8167",
-                "reference": "cd99d3dc2ca192b7b4003b5f6b31a4b1dd3c8167",
+                "url": "https://api.github.com/repos/illuminate/config/zipball/33396894a35428074e8c41583bf308a7c019610a",
+                "reference": "33396894a35428074e8c41583bf308a7c019610a",
                 "shasum": ""
             },
             "require": {
@@ -129,11 +100,11 @@
                     "role": "Creator of Laravel"
                 }
             ],
-            "time": "2014-05-23 16:40:19"
+            "time": "2014-06-08 19:09:40"
         },
         {
             "name": "illuminate/filesystem",
-            "version": "v4.2.1",
+            "version": "v4.2.4",
             "target-dir": "Illuminate/Filesystem",
             "source": {
                 "type": "git",
@@ -178,17 +149,17 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v4.2.1",
+            "version": "v4.2.4",
             "target-dir": "Illuminate/Support",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "f1dd716598f99ff18b455da3e073a8324d65252e"
+                "reference": "976bdc0f42e9efd3dfa2e0eba11aba48a97113ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/f1dd716598f99ff18b455da3e073a8324d65252e",
-                "reference": "f1dd716598f99ff18b455da3e073a8324d65252e",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/976bdc0f42e9efd3dfa2e0eba11aba48a97113ac",
+                "reference": "976bdc0f42e9efd3dfa2e0eba11aba48a97113ac",
                 "shasum": ""
             },
             "require": {
@@ -224,7 +195,7 @@
                     "role": "Creator of Laravel"
                 }
             ],
-            "time": "2014-05-30 16:22:28"
+            "time": "2014-06-13 20:42:27"
         },
         {
             "name": "intervention/image",
@@ -232,12 +203,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
-                "reference": "8692a77fb684515303f2a1d5e07d7108aaf589c8"
+                "reference": "fd4a76e59ecc961457e459d2c9fe975b5a44c220"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/8692a77fb684515303f2a1d5e07d7108aaf589c8",
-                "reference": "8692a77fb684515303f2a1d5e07d7108aaf589c8",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/fd4a76e59ecc961457e459d2c9fe975b5a44c220",
+                "reference": "fd4a76e59ecc961457e459d2c9fe975b5a44c220",
                 "shasum": ""
             },
             "require": {
@@ -282,66 +253,7 @@
                 "thumbnail",
                 "watermark"
             ],
-            "time": "2014-05-31 09:37:00"
-        },
-        {
-            "name": "knplabs/knp-snappy",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/KnpLabs/snappy.git",
-                "reference": "59987862c8199a21f15074ec2d96a0924ec4442e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/snappy/zipball/59987862c8199a21f15074ec2d96a0924ec4442e",
-                "reference": "59987862c8199a21f15074ec2d96a0924ec4442e",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "suggest": {
-                "h4cc/wkhtmltopdf-amd64": "Provide wkhtmltopdf-amd64 binary, use version `0.12.0` as dependency",
-                "h4cc/wkhtmltopdf-i386": "Provide wkhtmltopdf-i386 binary, use version `0.12.0` as dependency",
-                "symfony/process": "Process Component of Symfony2."
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Knp\\Snappy": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "KnpLabs Team",
-                    "homepage": "http://knplabs.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://github.com/KnpLabs/snappy/contributors"
-                }
-            ],
-            "description": "PHP5 library allowing thumbnail, snapshot or PDF generation from a url or a html page. Wrapper for wkhtmltopdf/wkhtmltoimage.",
-            "homepage": "http://github.com/KnpLabs/snappy",
-            "keywords": [
-                "knp",
-                "knplabs",
-                "pdf",
-                "snapshot",
-                "thumbnail",
-                "wkhtmltopdf"
-            ],
-            "time": "2014-05-27 09:37:52"
+            "time": "2014-06-20 18:11:24"
         },
         {
             "name": "symfony/finder",
@@ -398,7 +310,7 @@
             "source": {
                 "type": "git",
                 "url": "git://git.code.sf.net/p/tcpdf/code",
-                "reference": "d6a2206ab366f493680a22151429f17fd045fe04"
+                "reference": "b1c0cc74a84948029d8c9824736d9021871a63a7"
             },
             "require": {
                 "php": ">=5.3.0"
@@ -447,7 +359,7 @@
                 "pdf417",
                 "qrcode"
             ],
-            "time": "2014-05-29 18:28:56"
+            "time": "2014-06-20 15:28:34"
         },
         {
             "name": "twig/twig",
@@ -455,12 +367,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "1c0bec2814a078a81fb86dbc38798bf73418f839"
+                "reference": "96336aba609af06e8722ddc17451ce93d70b54e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/1c0bec2814a078a81fb86dbc38798bf73418f839",
-                "reference": "1c0bec2814a078a81fb86dbc38798bf73418f839",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/96336aba609af06e8722ddc17451ce93d70b54e1",
+                "reference": "96336aba609af06e8722ddc17451ce93d70b54e1",
                 "shasum": ""
             },
             "require": {
@@ -504,20 +416,20 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2014-05-26 15:15:28"
+            "time": "2014-06-20 07:26:46"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "h4cc/wkhtmltopdf-amd64": 20,
-        "h4cc/wkhtmltoimage-amd64": 20,
-        "knplabs/knp-snappy": 20,
         "intervention/image": 20,
         "tecnick.com/tcpdf": 20,
+        "blueimp/jquery-file-upload": 20,
         "twig/twig": 20
     },
-    "platform": [],
+    "platform": {
+        "php": ">=5.5"
+    },
     "platform-dev": []
 }
