@@ -9,6 +9,8 @@
     ],
     "require": {
         "php": ">=5.5",
+        "h4cc/wkhtmltoimage-amd64": "dev-master",
+        "knplabs/knp-snappy": "dev-master",
         "intervention/image": "dev-master",
         "tecnick.com/tcpdf": "dev-master",
         "blueimp/jquery-file-upload": "dev-master",

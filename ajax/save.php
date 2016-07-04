@@ -2,9 +2,9 @@
 
 use Intervention\Image\ImageManagerStatic as Image;
 
-$rootDir = __DIR__ . '/..';
+$rootDir   = __DIR__ . '/..';
 $vendorDir = $rootDir . '/vendor/';
-$tmpDir = sys_get_temp_dir() . '/';
+$tmpDir    = sys_get_temp_dir() . '/';
 
 require_once $vendorDir . 'autoload.php';
 //Data mock
@@ -15,14 +15,14 @@ if (empty($_POST)) {
 }
 
 
-$elt = $_POST['elt'];
-$format = $_POST['format'];
+$elt       = $_POST['elt'];
+$format    = $_POST['format'];
 $container = $_POST['container'];
 $duplicate = isset($_POST['duplicate']) ? $_POST['duplicate'] : false;
-$file = $_POST['file'];
-$idclient = 8300487;
+$file      = $_POST['file'];
+$idclient  = 8300487;
 # A4 (Mm = 210x297) : (Px : 596x842 en 72dpi) #
-if (!file_exists($files = $rootDir . '/data/' . $file) && !file_exists($files = $rootDir . '/data/perso/' . $file)) {
+if (!file_exists($files     = $rootDir . '/data/' . $file) && !file_exists($files     = $rootDir . '/data/perso/' . $file)) {
     die('no input data');
     exit;
 }
@@ -40,62 +40,74 @@ if (file_put_contents($files, json_encode($inputData))) {
     if (file_exists($pdfOuput = $rootDir . '/pdf/poc.pdf')) {
         unlink($pdfOuput);
     }
-    $pdf = new TCPDF($orientation = 'P', $unit = 'mm', $format = 'A4', $unicode = true, $encoding = 'UTF-8', $diskcache = false, $pdfa = false);
+    $pdf           = new TCPDF($orientation   = 'P', $unit          = 'mm', $format        = 'A4', $unicode       = true, $encoding      = 'UTF-8', $diskcache     = false, $pdfa          = false);
 // remove default header/footer
     $pdf->setPrintHeader(false);
     $pdf->setPrintFooter(false);
     $pdf->SetMargins(0, 0);
     $pdf->SetAutoPageBreak(false, 0);
     $pdf->AddPage();
-    $baseAlign = array('left' => 'L', 'center' => 'C', 'right' => 'R', 'justify' => 'J',''=>'');
-    $baseFontStyle = array('bold' => 'B', 'italic' => 'C', 'bold_italic' => 'BI',''=>'');
+    $baseAlign     = array(
+        'left'    => 'L',
+        'center'  => 'C',
+        'right'   => 'R',
+        'justify' => 'J',
+        ''        => ''
+    );
+    $baseFontStyle = array(
+        'bold'        => 'B',
+        'italic'      => 'C',
+        'bold_italic' => 'BI',
+        ''            => ''
+    );
     foreach ($inputData as $key => $value) {
-        $x = isset($value['x']) ? $value['x'] : 0;
-        $y = isset($value['y']) ? $value['y'] : 0;
-        $z = isset($value['z']) ? $value['z'] : 0;
-        $w = isset($value['w']) ? $value['w'] : 0;
-        $h = isset($value['h']) ? $value['h'] : 0;
-        $color = isset($value['style']['color']) ? $value['style']['color'] : '#000000';
-        $color = hex2RGB($color);
-        $align = isset($value['style']['align']) ? $baseAlign[$value['style']['align']] : $baseAlign['left'];
+        $x        = isset($value['x']) ? $value['x'] : 0;
+        $y        = isset($value['y']) ? $value['y'] : 0;
+        $z        = isset($value['z']) ? $value['z'] : 0;
+        $w        = isset($value['w']) ? $value['w'] : 0;
+        $h        = isset($value['h']) ? $value['h'] : 0;
+        $color    = isset($value['style']['color']) ? $value['style']['color'] : '#000000';
+        $color    = hex2RGB($color);
+        $align    = isset($value['style']['align']) ? $baseAlign[$value['style']['align']] : $baseAlign['left'];
         $data_src = isset($mock['data'][$idclient][$value['tag']]) ? $mock['data'][$idclient][$value['tag']] : $value['default'];
 // ROTATION SYNTAXE $pdf->Rotate($this->getRotate(), $this->getRotateOriX(), $this->getRotateOriY());
         switch ($value['type']) {
             case 'img':
-                if(filter_var($data_src, FILTER_VALIDATE_URL) === false) {
-                    if (!file_exists($rootDir.$data_src)) {
+                if (filter_var($data_src, FILTER_VALIDATE_URL) === false) {
+                    if (!file_exists($rootDir . $data_src)) {
                         continue;
                     } else {
-                        $data_src = $rootDir.$data_src;
+                        $data_src = $rootDir . $data_src;
                     }
                 }
-                $ext = pathinfo($data_src, PATHINFO_EXTENSION);
-                $imgPath = $tmpDir . uniqid() . '.' . $ext;
-                $imgPic = Image::make($data_src)->save($imgPath);
-                $pdf->Image($imgPath, $x, $y, $w, $h, $type = '', $link = '', $align = $align, $resize = false, $dpi = 300, $palign = 'T', $ismask = false, $imgmask = false, $border = 0, $fitbox = false, $hidden = false, $fitonpage = false, $alt = false, $altimgs = array());
+                $ext         = pathinfo($data_src, PATHINFO_EXTENSION);
+                $imgPath     = $tmpDir . uniqid() . '.' . $ext;
+                $imgPic      = Image::make($data_src)->save($imgPath);
+                $pdf->Image($imgPath, $x, $y, $w, $h, $type        = '', $link        = '', $align       = $align, $resize      = false, $dpi         = 300, $palign      = 'T', $ismask      = false, $imgmask     = false, $border      = 0, $fitbox      = false, $hidden      = false, $fitonpage   = false, $alt         = false, $altimgs     = array());
                 break;
             case 'qrcode':
-                $barcodeobj = new TCPDF2DBarcode($data_src, 'QRCODE,H');
-                $imgPath = $tmpDir . uniqid() . '.png';
-                $imgPic = Image::make($barcodeobj->getBarcodePngData(10, 10))->save($imgPath);
-                $pdf->Image($imgPath, $x, $y, $w, $h, $type = '', $link = '', $align = '', $resize = false, $dpi = 300, $palign = 'T', $ismask = false, $imgmask = false, $border = 0, $fitbox = false, $hidden = false, $fitonpage = false, $alt = false, $altimgs = array());
+                $barcodeobj  = new TCPDF2DBarcode($data_src, 'QRCODE,H');
+                $imgPath     = $tmpDir . uniqid() . '.png';
+                $imgPic      = Image::make($barcodeobj->getBarcodePngData(10, 10))->save($imgPath);
+                $pdf->Image($imgPath, $x, $y, $w, $h, $type        = '', $link        = '', $align       = '', $resize      = false, $dpi         = 300, $palign      = 'T', $ismask      = false, $imgmask     = false, $border      = 0, $fitbox      = false, $hidden      = false, $fitonpage   = false, $alt         = false, $altimgs     = array());
                 break;
             case 'barcode':
-                $barcodeobj = new TCPDFBarcode($data_src, 'C128');
-                $imgPath = $tmpDir . uniqid() . '.png';
-                $imgPic = Image::make($barcodeobj->getBarcodePngData(10, 10))->save($imgPath);
-                $pdf->Image($imgPath, $x, $y, $w, $h, $type = '', $link = '', $align = '', $resize = false, $dpi = 300, $palign = 'T', $ismask = false, $imgmask = false, $border = 0, $fitbox = false, $hidden = false, $fitonpage = false, $alt = false, $altimgs = array());
+                $barcodeobj  = new TCPDFBarcode($data_src, 'C128');
+                $imgPath     = $tmpDir . uniqid() . '.png';
+                $imgPic      = Image::make($barcodeobj->getBarcodePngData(10, 10))->save($imgPath);
+                $pdf->Image($imgPath, $x, $y, $w, $h, $type        = '', $link        = '', $align       = '', $resize      = false, $dpi         = 300, $palign      = 'T', $ismask      = false, $imgmask     = false, $border      = 0, $fitbox      = false, $hidden      = false, $fitonpage   = false, $alt         = false, $altimgs     = array());
                 break;
             case 'shape':
-                $pdf->Line($x, $y, $x + $w, $y + $h, $style = array('color' => array($color['r'], $color['g'], $color['b'])));
+                $pdf->Line($x, $y, $x + $w, $y + $h, $style       = array('color' => array(
+                        $color['r'], $color['g'], $color['b'])));
                 break;
             case 'txt':
-                $size = isset($value['style']['size']) ? $value['style']['size'] : 12;
-                $style = isset($baseFontStyle[$value['style']['font-style']]) ? $baseFontStyle[$value['style']['font-style']] : '';
-                $pdf->setFont($value['style']['font'], $style = $style, $size = $size, $fontfile = '', $subset = 'default', $out = true);
+                $size        = isset($value['style']['size']) ? $value['style']['size'] : 12;
+                $style       = isset($baseFontStyle[$value['style']['font-style']]) ? $baseFontStyle[$value['style']['font-style']] : '';
+                $pdf->setFont($value['style']['font'], $style       = $style, $size        = $size, $fontfile    = '', $subset      = 'default', $out         = true);
                 $pdf->SetTextColor($color['r'], $color['g'], $color['b']);
-                $html = setFilter($data_src, $value['filter']);
-                $pdf->MultiCell($w, $h, $html = $html, $border = 0, $align = $align, $fill = false, $ln = 1, $x, $y, $reseth = true, 0, false, $autopadding = true, $h, 'T', true);
+                $html        = setFilter($data_src, $value['filter']);
+                $pdf->MultiCell($w, $h, $html        = $html, $border      = 0, $align       = $align, $fill        = false, $ln          = 1, $x, $y, $reseth      = true, 0, false, $autopadding = true, $h, 'T', true);
                 break;
             default:
                 break;
@@ -108,19 +120,20 @@ if (file_put_contents($files, json_encode($inputData))) {
 }
 
 /**
- * Convert a hexa decimal color code to its RGB equivalent
+ * Convert a hexa decimal color code to its RGB equivalent.
  *
- * @param string $hexStr (hexadecimal color value)
+ * @param string $hexStr (hexadecimal color value).
  * @param boolean $returnAsString (if set true, returns the value separated by the separator character. Otherwise returns associative array)
  * @param string $seperator (to separate RGB values. Applicable only if second parameter is true.)
+ *
  * @return array or string (depending on second parameter. Returns False if invalid hex color value)
  */
 function hex2RGB($hexStr, $returnAsString = false, $seperator = ',')
 {
-    $hexStr = preg_replace("/[^0-9A-Fa-f]/", '', $hexStr); // Gets a proper hex string
+    $hexStr   = preg_replace("/[^0-9A-Fa-f]/", '', $hexStr); // Gets a proper hex string
     $rgbArray = array();
     if (strlen($hexStr) == 6) { //If a proper hex code, convert using bitwise operation. No overhead... faster
-        $colorVal = hexdec($hexStr);
+        $colorVal      = hexdec($hexStr);
         $rgbArray['r'] = 0xFF & ($colorVal >> 0x10);
         $rgbArray['g'] = 0xFF & ($colorVal >> 0x8);
         $rgbArray['b'] = 0xFF & $colorVal;
