@@ -11,9 +11,40 @@
         "php": ">=5.5",
         "h4cc/wkhtmltoimage-amd64": "dev-master",
         "knplabs/knp-snappy": "dev-master",
-        "intervention/image": "dev-master",
+        "imagine/imagine": "v0.6.3",
         "tecnick.com/tcpdf": "dev-master",
         "blueimp/jquery-file-upload": "dev-master",
+        "enyo/dropzone": "v4.3.0",
+        "kangax/fabric.js": "dev-master",
         "twig/twig": "dev-master"
-    }
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "kangax/fabric.js",
+                "type": "component",
+                "version": "dev-master",
+                "dist": {
+                    "url": "https://github.com/kangax/fabric.js/archive/master.zip",
+                    "type": "zip"
+                },
+                "source": {
+                    "url": "https://github.com/kangax/fabric.js.git",
+                    "type": "git",
+                    "reference": "dev-master"
+                },
+                "extra": {
+                    "component": {
+                        "scripts": [
+                            "dist/*"
+                        ]
+                    }
+                },
+                "require": {
+                    "robloach/component-installer": "*"
+                }
+            }
+        }
+    ]
 }
