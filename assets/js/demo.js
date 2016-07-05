@@ -1,58 +1,8 @@
 var WeezPdfEngine = (function ($, _, fabric) {
-    var $canvas = new fabric.Canvas('container');
+    var $canvas = new fabric.Canvas('container', {
+        backgroundColor: 'green'
+    });
     var _debug = true;
-    /**
-     *
-     * @param {type} elt
-     * @returns {undefined}
-     */
-    var fillFormWithElementData = function (elt) {
-        var json_data_info = elt.attr('data-info') || '{}';
-        var data_info = $.parseJSON(json_data_info);
-        $('#editbox .form-control').each(function (index, _elt) {
-            $(_elt).val(_o(_elt.id, data_info));
-        });
-        !_debug || console.info('fillFormWithElementData', data_info);
-    };
-    /**
-     *
-     * @returns {undefined}
-     */
-    var updateElementFromFormData = function () {
-        var elt = $('#' + $('#id').val());
-        var json_data_info = elt.attr('data-info') || '{}';
-        var data_info = $.parseJSON(json_data_info);
-        var mappedAttribute = {};
-        $('#editbox .form-control').each(function (index, _elt) {
-            //console.info();
-            _o(_elt.id, mappedAttribute, $(_elt).val())
-            //mappedAttribute[_elt.id] = $(_elt).val();
-        });
-        var tmp = mmToPixel({'w': mappedAttribute.w, 'h': mappedAttribute.h, 'y': mappedAttribute.y, 'x': mappedAttribute.x});
-        tmp.angle = mappedAttribute.angle;
-        tmp.z = mappedAttribute.z;
-        $.extend(data_info, mappedAttribute);
-        elt.css({width: tmp.w, height: tmp.h, top: tmp.y, left: tmp.x, 'z-index': tmp.z}).attr('data-info', JSON.stringify(data_info));
-        TweenMax.to(elt, 0.5, {rotation: tmp.angle});
-        !_debug || console.info('updateElementFromFormData', mappedAttribute);
-    };
-    /**
-     *
-     * @param {type} elt
-     * @returns {undefined}
-     */
-    var updateElementCoordinate = function (elt) {
-        var gl = elt.position();
-        var px = gl.left;
-        var py = gl.top;
-        var tmp = pixelToMm({'x': px, 'y': py});
-        var json_data_info = elt.attr('data-info') || '{}';
-        var data_info = $.parseJSON(json_data_info);
-        data_info.x = tmp.x;
-        data_info.y = tmp.y;
-        elt.attr('data-info', JSON.stringify(data_info));
-        !_debug || console.info('updateElementPosition', px, py);
-    };
     /**
      *
      * @returns {undefined}
@@ -62,16 +12,6 @@ var WeezPdfEngine = (function ($, _, fabric) {
         $('.tool').hide();
         $('.' + $('#type').val()).show();
     };
-
-    var getElementData = function () {
-        var _data = {};
-        $container.children().each(function (index, elt) {
-            var json_data_info = $(elt).attr('data-info') || '{}';
-            var data_info = $.parseJSON(json_data_info);
-            _data[elt.id] = data_info;
-        });
-        return _data;
-    }
     /**
      *
      * @param {type} values
@@ -104,18 +44,7 @@ var WeezPdfEngine = (function ($, _, fabric) {
      * @param {Object} obj
      * @returns {mixed}
      */
-    var _oo = function (key, obj, value) {
-        var ks = key.split('.'),
-                ksl = ks.length;
-        var res = _(ks).reduce(function (m, n) {
-            if (typeof value !== 'undefined') {
-                console.info(ksl, m, n);
-                return m[n] = {};
-            }
-            return m[n] || '';
-        }, obj);
-        return res;
-    };
+
     /**
      *
      * @param {string} key
@@ -123,32 +52,7 @@ var WeezPdfEngine = (function ($, _, fabric) {
      * @param {mixed} value
      * @returns {@var;value|String}
      */
-    var _o = function (key, obj, value) {
-        if (typeof key === 'string')
-            return _o(key.split('.'), obj, value);
-        else if (key.length === 1 && typeof value !== 'undefined')
-            return obj[key[0]] = value;
-        else if (key.length === 0)
-            return obj || '';
-        else {
-            if (typeof value !== 'undefined' && typeof obj[key[0]] === 'undefined')
-                obj[key[0]] = {};
-            return _o(key.slice(1), obj[key[0]] || '', value);
-        }
-    };
 
-    /**
-     *
-     * @returns {Number}
-     */
-    var getMaxIndexes = function () {
-        var ind = 0;
-        $('#container >').each(function (index, value) {
-            var tmpInd = parseInt($(value).css('z-index'));
-            ind = (ind > tmpInd) ? ind : tmpInd;
-        });
-        return ind;
-    }
     /**
      *
      * @returns {undefined}
@@ -162,7 +66,6 @@ var WeezPdfEngine = (function ($, _, fabric) {
      */
     var initDraggable = function () {
     };
-
     /**
      *
      * @returns {undefined}
@@ -171,7 +74,6 @@ var WeezPdfEngine = (function ($, _, fabric) {
         $('#toolbox #text').on('click', function (e) {
             var width = $canvas.getWidth();
             var height = $canvas.getHeight();
-
             var text = 'Lorem ipsum\nLorem ipsum';
             var textSample = new fabric.IText(text, {
                 left: width / 2,
@@ -184,11 +86,20 @@ var WeezPdfEngine = (function ($, _, fabric) {
                 hasRotatingPoint: true,
                 centerTransform: true
             });
-
             $canvas.add(textSample);
         });
         $('#toolbox #img').on('click', function (e) {
-            console.info('img');
+            var coord = getRandomLeftTop();
+            fabric.Image.fromURL('http://vignette4.wikia.nocookie.net/simpsons/images/1/1d/Homer_Dog_Tapped_Out.png', function (image) {
+                image.set({
+                    left: coord.left,
+                    top: coord.top,
+                    angle: getRandomInt(-10, 10),
+                    crossOrigin: 'anonymous'
+                }).scale(getRandomNum(0.5, 0.5))
+                        .setCoords();
+                $canvas.add(image);
+            });
         });
         $('#toolbox #qrcode').on('click', function (e) {
             console.info('qrcode');
@@ -207,42 +118,43 @@ var WeezPdfEngine = (function ($, _, fabric) {
             url: "ajax/save.php",
             data: {container: {w: $canvas.getWidth(), h: $canvas.getHeight()}, format: 'a4'}
         };
-
-        $("#saveData").click(function () {
-            ajaxObj.data.elt = getElementData();
-            ajaxObj.data.file = $('#persoFile').val();
-            $.ajax(ajaxObj).done(function (msg) {
-                //alert("Data Saved: ");
-            });
+        $("#exportImg").click(function () {
+            if (!fabric.Canvas.supports('toDataURL')) {
+                alert('This browser doesn\'t provide means to serialize canvas to an image');
+            } else {
+                window.open($canvas.toDataURL('png'));
+            }
+        });
+        $("#exportJson").click(function () {
+            console.info(JSON.stringify($canvas));
         });
         $("#duplicateData").click(function () {
-            ajaxObj.data.elt = getElementData();
-            ajaxObj.data.duplicate = true;
-            $.ajax(ajaxObj).done(function (msg) {
-                //alert("Data Saved: ");
-                window.location.reload();
-            });
+//            ajaxObj.data.elt = getElementData();
+//            ajaxObj.data.duplicate = true;
+//            $.ajax(ajaxObj).done(function (msg) {
+//                //alert("Data Saved: ");
+//                window.location.reload();
+//            });
         });
         $("#deletePersoFile").click(function () {
-            ajaxObj.url = "ajax/delete.php";
-            ajaxObj.data.file = $('#persoFile').val();
-            $.ajax(ajaxObj).done(function (msg) {
-                var data = $.parseJSON(msg);
-                if (!data.status) {
-                    $('.modal-content').html('Impossible de supprimer le modèle par default');
-                    $('.bs-example-modal-sm').modal();
-                } else {
-                    $('.bs-example-modal-sm').on('hidden.bs.modal', function (e) {
-                        window.location.reload();
-                    });
-                    $('.modal-content').html('La page sera rechargé');
-                    $('.bs-example-modal-sm').modal();
-
-                }
-            });
-        });
-        $("#validateEditorboxBtn").click(function () {
-            Amplify.publish('set.data.from.editor', $(this.target));
+//            ajaxObj.url = "ajax/delete.php";
+//            ajaxObj.data.file = $('#persoFile').val();
+//            $.ajax(ajaxObj).done(function (msg) {
+//                var data = $.parseJSON(msg);
+//                if (!data.status) {
+//                    $('.modal-content').html('Impossible de supprimer le modèle par default');
+//                    $('.bs-example-modal-sm').modal();
+//                } else {
+//                    $('.bs-example-modal-sm').on('hidden.bs.modal', function (e) {
+//                        window.location.reload();
+//                    });
+//                    $('.modal-content').html('La page sera rechargé');
+//                    $('.bs-example-modal-sm').modal();
+//
+//                }
+//            });
+//        });
+//        $("#validateEditorboxBtn").click(function () {
         });
     };
     var initCanvas = function () {

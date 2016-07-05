@@ -1,19 +1,8 @@
 body {
-    background-color:white;
+    background-color:grey;
 }
 
-#container {
-    height:842px;
-    width: 596px;
-    overflow:visible;
-    padding:0;
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 0px;
-    color: black;
-    background-color: #91e600;
-    position: relative;
-}
+
 
 #toolbox {
     position: relative;

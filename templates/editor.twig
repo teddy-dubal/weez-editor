@@ -18,25 +18,22 @@
         </div>
         <div class="container-fluid">
             <div>
-                <h1>Entete de l'éditors</h1>
+                <h1>Weez Editor</h1>
             </div>
             <div class="row">
-                <div class="col-md-3"><button type="button" class="btn btn-primary" id="saveData">Save</button>
-                </div>
-                <div class="col-md-3"><button type="button" class="btn btn-primary" id="duplicateData">Duplicate</button>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary" id="saveData">Save</button>
+                    <button type="button" class="btn btn-primary" id="duplicateData">Duplicate</button>
+                    <button type="button" class="btn btn-primary" id="deletePersoFile">Delete</button>
+                    <button type="button" class="btn btn-primary" id="exportImg">Export IMG</button>
+                    <button type="button" class="btn btn-primary" id="exportJson">Export JSON</button>
                     <select class="form-control" name="{{name}}" id="persoFile">
                         {% for file in persoFiles %}
                             <option value="{{file}}" {% if loop.last %}selected{%endif%}>{{ file }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-primary" id="deletePersoFile">Delete</button>
-                </div>
             </div>
-
             <div class="row">
                 <div class="col-md-7">{% include 'core_a4.twig' %}</div>
                 <div class="col-md-5">{% include 'toolbox.twig' %}</div>

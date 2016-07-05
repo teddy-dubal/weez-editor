@@ -1,66 +1,12 @@
 {% if mode == 'cli' %}
     <style type="text/css">
-        body {
-            margin : 0px;
-        }
+
     </style>
 {% endif%}
 {# A4 (Mm = 210x297) : (Px : 596x842 en 72dpi) #}
 
 {% set ratio = 596/210 %}
 
-<canvas id="container" width="596" height="842"></canvas>
-{#
-<div id="container" data-info='{"ratio":{{ ratio }}}'>
-    {% for elt in inputData %}
-        {% set token = elt %}
-        {% if token.type == 'img' or token.type == 'qrcode' or token.type == 'barcode' %}
-            <div class="elt" id="{{ token.id }}" style="
-                 z-index:{{ token.z }};
-                 position: absolute;
-                 left: {{(token.x)*ratio}}px;
-                 top:  {{(token.y)*ratio}}px;
-                 width:       {{token.w*ratio}}px;
-                 height:      {{token.h*ratio}}px;
-                 line-height:      {{token.h*ratio}}px;
-                 text-align: center;
-                 {% if token.angle is defined%}
-                     -webkit-transform: rotate({{((token.angle))}}deg);
-                     -moz-transform: rotate({{((token.angle))}}deg);
-                     transform: rotate({{((token.angle))}}deg);
-                 {%endif%}
-                 " data-info='{{token|json_encode()}}' >
-                <img  src="{{token.default|default('')}}"  style="
-                      height: {{((token.h))*ratio}}px;
-                      width: {{((token.w))*ratio}}px;
-                      bottom: 0;
-                      right: 0;
-                      margin: auto;
-                      "/>
-            </div>
-        {% endif %}
-        {% if token.type == 'txt' %}
-            <div class="elt" id="{{ token.id }}"  style="
-                 z-index:{{ token.z }};
-                 left: {{(token.x)*ratio}}px;
-                 top:  {{(token.y)*ratio}}px;
-                 width:      {{token.w*ratio}}px;
-                 height:     {{token.h*ratio}}px;
-                 position:   absolute;
-                 text-align: {{token.style.align}};
-                 color:      {{token.style.color}};
-                 font-family: {{ token.style.font|default('arial.ttf')|replace({'.ttf': '', '.TTF': ''}) }};
-                 font-size: {{token.style.size*ratio}}px;
-                 {% if token.angle is defined%}
-                     -webkit-transform: rotate({{((token.angle))}}deg);
-                     -moz-transform: rotate({{((token.angle))}}deg);
-                     transform: rotate({{((token.angle))}}deg);
-                 {%endif%}
-                 <!-- line-height:     {{token.size*ratio}}px; -->
-                 "  data-info='{{token|json_encode()}}'>
-                {{token.default|nl2br}}
-            </div>
-        {% endif %}
-    {% endfor %}
-</div>
-#}
+<canvas id="container" width="596" height="842">
+
+</canvas>
