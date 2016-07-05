@@ -1,0 +1,16 @@
+silex:
+  image: debian:jessie
+  volumes:
+    - "../:/var/www/app"
+editor:
+  build: Phpnginx
+  volumes:
+    - "./Phpnginx/sites-enabled/app.conf:/opt/docker/etc/nginx/vhost.conf"
+  ports:
+    - "8080:80"
+  volumes_from:
+    - silex
+  environment:
+    APPLICATION_UID: 1000
+    APPLICATION_GID: 1000
+  working_dir: "/var/www/app"

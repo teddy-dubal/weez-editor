@@ -7,13 +7,12 @@ body {
     width: 596px;
     overflow:visible;
     padding:0;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
     color: black;
     background-color: #91e600;
     position: relative;
-    z-index: 50;
 }
 
 #toolbox {

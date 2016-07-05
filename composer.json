@@ -12,10 +12,14 @@
         "h4cc/wkhtmltoimage-amd64": "dev-master",
         "knplabs/knp-snappy": "dev-master",
         "imagine/imagine": "v0.6.3",
-        "tecnick.com/tcpdf": "dev-master",
+        "tecnickcom/tcpdf": "dev-master",
         "blueimp/jquery-file-upload": "dev-master",
         "enyo/dropzone": "v4.3.0",
         "kangax/fabric.js": "dev-master",
+        "components/jquery": "~2",
+        "components/underscore": "1.8.3",
+        "components/bootstrap": "3.3.6",
+        "uxder/Radio": "dev-master",
         "twig/twig": "dev-master"
     },
     "repositories": [
@@ -24,7 +28,7 @@
             "package": {
                 "name": "kangax/fabric.js",
                 "type": "component",
-                "version": "dev-master",
+                "version": "master",
                 "dist": {
                     "url": "https://github.com/kangax/fabric.js/archive/master.zip",
                     "type": "zip"
@@ -32,12 +36,39 @@
                 "source": {
                     "url": "https://github.com/kangax/fabric.js.git",
                     "type": "git",
-                    "reference": "dev-master"
+                    "reference": "master"
                 },
                 "extra": {
                     "component": {
                         "scripts": [
                             "dist/*"
+                        ]
+                    }
+                },
+                "require": {
+                    "robloach/component-installer": "*"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "uxder/Radio",
+                "type": "component",
+                "version": "master",
+                "dist": {
+                    "url": "https://github.com/uxder/Radio/archive/master.zip",
+                    "type": "zip"
+                },
+                "source": {
+                    "url": "https://github.com/uxder/Radio.git",
+                    "type": "git",
+                    "reference": "master"
+                },
+                "extra": {
+                    "component": {
+                        "scripts": [
+                            "radio.min.js"
                         ]
                     }
                 },

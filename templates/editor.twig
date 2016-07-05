@@ -4,20 +4,10 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <title>PDF</title>
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="/vendor/blueimp/jquery-file-upload/css/jquery.fileupload.css" type="text/css">
+        <link rel="stylesheet" href="/components/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/components/bootstrap/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="/assets/css/demo.css" type="text/css">
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
     </head>
     <body>
         <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -26,63 +16,39 @@
                 </div>
             </div>
         </div>
-        <div>
-            <h1>Entete de l'éditors</h1>
-        </div>
-        <div class="row">
-            <div class="col-md-3"><button type="button" class="btn btn-primary" id="saveData">Save</button>
+        <div class="container-fluid">
+            <div>
+                <h1>Entete de l'éditors</h1>
             </div>
-            <div class="col-md-3"><button type="button" class="btn btn-primary" id="duplicateData">Duplicate</button>
+            <div class="row">
+                <div class="col-md-3"><button type="button" class="btn btn-primary" id="saveData">Save</button>
+                </div>
+                <div class="col-md-3"><button type="button" class="btn btn-primary" id="duplicateData">Duplicate</button>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-control" name="{{name}}" id="persoFile">
+                        {% for file in persoFiles %}
+                            <option value="{{file}}" {% if loop.last %}selected{%endif%}>{{ file }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-primary" id="deletePersoFile">Delete</button>
+                </div>
             </div>
-            <div class="col-md-4">
-                <select class="form-control" name="{{name}}" id="persoFile">
-                    {% for file in persoFiles %}
-                        <option value="{{file}}" {% if loop.last %}selected{%endif%}>{{ file }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-2">
-                <button type="button" class="btn btn-primary" id="deletePersoFile">Delete</button>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-7">{% include 'core_a4.twig' %}</div>
-            <div class="col-md-5">{% include 'toolbox.twig' %}</div>
+            <div class="row">
+                <div class="col-md-7">{% include 'core_a4.twig' %}</div>
+                <div class="col-md-5">{% include 'toolbox.twig' %}</div>
+            </div>
         </div>
-        <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script>window.jQuery || document.write('<script src="/assets/js/jquery-1.9.1.min.js"><\/script>')</script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/TweenMax.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/jquery.gsap.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/plugins/CSSRulePlugin.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/plugins/RaphaelPlugin.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/plugins/ColorPropsPlugin.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/plugins/EaselPlugin.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/plugins/TextPlugin.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/plugins/ScrollToPlugin.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/plugins/KineticPlugin.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/utils/Draggable.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.8/utils/Draggable.min.js"></script>
-
-        <script src="http://blueimp.github.io/JavaScript-Load-Image/js/load-image.min.js"></script>
-        <!-- The Canvas to Blob plugin is included for image resizing functionality -->
-        <script src="http://blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
         <!-- Latest compiled and minified JavaScript -->
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-
-        <script src="/vendor/blueimp/jquery-file-upload/js/jquery.iframe-transport.js"></script>
-        <!-- The basic File Upload plugin -->
-        <script src="/vendor/blueimp/jquery-file-upload/js/jquery.fileupload.js"></script>
-        <!-- The File Upload processing plugin -->
-        <script src="/vendor/blueimp/jquery-file-upload/js/jquery.fileupload-process.js"></script>
-        <!-- The File Upload image preview & resize plugin -->
-        <script src="/vendor/blueimp/jquery-file-upload/js/jquery.fileupload-image.js"></script>
+        <script src="/components/jquery/jquery.min.js"></script>
+        <script src="/components/underscore/underscore-min.js"></script>
+        <script src="/components/fabric.js/dist/fabric.min.js"></script>
+        <script src="/components/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/components/Radio/radio.min.js"></script>
         <!-- The File Upload validation plugin -->
-        <script src="/vendor/blueimp/jquery-file-upload/js/jquery.fileupload-validate.js"></script>
-        <script src="/assets/js/amplify-1.1.2/amplify.min.js"></script>
-        <script src="/assets/js/underscore-min.js"></script>
         <script src="/assets/js/demo.js"></script>
-        <script src="/assets/js/upload.js"></script>
     </body>
 </html>

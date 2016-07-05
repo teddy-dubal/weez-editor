@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b8cb10a47ec0e485634820dee88028e8",
-    "content-hash": "51f6ce013ac796a2b7e7ce2cdbf76605",
+    "hash": "96fe9548251b6d95189d1e448f599286",
+    "content-hash": "5bd9d69f8baf45648edaeaf85ad6d7a1",
     "packages": [
         {
             "name": "blueimp/jquery-file-upload",
@@ -56,6 +56,166 @@
                 "widget"
             ],
             "time": "2016-06-13 05:50:06"
+        },
+        {
+            "name": "components/bootstrap",
+            "version": "3.3.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/bootstrap.git",
+                "reference": "fb4923919c620b8b2aa8a11eda16b49b0a9e8a27"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/bootstrap/zipball/fb4923919c620b8b2aa8a11eda16b49b0a9e8a27",
+                "reference": "fb4923919c620b8b2aa8a11eda16b49b0a9e8a27",
+                "shasum": ""
+            },
+            "require": {
+                "components/jquery": "1.9.1 - 2"
+            },
+            "suggest": {
+                "components/bootstrap-default": "Provide a theme for Bootstrap as components/bootstrap only provides the CSS as file assets"
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "js/bootstrap.js"
+                    ],
+                    "files": [
+                        "js/*.js",
+                        "css/*.css",
+                        "css/*.map",
+                        "fonts/*",
+                        "less/mixins/*.less",
+                        "less/*.less"
+                    ],
+                    "shim": {
+                        "deps": [
+                            "jquery"
+                        ]
+                    }
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jacob Thornton",
+                    "email": "jacobthornton@gmail.com"
+                },
+                {
+                    "name": "Mark Otto",
+                    "email": "markdotto@gmail.com"
+                }
+            ],
+            "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
+            "homepage": "http://getbootstrap.com",
+            "keywords": [
+                "css",
+                "framework",
+                "front-end",
+                "less",
+                "mobile-first",
+                "responsive",
+                "web"
+            ],
+            "time": "2015-11-24 20:19:41"
+        },
+        {
+            "name": "components/jquery",
+            "version": "2.2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/jquery.git",
+                "reference": "981036fcb56668433a7eb0d1e71190324b4574df"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/jquery/zipball/981036fcb56668433a7eb0d1e71190324b4574df",
+                "reference": "981036fcb56668433a7eb0d1e71190324b4574df",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "jquery.js"
+                    ],
+                    "files": [
+                        "jquery.min.js",
+                        "jquery.min.map",
+                        "jquery-migrate.js",
+                        "jquery-migrate.min.js"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "John Resig",
+                    "email": "jeresig@gmail.com"
+                }
+            ],
+            "description": "jQuery JavaScript Library",
+            "homepage": "http://jquery.com",
+            "time": "2016-05-25 06:43:59"
+        },
+        {
+            "name": "components/underscore",
+            "version": "1.8.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/underscore.git",
+                "reference": "91142c898763ca8bb23a32a9808735e4998839d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/underscore/zipball/91142c898763ca8bb23a32a9808735e4998839d1",
+                "reference": "91142c898763ca8bb23a32a9808735e4998839d1",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "underscore.js"
+                    ],
+                    "files": [
+                        "underscore-min.js",
+                        "underscore-min.map"
+                    ],
+                    "shim": {
+                        "exports": "_"
+                    }
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeremy Ashkenas",
+                    "email": "jeremy@documentcloud.org"
+                }
+            ],
+            "description": "JavaScript's functional programming helper library.",
+            "homepage": "http://underscorejs.org",
+            "keywords": [
+                "browser",
+                "client",
+                "functional",
+                "server",
+                "util"
+            ],
+            "time": "2015-10-16 14:27:39"
         },
         {
             "name": "enyo/dropzone",
@@ -192,16 +352,16 @@
         },
         {
             "name": "kangax/fabric.js",
-            "version": "dev-master",
+            "version": "master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kangax/fabric.js.git",
-                "reference": "dev-master"
+                "reference": "master"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://github.com/kangax/fabric.js/archive/master.zip",
-                "reference": "dev-master",
+                "reference": "master",
                 "shasum": null
             },
             "require": {
@@ -214,7 +374,8 @@
                         "dist/*"
                     ]
                 }
-            }
+            },
+            "time": "2016-07-03 21:52:25"
         },
         {
             "name": "knplabs/knp-snappy",
@@ -515,17 +676,17 @@
             "time": "2016-06-29 05:42:25"
         },
         {
-            "name": "tecnick.com/tcpdf",
+            "name": "tecnickcom/tcpdf",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/TCPDF.git",
-                "reference": "354433a33946ae7497c3eab291eaaf814bccbfab"
+                "reference": "009f2304c3a9c8152b89a5321a8825f250911dc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/354433a33946ae7497c3eab291eaaf814bccbfab",
-                "reference": "354433a33946ae7497c3eab291eaaf814bccbfab",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/009f2304c3a9c8152b89a5321a8825f250911dc3",
+                "reference": "009f2304c3a9c8152b89a5321a8825f250911dc3",
                 "shasum": ""
             },
             "require": {
@@ -575,8 +736,7 @@
                 "pdf417",
                 "qrcode"
             ],
-            "abandoned": "tecnickcom/tcpdf",
-            "time": "2015-08-02 12:30:27"
+            "time": "2016-06-10 17:46:02"
         },
         {
             "name": "twig/twig",
@@ -639,6 +799,33 @@
                 "templating"
             ],
             "time": "2016-05-30 09:07:11"
+        },
+        {
+            "name": "uxder/Radio",
+            "version": "master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/uxder/Radio.git",
+                "reference": "master"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/uxder/Radio/archive/master.zip",
+                "reference": "master",
+                "shasum": null
+            },
+            "require": {
+                "robloach/component-installer": "*"
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "radio.min.js"
+                    ]
+                }
+            },
+            "time": "2015-07-22 04:18:46"
         }
     ],
     "packages-dev": [],
@@ -647,9 +834,10 @@
     "stability-flags": {
         "h4cc/wkhtmltoimage-amd64": 20,
         "knplabs/knp-snappy": 20,
-        "tecnick.com/tcpdf": 20,
+        "tecnickcom/tcpdf": 20,
         "blueimp/jquery-file-upload": 20,
         "kangax/fabric.js": 20,
+        "uxder/radio": 20,
         "twig/twig": 20
     },
     "prefer-stable": false,
