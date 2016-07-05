@@ -9,11 +9,8 @@
     ],
     "require": {
         "php": ">=5.5",
-        "h4cc/wkhtmltoimage-amd64": "dev-master",
-        "knplabs/knp-snappy": "dev-master",
+        "spipu/html2pdf": "v4.6.1",
         "imagine/imagine": "v0.6.3",
-        "tecnickcom/tcpdf": "dev-master",
-        "blueimp/jquery-file-upload": "dev-master",
         "enyo/dropzone": "v4.3.0",
         "kangax/fabric.js": "dev-master",
         "components/jquery": "~2",

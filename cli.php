@@ -36,7 +36,7 @@ $snappy->setOption('zoom', 2.1);
  */
 //$snappy->generateFromHtml($twig->render('index.twig', array('ev_nom' => 'Fabien')), 'poc.pdf');
 //$snappy->generateFromHtml($twig->render('editor.twig', array('ev_nom' => 'Fabien')), 'poc.pdf');
-$info     = $snappy->generate('http://localhost:8888/editor.php?mode=cli', $imgSrc);
+$info     = $snappy->generate('http://localhost:8080/editor.php?mode=cli', $imgSrc);
 //$snappy->generate('http://fr.wikipedia.org/wiki/Rihanna', 'poc.pdf');
 //echo $twig->display('index.twig', array('ev_nom' => 'Fabien'));
 $time_end = microtime(true);

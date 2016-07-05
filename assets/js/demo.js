@@ -1,11 +1,6 @@
 var WeezPdfEngine = (function ($, _, fabric) {
-    var $container = $("#container");
+    var $canvas = new fabric.Canvas('container');
     var _debug = true;
-    /**
-     *
-     * @returns {undefined}
-     */
-
     /**
      *
      * @param {type} elt
@@ -167,40 +162,40 @@ var WeezPdfEngine = (function ($, _, fabric) {
      */
     var initDraggable = function () {
     };
-    var initCanvas = function () {
-        var canvas = new fabric.Canvas('container');
-        // create a rectangle with angle=45
-        var rect = new fabric.Rect({
-            left: 100,
-            top: 100,
-            fill: 'red',
-            width: 20,
-            height: 20,
-            angle: 45
-        });
-        canvas.add(rect);
-    };
+
     /**
      *
      * @returns {undefined}
      */
     var initToolbox = function () {
-//        Draggable.create("li", {
-//            onDragEnd: function () {
-//                if (this.hitTest($container)) {
-//                    var json_data_info = $(this.target).attr('data-info') || '{}';
-//                    var data_info = $.parseJSON(json_data_info);
-//                    data_info.id = '_' + $.now();
-//                    data_info.z = getMaxIndexes() + 1;
-//                    if (!$.isEmptyObject(data_info)) {
-//                        $("<div class='elt' id='" + data_info.id + "'/>").css({position: "absolute", backgroundColor: '#2ECCFA', border: "1px solid #454545", width: data_info.w, height: data_info.h, top: data_info.y, left: data_info.x, 'z-index': data_info.z}).attr('data-info', json_data_info).html(data_info.default).prependTo($container);
-//                        Amplify.publish('set.draggable.on.element');
-//                    }
-//                }
-////Return to intial position
-//                TweenMax.to($(this.target), 0.5, {x: '0px', y: '0px'});
-//            }
-//        });
+        $('#toolbox #text').on('click', function (e) {
+            var width = $canvas.getWidth();
+            var height = $canvas.getHeight();
+
+            var text = 'Lorem ipsum\nLorem ipsum';
+            var textSample = new fabric.IText(text, {
+                left: width / 2,
+                top: height / 2,
+                fontFamily: 'helvetica',
+                angle: 0,
+                fill: '#' + getRandomColor(),
+                fontWeight: '',
+                originX: 'left',
+                hasRotatingPoint: true,
+                centerTransform: true
+            });
+
+            $canvas.add(textSample);
+        });
+        $('#toolbox #img').on('click', function (e) {
+            console.info('img');
+        });
+        $('#toolbox #qrcode').on('click', function (e) {
+            console.info('qrcode');
+        });
+        $('#toolbox #barcode').on('click', function (e) {
+            console.info('barcode');
+        });
     };
     /**
      *
@@ -210,7 +205,7 @@ var WeezPdfEngine = (function ($, _, fabric) {
         var ajaxObj = {
             type: "POST",
             url: "ajax/save.php",
-            data: {container: {w: $container.width(), h: $container.height()}, format: 'a4'}
+            data: {container: {w: $canvas.getWidth(), h: $canvas.getHeight()}, format: 'a4'}
         };
 
         $("#saveData").click(function () {
@@ -250,13 +245,34 @@ var WeezPdfEngine = (function ($, _, fabric) {
             Amplify.publish('set.data.from.editor', $(this.target));
         });
     };
+    var initCanvas = function () {
+        $canvas.on("object:moving", function (e) {
+            var obj = e.target;
+            var halfw = obj.getWidth() / 2;
+            var halfh = obj.getHeight() / 2;
+            var bounds = {
+                tl: {x: halfw, y: halfh},
+                br: {x: obj.canvas.getWidth(), y: obj.canvas.getHeight()}
+            };
+            // top-left  corner
+            if (obj.top < bounds.tl.y || obj.left < bounds.tl.x) {
+                obj.top = Math.max(obj.top, 0);
+                obj.left = Math.max(obj.left, 0);
+            }
+            // bot-right corner
+            if (obj.top + obj.getHeight() > bounds.br.y || obj.left + obj.getWidth() > bounds.br.x) {
+                obj.top = Math.min(obj.top, $canvas.getHeight() - obj.getHeight());
+                obj.left = Math.min(obj.left, $canvas.getWidth() - obj.getWidth());
+            }
+        });
+    };
     /**
      *
      * @returns {undefined}
      */
     var init = function () {
-//        initToolbox();
         initCanvas();
+        initToolbox();
         initBtn();
         initSubscribe();
         initDraggable();

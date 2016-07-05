@@ -12,7 +12,7 @@ require_once $vendorDir . 'autoload.php';
 $time_start  = microtime(true);
 $loader      = new Twig_Loader_Filesystem($rootDir . '/templates');
 $twig        = new Twig_Environment($loader, array(
-    'cache' => $rootDir . '/cache',
+//    'cache' => $rootDir . '/cache',
     'debug' => true
         ));
 $defaultFile = 'default_a4.json';
