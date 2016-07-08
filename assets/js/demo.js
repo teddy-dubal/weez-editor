@@ -14,47 +14,6 @@ var WeezPdfEngine = (function ($, _, fabric) {
     };
     /**
      *
-     * @param {type} values
-     * @returns {Number}
-     */
-    var pixelToMm = function (values) {
-        var json_data_info = $('#container').attr('data-info') || '{}';
-        var data_info = $.parseJSON(json_data_info);
-        $.each(values, function (index, value) {
-            values[index] = Math.floor(value / data_info['ratio']);
-        });
-        return values;
-    };
-    /**
-     *
-     * @param {type} values
-     * @returns {Number}
-     */
-    var mmToPixel = function (values) {
-        var json_data_info = $('#container').attr('data-info') || '{}';
-        var data_info = $.parseJSON(json_data_info);
-        $.each(values, function (index, value) {
-            values[index] = value * data_info['ratio'];
-        });
-        return values;
-    };
-    /**
-     *
-     * @param {String} key
-     * @param {Object} obj
-     * @returns {mixed}
-     */
-
-    /**
-     *
-     * @param {string} key
-     * @param {object} obj
-     * @param {mixed} value
-     * @returns {@var;value|String}
-     */
-
-    /**
-     *
      * @returns {undefined}
      */
     var initSubscribe = function () {
@@ -90,11 +49,11 @@ var WeezPdfEngine = (function ($, _, fabric) {
         });
         $('#toolbox #img').on('click', function (e) {
             var coord = getRandomLeftTop();
-            fabric.Image.fromURL('http://vignette4.wikia.nocookie.net/simpsons/images/1/1d/Homer_Dog_Tapped_Out.png', function (image) {
+            fabric.Image.fromURL('https://crossorigin.me/http://vignette4.wikia.nocookie.net/simpsons/images/1/1d/Homer_Dog_Tapped_Out.png', function (image) {
                 image.set({
                     left: coord.left,
                     top: coord.top,
-                    angle: getRandomInt(-10, 10),
+//                    angle: getRandomInt(-10, 10),
                     crossOrigin: 'anonymous'
                 }).scale(getRandomNum(0.5, 0.5))
                         .setCoords();
