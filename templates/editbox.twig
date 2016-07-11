@@ -1,60 +1,60 @@
 <div id="editbox">
-    <form action="" id="data_elt" role="form">
-        <div id="common">
+    <form action="" id="form" role="form">
+        <div id="common txt">
             <input type="hidden" class="form-control"  id="id">
             <input type="hidden" class="form-control"  id="type">
             <input type="hidden" class="form-control"  id="default">
             <div class="input-group">
                 <span class="input-group-addon">x</span>
-                <input type="text" class="form-control" placeholder="x" id="x">
+                <input type="text" class="form-control" placeholder="x" name="left" id="left">
             </div>
             <div class="input-group">
                 <span class="input-group-addon">y</span>
-                <input type="text" class="form-control" placeholder="y" id="y">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon">z</span>
-                <input type="text" class="form-control" placeholder="z" id="z">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon">w</span>
-                <input type="text" class="form-control" placeholder="w" id="w">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon">h</span>
-                <input type="text" class="form-control" placeholder="h" id="h">
+                <input type="text" class="form-control" placeholder="y" name="top" id="top">
             </div>
             {#
             <div class="input-group">
-                <span class="input-group-addon">°</span>
-                <input type="text" class="form-control" placeholder="°" id="angle">
+                <span class="input-group-addon">z</span>
+                <input type="text" class="form-control" placeholder="z" name="z">
             </div>
             #}
+            <div class="input-group">
+                <span class="input-group-addon">w</span>
+                <input type="text" class="form-control" placeholder="w" name="width" id="width">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">h</span>
+                <input type="text" class="form-control" placeholder="h" name="height" id="height">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">°</span>
+                <input type="text" class="form-control" placeholder="°" name="angle" id="angle">
+            </div>
         </div>
         <div id="txt" class="txt tool">
             <div class="input-group">
                 <span class="input-group-addon">font</span>
-                <input type="text" class="form-control" placeholder="font" id="style.font">
+                <input type="text" class="form-control" placeholder="font" name="fontFamily" id="fontFamily">
             </div>
             <div class="input-group">
                 <span class="input-group-addon">font-size</span>
-                <input type="text" class="form-control" placeholder="font-size" id="style.size">
+                <input type="text" class="form-control" placeholder="font-size" name="fontSize" id="fontSize">
             </div>
             <div class="input-group">
                 <span class="input-group-addon">font-color</span>
-                <input type="text" class="form-control" placeholder="font-color" id="style.color">
+                <input type="text" class="form-control" placeholder="font-color" name="fill" id="fill">
             </div>
             <div class="input-group">
                 <span class="input-group-addon">font-align</span>
-                <input type="text" class="form-control" placeholder="font-align" id="style.align">
+                <input type="text" class="form-control" placeholder="font-align" name="textAlign" id="textAlign">
             </div>
             <div class="input-group">
                 <span class="input-group-addon">font-style</span>
-                <input type="text" class="form-control" placeholder="font-style" id="style.font-style">
+                <input type="text" class="form-control" placeholder="font-style" name="fontStyle" id="fontStyle">
             </div>
             <div class="input-group">
                 <span class="input-group-addon">tag</span>
-                <select class="form-control" id="tag">
+                <select class="form-control" id="tag" name="tag">
                     <option value="main_pic">main_pic</option>
                     <option value="ev_nom">ev_nom</option>
                     <option value="barcode_id">barcode_id</option>

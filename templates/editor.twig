@@ -27,6 +27,7 @@
                     <button type="button" class="btn btn-primary" id="deletePersoFile">Delete</button>
                     <button type="button" class="btn btn-primary" id="exportImg">Export IMG</button>
                     <button type="button" class="btn btn-primary" id="exportJson">Export JSON</button>
+                    <button type="button" class="btn btn-primary" id="importJson">Load JSON</button>
                     <select class="form-control" name="{{name}}" id="persoFile">
                         {% for file in persoFiles %}
                             <option value="{{file}}" {% if loop.last %}selected{%endif%}>{{ file }}</option>
@@ -35,8 +36,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-7">{% include 'core_a4.twig' %}</div>
-                <div class="col-md-5">{% include 'toolbox.twig' %}</div>
+                <div class="col-md-9">{% include 'core_a4.twig' %}</div>
+                <div class="col-md-3">{% include 'toolbox.twig' %}</div>
             </div>
         </div>
         <!-- Latest compiled and minified JavaScript -->

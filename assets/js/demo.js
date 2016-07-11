@@ -1,42 +1,43 @@
 var WeezPdfEngine = (function ($, _, fabric) {
+    fabric.Object.prototype.toObject = (function (toObject) {
+        return function () {
+            return fabric.util.object.extend(toObject.call(this), {
+//                id: this.id,
+                tag: this.tag
+            });
+        };
+    })(fabric.Object.prototype.toObject);
+
     var $canvas = new fabric.Canvas('container', {
-        backgroundColor: 'green'
+        backgroundColor: 'green',
+        height: fabric.util.parseUnit('297mm'),
+        width: fabric.util.parseUnit('210mm'),
     });
     var _debug = true;
-    /**
-     *
-     * @returns {undefined}
-     */
-    var displayEditorBox = function () {
-        $('#editbox').show();
-        $('.tool').hide();
-        $('.' + $('#type').val()).show();
+    var _updateForm = function (_data) {
+        var targetFormInput = $('#form').find('input,select,textarea');
+        $.each(targetFormInput, function (index, _elt) {
+            var res = _elt.id;
+            if (typeof _data[res] != "undefined") {
+                try {
+                    $(_elt).val(_data[res]);
+                } catch (e) {
+                }
+            }
+        });
     };
-    /**
-     *
-     * @returns {undefined}
-     */
-    var initSubscribe = function () {
 
-    };
-    /**
-     *
-     * @returns {undefined}
-     */
-    var initDraggable = function () {
-    };
     /**
      *
      * @returns {undefined}
      */
     var initToolbox = function () {
         $('#toolbox #text').on('click', function (e) {
-            var width = $canvas.getWidth();
-            var height = $canvas.getHeight();
+            var coord = getRandomLeftTop();
             var text = 'Lorem ipsum\nLorem ipsum';
-            var textSample = new fabric.IText(text, {
-                left: width / 2,
-                top: height / 2,
+            var itext = new fabric.IText(text, {
+                left: coord.left,
+                top: coord.top,
                 fontFamily: 'helvetica',
                 angle: 0,
                 fill: '#' + getRandomColor(),
@@ -45,18 +46,18 @@ var WeezPdfEngine = (function ($, _, fabric) {
                 hasRotatingPoint: true,
                 centerTransform: true
             });
-            $canvas.add(textSample);
+
+            $canvas.add(itext);
         });
         $('#toolbox #img').on('click', function (e) {
             var coord = getRandomLeftTop();
-            fabric.Image.fromURL('https://crossorigin.me/http://vignette4.wikia.nocookie.net/simpsons/images/1/1d/Homer_Dog_Tapped_Out.png', function (image) {
+            fabric.Image.fromURL('/pdf/Homer_Dog_Tapped_Out.png', function (image) {
                 image.set({
                     left: coord.left,
                     top: coord.top,
 //                    angle: getRandomInt(-10, 10),
                     crossOrigin: 'anonymous'
-                }).scale(getRandomNum(0.5, 0.5))
-                        .setCoords();
+                }).setCoords();
                 $canvas.add(image);
             });
         });
@@ -75,9 +76,39 @@ var WeezPdfEngine = (function ($, _, fabric) {
         var ajaxObj = {
             type: "POST",
             url: "ajax/save.php",
-            data: {container: {w: $canvas.getWidth(), h: $canvas.getHeight()}, format: 'a4'}
+            data: {}
         };
+        $("#saveData").click(function () {
+            $canvas.deactivateAll().renderAll();
+            ajaxObj.data.json = JSON.stringify($canvas);
+            ajaxObj.data.img = $canvas.toDataURL('png');
+            ajaxObj.data.file = $('#persoFile').val();
+            $.ajax(ajaxObj).done(function (msg) {
+                //alert("Data Saved: ");
+            });
+        });
+        $("#duplicateData").click(function () {
+            $canvas.deactivateAll().renderAll();
+            ajaxObj.data.json = JSON.stringify($canvas);
+            ajaxObj.data.file = $('#persoFile').val();
+            ajaxObj.data.duplicate = true;
+            $.ajax(ajaxObj).done(function (msg) {
+                //alert("Data Saved: ");
+                window.location.reload();
+            });
+        });
+        $("#importJson").click(function () {
+            var url = '/data/perso/' + $('#persoFile').val();
+            $.getJSON(url, function (data) {
+                $canvas.loadFromJSON(data, function () {
+                    $canvas.renderAll();
+                });
+            });
+
+        });
+
         $("#exportImg").click(function () {
+            $canvas.deactivateAll().renderAll();
             if (!fabric.Canvas.supports('toDataURL')) {
                 alert('This browser doesn\'t provide means to serialize canvas to an image');
             } else {
@@ -87,36 +118,57 @@ var WeezPdfEngine = (function ($, _, fabric) {
         $("#exportJson").click(function () {
             console.info(JSON.stringify($canvas));
         });
-        $("#duplicateData").click(function () {
-//            ajaxObj.data.elt = getElementData();
-//            ajaxObj.data.duplicate = true;
-//            $.ajax(ajaxObj).done(function (msg) {
-//                //alert("Data Saved: ");
-//                window.location.reload();
-//            });
+
+        $("#validateEditorboxBtn").click(function () {
+            var activeElement = $canvas.getActiveObject();
+            $.each($('#form').serializeArray(), function (index, _elt) {
+                if ($.isNumeric(_elt.value)) {
+                    activeElement.set(_elt.name, parseFloat(_elt.value)).setCoords();
+                } else {
+                    activeElement.set(_elt.name, _elt.value);
+                }
+            });
+            $canvas.renderAll();
         });
-        $("#deletePersoFile").click(function () {
-//            ajaxObj.url = "ajax/delete.php";
-//            ajaxObj.data.file = $('#persoFile').val();
-//            $.ajax(ajaxObj).done(function (msg) {
-//                var data = $.parseJSON(msg);
-//                if (!data.status) {
-//                    $('.modal-content').html('Impossible de supprimer le modèle par default');
-//                    $('.bs-example-modal-sm').modal();
-//                } else {
-//                    $('.bs-example-modal-sm').on('hidden.bs.modal', function (e) {
-//                        window.location.reload();
-//                    });
-//                    $('.modal-content').html('La page sera rechargé');
-//                    $('.bs-example-modal-sm').modal();
-//
-//                }
-//            });
-//        });
-//        $("#validateEditorboxBtn").click(function () {
+        $("#deleteEditorboxBtn").click(function () {
+            var activeElement = $canvas.getActiveObject();
+            $canvas.remove(activeElement);
+            $('#editbox').hide();
         });
     };
+    /**
+     *
+     * @returns {undefined}
+     */
     var initCanvas = function () {
+        $canvas.on("object:added", function (e) {
+            switch (e.target.type) {
+                case 'i-text':
+                    var itext = e.target;
+                    itext.on('moving', function () {
+                        var data = this.toJSON();
+                        _updateForm(data);
+                    });
+                    itext.on('rotating', function () {
+                        var data = this.toJSON();
+                        _updateForm(data);
+                    });
+                    itext.on('editing:exited', function () {
+                        var data = this.toJSON();
+                        _updateForm(data);
+                    });
+                    itext.on('selected', function () {
+                        $('#editbox').show();
+                        $('#editbox .txt').show();
+                        var data = this.toJSON();
+                        _updateForm(data);
+                    });
+                    break;
+            }
+        });
+        $canvas.on("selection:cleared", function (e) {
+            $('#editbox').hide();
+        });
         $canvas.on("object:moving", function (e) {
             var obj = e.target;
             var halfw = obj.getWidth() / 2;
@@ -145,8 +197,6 @@ var WeezPdfEngine = (function ($, _, fabric) {
         initCanvas();
         initToolbox();
         initBtn();
-        initSubscribe();
-        initDraggable();
     };
     return {
         init: init

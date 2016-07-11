@@ -16,7 +16,7 @@ $twig        = new Twig_Environment($loader, array(
     'debug' => true
         ));
 $defaultFile = 'default_a4.json';
-$file        = isset($_GET['file']) ? $_GET['file'] : $defaultFile;
+$json_file   = $file        = isset($_GET['file']) ? $_GET['file'] : $defaultFile;
 $persofiles  = array_merge(array($defaultFile), array_diff(scandir($rootDir . '/data/perso'), array(
     '..', '.')));
 if (!file_exists($files       = $rootDir . '/data/' . $defaultFile) && !file_exists($files       = $rootDir . '/data/perso/' . $file)) {
@@ -38,6 +38,7 @@ $files         = $fd . $persofiles[count($persofiles) - 1];
 $inputData     = json_decode(file_get_contents($files), true);
 $modeToInclude = 'cli' == $mode ? 'core_a4.twig' : 'editor.twig';
 echo $twig->render($modeToInclude, array(
-    'inputData'  => $inputData,
     'persoFiles' => $persofiles,
+    'mode'       => $mode,
+    'json_file'  => $json_file
 ));
