@@ -104,7 +104,6 @@ var WeezPdfEngine = (function ($, _, fabric) {
                     $canvas.renderAll();
                 });
             });
-
         });
 
         $("#exportImg").click(function () {
@@ -134,6 +133,9 @@ var WeezPdfEngine = (function ($, _, fabric) {
             var activeElement = $canvas.getActiveObject();
             $canvas.remove(activeElement);
             $('#editbox').hide();
+        });
+        $("#persoFile").change(function () {
+            window.location.href = '/?file=' + $("#persoFile").val();
         });
     };
     /**
@@ -189,6 +191,17 @@ var WeezPdfEngine = (function ($, _, fabric) {
             }
         });
     };
+    var initBase64 = function () {
+        if ($('#base64')) {
+            var url = '/data/perso/' + $('#base64').data('template');
+            $.getJSON(url, function (data) {
+                $canvas.loadFromJSON(data, function () {
+                    $canvas.renderAll();
+                    $('#base64').text($canvas.toDataURL('png'));
+                });
+            });
+        }
+    };
     /**
      *
      * @returns {undefined}
@@ -197,6 +210,7 @@ var WeezPdfEngine = (function ($, _, fabric) {
         initCanvas();
         initToolbox();
         initBtn();
+        initBase64();
     };
     return {
         init: init

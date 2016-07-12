@@ -29,15 +29,134 @@
                     <button type="button" class="btn btn-primary" id="exportJson">Export JSON</button>
                     <button type="button" class="btn btn-primary" id="importJson">Load JSON</button>
                     <select class="form-control" name="{{name}}" id="persoFile">
-                        {% for file in persoFiles %}
-                            <option value="{{file}}" {% if loop.last %}selected{%endif%}>{{ file }}</option>
+                        {% for files in persoFiles %}
+                            <option value="{{files}}" {% if json_file == files %}selected{%endif%}>{{ files }}</option>
                         {% endfor %}
                     </select>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-9">{% include 'core_a4.twig' %}</div>
-                <div class="col-md-3">{% include 'toolbox.twig' %}</div>
+                <div class="col-md-9">
+                    <canvas id="container"></canvas>
+                </div>
+                <div class="col-md-3">
+                    <div id="toolbox">
+                        <ul>
+                            <li><button id="text" class="btn btn-primary">Add text</button></li>
+                            <li><button id="img" class="btn btn-primary">Add Img</button></li>
+                            <li><button id="qrcode" class="btn btn-primary">Add QRCode</button></li>
+                            <li><button id="barcode" class="btn btn-primary">Add Barcode</button></li>
+                        </ul>
+                    </div>
+                    <div id="editbox">
+                        <form action="" id="form" role="form">
+                            <div id="common txt">
+                                <input type="hidden" class="form-control"  id="id">
+                                <input type="hidden" class="form-control"  id="type">
+                                <input type="hidden" class="form-control"  id="default">
+                                <div class="input-group">
+                                    <span class="input-group-addon">x</span>
+                                    <input type="text" class="form-control" placeholder="x" name="left" id="left">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon">y</span>
+                                    <input type="text" class="form-control" placeholder="y" name="top" id="top">
+                                </div>
+                                {#
+                                <div class="input-group">
+                                    <span class="input-group-addon">z</span>
+                                    <input type="text" class="form-control" placeholder="z" name="z">
+                                </div>
+                                #}
+                                <div class="input-group">
+                                    <span class="input-group-addon">w</span>
+                                    <input type="text" class="form-control" placeholder="w" name="width" id="width">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon">h</span>
+                                    <input type="text" class="form-control" placeholder="h" name="height" id="height">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon">°</span>
+                                    <input type="text" class="form-control" placeholder="°" name="angle" id="angle">
+                                </div>
+                            </div>
+                            <div id="txt" class="txt tool">
+                                <div class="input-group">
+                                    <span class="input-group-addon">font</span>
+                                    <input type="text" class="form-control" placeholder="font" name="fontFamily" id="fontFamily">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon">font-size</span>
+                                    <input type="text" class="form-control" placeholder="font-size" name="fontSize" id="fontSize">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon">font-color</span>
+                                    <input type="text" class="form-control" placeholder="font-color" name="fill" id="fill">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon">font-align</span>
+                                    <input type="text" class="form-control" placeholder="font-align" name="textAlign" id="textAlign">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon">font-style</span>
+                                    <input type="text" class="form-control" placeholder="font-style" name="fontStyle" id="fontStyle">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon">tag</span>
+                                    <select class="form-control" id="tag" name="tag">
+                                        <option value="main_pic">main_pic</option>
+                                        <option value="ev_nom">ev_nom</option>
+                                        <option value="barcode_id">barcode_id</option>
+                                        <option value="acheteur_id">acheteur_id</option>
+                                        <option value="ev_id">ev_id</option>
+                                        <option value="ev_nom">ev_nom</option>
+                                        <option value="lieu_nom">lieu_nom</option>
+                                        <option value="lieu_adresse">lieu_adresse</option>
+                                        <option value="lieu_ville">lieu_ville</option>
+                                        <option value="billet_nom">billet_nom</option>
+                                        <option value="billet_categorie">billet_categorie</option>
+                                        <option value="cmd_client">cmd_client</option>
+                                        <option value="cmd_client_prenom">cmd_client_prenom</option>
+                                        <option value="cmd_client_nom">cmd_client_nom</option>
+                                        <option value="billet_prix">billet_prix</option>
+                                        <option value="billet_frais">billet_frais</option>
+                                        <option value="billet_num">billet_num</option>
+                                        <option value="id_orga">id_orga</option>
+                                        <option value="ev_orga">ev_orga</option>
+                                        <option value="cmd_date">cmd_date</option>
+                                        <option value="cmd_num">cmd_num</option>
+                                        <option value="ev_url">ev_url</option>
+                                        <option value="id_transaction_billet">id_transaction_billet</option>
+                                        <option value="ev_email">ev_email</option>
+                                        <option value="address">address</option>
+                                        <option value="ev_orga_txt">ev_orga_txt</option>
+                                        <option value="ev_dates">ev_dates</option>
+                                        <option value="cgu">cgu</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="img" class="img qrcode barcode tool">
+                                <span class="btn btn-success fileinput-button">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                    <span>Add files...</span>
+                                    <!-- The file input field used as target for the file upload widget -->
+                                    <input id="fileupload" type="file" name="files[]" multiple>
+                                </span>
+                                <br>
+                                <!-- The global progress bar -->
+                                <div id="progress" class="progress">
+                                    <div class="progress-bar progress-bar-success"></div>
+                                </div>
+                                <!-- The container for the uploaded files -->
+                                <div id="files" class="files"></div>
+                            </div>
+                            <button type="button" class="btn btn-danger" id="deleteEditorboxBtn">Delete</button>
+                            <button type="button" class="btn btn-primary" id="validateEditorboxBtn">Validate</button>
+                        </form>
+                    </div>
+
+                </div>
             </div>
         </div>
         <!-- Latest compiled and minified JavaScript -->

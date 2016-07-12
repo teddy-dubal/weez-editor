@@ -1,15 +1,14 @@
-var WeezGearEngine = (function ($, _, fabric) {
+var WeezGearEngine = (function ($, fabric) {
     fabric.Object.prototype.toObject = (function (toObject) {
         return function () {
             return fabric.util.object.extend(toObject.call(this), {
-//                id: this.id,
                 tag: this.tag
             });
         };
     })(fabric.Object.prototype.toObject);
 
     var $canvas = new fabric.Canvas('container', {
-//        backgroundColor: 'green',
+        backgroundColor: 'green',
         height: fabric.util.parseUnit('297mm'),
         width: fabric.util.parseUnit('210mm'),
     });
@@ -23,9 +22,10 @@ var WeezGearEngine = (function ($, _, fabric) {
         var url = '/data/perso/' + json_file;
         $.getJSON(url, function (data) {
             $canvas.loadFromJSON(data, function () {
+                console.info(data);
                 $canvas.renderAll();
             });
-//            $canvas.toDataURL('png');
+            console.info($canvas.toDataURL('png'));
         });
     };
     /**
@@ -38,7 +38,7 @@ var WeezGearEngine = (function ($, _, fabric) {
     return {
         init: init
     };
-})(jQuery, _, fabric);
+})(jQuery, fabric);
 /**
  *
  * @param {type} param
