@@ -193,13 +193,10 @@ var WeezPdfEngine = (function ($, _, fabric) {
     };
     var initBase64 = function () {
         if ($('#base64')) {
-            var url = '/data/perso/' + $('#base64').data('template');
-            $.getJSON(url, function (data) {
-                $canvas.loadFromJSON(data, function () {
+                $canvas.loadFromJSON($('#base64').data('udata'), function () {
                     $canvas.renderAll();
                     $('#base64').text($canvas.toDataURL('png'));
                 });
-            });
         }
     };
     /**

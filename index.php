@@ -8,6 +8,7 @@ $rootDir   = __DIR__;
 $vendorDir = $rootDir . '/vendor/';
 
 require_once $vendorDir . 'autoload.php';
+require_once $rootDir . '/data/mock.php';
 @mkdir($rootDir . '/data/perso');
 $time_start  = microtime(true);
 $loader      = new Twig_Loader_Filesystem($rootDir . '/templates');
@@ -34,12 +35,31 @@ if (isset($_GET['file'])) {
         $fd = $rootDir . '/data/perso/';
     }
 }
+$modeToInclude = 'editor.twig';
 $mode          = isset($_GET['mode']) ? $_GET['mode'] : 'web';
-$files         = $fd . $persofiles[count($persofiles) - 1];
-$inputData     = json_decode(file_get_contents($files), true);
-$modeToInclude = 'cli' == $mode ? 'cli.twig' : 'editor.twig';
+if ('cli' == $mode) {
+    $modeToInclude = 'cli.twig';
+    $files         = $fd . $json_file;
+    $inputData     = json_decode(file_get_contents($files), true);
+    $object        = $inputData['objects'];
+    $m             = current($mock);
+    foreach ($object as &$o) {
+        switch ($o['type']) {
+            case 'i-text':
+                if (isset($m[$o['tag']])) {
+                    $o['text'] = $m[$o['tag']];
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+    $inputData['objects'] = $object;
+    $udata                = $inputData;
+}
 echo $twig->render($modeToInclude, array(
     'persoFiles' => $persofiles,
     'json_file'  => $json_file,
-    'udata'      => $udata,
+    'udata'      => json_encode($udata),
 ));
