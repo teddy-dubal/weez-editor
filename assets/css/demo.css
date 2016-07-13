@@ -2,13 +2,7 @@ body {
     background-color:grey;
 }
 
-#editbox {
+.all {
     display: none;
 }
 
-.tool {
-    display: none;
-}
-.alert {
-    display: none;
-}

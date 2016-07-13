@@ -79,6 +79,7 @@ var WeezPdfEngine = (function ($, _, fabric) {
             data: {}
         };
         $("#saveData").click(function () {
+            $('.all').hide();
             $canvas.deactivateAll().renderAll();
             ajaxObj.data.json = JSON.stringify($canvas);
             ajaxObj.data.img = $canvas.toDataURL('png');
@@ -88,6 +89,7 @@ var WeezPdfEngine = (function ($, _, fabric) {
             });
         });
         $("#duplicateData").click(function () {
+            $('.all').hide();
             $canvas.deactivateAll().renderAll();
             ajaxObj.data.json = JSON.stringify($canvas);
             ajaxObj.data.file = $('#persoFile').val();
@@ -98,6 +100,7 @@ var WeezPdfEngine = (function ($, _, fabric) {
             });
         });
         $("#importJson").click(function () {
+            $('.all').hide();
             var url = '/data/perso/' + $('#persoFile').val();
             $.getJSON(url, function (data) {
                 $canvas.loadFromJSON(data, function () {
@@ -107,6 +110,7 @@ var WeezPdfEngine = (function ($, _, fabric) {
         });
 
         $("#exportImg").click(function () {
+            $('.all').hide();
             $canvas.deactivateAll().renderAll();
             if (!fabric.Canvas.supports('toDataURL')) {
                 alert('This browser doesn\'t provide means to serialize canvas to an image');
@@ -115,6 +119,7 @@ var WeezPdfEngine = (function ($, _, fabric) {
             }
         });
         $("#exportJson").click(function () {
+            $('.all').hide();
             console.info(JSON.stringify($canvas));
         });
 
@@ -132,7 +137,7 @@ var WeezPdfEngine = (function ($, _, fabric) {
         $("#deleteEditorboxBtn").click(function () {
             var activeElement = $canvas.getActiveObject();
             $canvas.remove(activeElement);
-            $('#editbox').hide();
+            $('.all').hide();
         });
         $("#persoFile").change(function () {
             window.location.href = '/?file=' + $("#persoFile").val();
@@ -160,8 +165,29 @@ var WeezPdfEngine = (function ($, _, fabric) {
                         _updateForm(data);
                     });
                     itext.on('selected', function () {
-                        $('#editbox').show();
-                        $('#editbox .txt').show();
+                        $('.all').hide();
+                        $('.txt').show();
+                        var data = this.toJSON();
+                        _updateForm(data);
+                    });
+                    break;
+                case 'image':
+                    var image = e.target;
+                    image.on('moving', function () {
+                        var data = this.toJSON();
+                        _updateForm(data);
+                    });
+                    image.on('rotating', function () {
+                        var data = this.toJSON();
+                        _updateForm(data);
+                    });
+                    image.on('editing:exited', function () {
+                        var data = this.toJSON();
+                        _updateForm(data);
+                    });
+                    image.on('selected', function () {
+                        $('.all').hide();
+                        $('.img').show();
                         var data = this.toJSON();
                         _updateForm(data);
                     });
@@ -169,7 +195,7 @@ var WeezPdfEngine = (function ($, _, fabric) {
             }
         });
         $canvas.on("selection:cleared", function (e) {
-            $('#editbox').hide();
+            $('.all').hide();
         });
         $canvas.on("object:moving", function (e) {
             var obj = e.target;
@@ -193,10 +219,10 @@ var WeezPdfEngine = (function ($, _, fabric) {
     };
     var initBase64 = function () {
         if ($('#base64')) {
-                $canvas.loadFromJSON($('#base64').data('udata'), function () {
-                    $canvas.renderAll();
-                    $('#base64').text($canvas.toDataURL('png'));
-                });
+            $canvas.loadFromJSON($('#base64').data('udata'), function () {
+                $canvas.renderAll();
+                $('#base64').text($canvas.toDataURL('png'));
+            });
         }
     };
     /**

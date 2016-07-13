@@ -17,7 +17,8 @@
         "components/underscore": "1.8.3",
         "components/bootstrap": "3.3.6",
         "uxder/Radio": "dev-master",
-        "twig/twig": "dev-master"
+        "twig/twig": "dev-master",
+        "paquettg/php-html-parser": "^1.7"
     },
     "repositories": [
         {

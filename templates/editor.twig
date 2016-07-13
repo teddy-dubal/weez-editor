@@ -48,9 +48,9 @@
                             <li><button id="barcode" class="btn btn-primary">Add Barcode</button></li>
                         </ul>
                     </div>
-                    <div id="editbox">
+                    <div id="editbox" class="">
                         <form action="" id="form" role="form">
-                            <div id="common txt">
+                            <div class="common all txt img">
                                 <input type="hidden" class="form-control"  id="id">
                                 <input type="hidden" class="form-control"  id="type">
                                 <input type="hidden" class="form-control"  id="default">
@@ -81,7 +81,7 @@
                                     <input type="text" class="form-control" placeholder="°" name="angle" id="angle">
                                 </div>
                             </div>
-                            <div id="txt" class="txt tool">
+                            <div id="txt" class="all txt tool">
                                 <div class="input-group">
                                     <span class="input-group-addon">font</span>
                                     <input type="text" class="form-control" placeholder="font" name="fontFamily" id="fontFamily">
@@ -102,7 +102,7 @@
                                     <span class="input-group-addon">font-style</span>
                                     <input type="text" class="form-control" placeholder="font-style" name="fontStyle" id="fontStyle">
                                 </div>
-                                <div class="input-group">
+                                <div class="input-group txt">
                                     <span class="input-group-addon">tag</span>
                                     <select class="form-control" id="tag" name="tag">
                                         <option value="main_pic">main_pic</option>
@@ -136,26 +136,15 @@
                                     </select>
                                 </div>
                             </div>
-                            <div id="img" class="img qrcode barcode tool">
-                                <span class="btn btn-success fileinput-button">
-                                    <i class="glyphicon glyphicon-plus"></i>
-                                    <span>Add files...</span>
-                                    <!-- The file input field used as target for the file upload widget -->
-                                    <input id="fileupload" type="file" name="files[]" multiple>
-                                </span>
-                                <br>
-                                <!-- The global progress bar -->
-                                <div id="progress" class="progress">
-                                    <div class="progress-bar progress-bar-success"></div>
-                                </div>
-                                <!-- The container for the uploaded files -->
-                                <div id="files" class="files"></div>
+                            <div id="img" class="all img qrcode barcode tool">
+
                             </div>
-                            <button type="button" class="btn btn-danger" id="deleteEditorboxBtn">Delete</button>
-                            <button type="button" class="btn btn-primary" id="validateEditorboxBtn">Validate</button>
+                            <div class="all txt img">
+                                <button type="button" class="btn btn-danger" id="deleteEditorboxBtn">Delete</button>
+                                <button type="button" class="btn btn-primary" id="validateEditorboxBtn">Validate</button>
+                            </div>
                         </form>
                     </div>
-
                 </div>
             </div>
         </div>
