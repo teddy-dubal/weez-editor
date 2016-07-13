@@ -33,8 +33,8 @@ foreach ($object as $o) {
                 $elt_attributes = [
                     'top'        => pixelToMm($o['top']) . 'mm',
                     'left'       => pixelToMm($o['left']) . 'mm',
-                    'width'      => pixelToMm($o['width']) . 'mm',
-                    'height'     => pixelToMm($o['height']) . 'mm',
+                    'width'      => pixelToMm($o['width']) * $o['scaleY'] . 'mm',
+                    'height'     => pixelToMm($o['height']) * $o['scaleY'] . 'mm',
                     'color'      => $o['fill'],
                     'text-align' => $o['textAlign'],
                     'font-size'  => $o['fontSize'],
@@ -45,15 +45,15 @@ foreach ($object as $o) {
                 foreach ($merge as $k => $v) {
                     $r .= $k . ':' . $v . ';';
                 }
-                $inner .= '<div style="' . $r . '">' . $o['text'] . '</div>';
+                $inner .= '<div style="' . $r . '">' . $o['text'] . '</div>' . PHP_EOL;
             }
             break;
         case 'image':
             $elt_attributes = [
                 'top'    => pixelToMm($o['top']) . 'mm',
                 'left'   => pixelToMm($o['left']) . 'mm',
-                'width'  => pixelToMm($o['width']) . 'mm',
-                'height' => pixelToMm($o['height']) . 'mm',
+                'width'  => pixelToMm($o['width']) * $o['scaleY'] . 'mm',
+                'height' => pixelToMm($o['height']) * $o['scaleY'] . 'mm',
                 'rotate' => -$o['angle'],
             ];
             $merge          = array_merge($attributes, $elt_attributes);
@@ -61,7 +61,7 @@ foreach ($object as $o) {
             foreach ($merge as $k => $v) {
                 $r .= $k . ':' . $v . ';';
             }
-            $inner .= '<div style="' . $r . '"><img src="' . $o['src'] . '"/></div>';
+            $inner .= '<div style="' . $r . '"><img src="' . $o['src'] . '"/></div>' . PHP_EOL;
             break;
         default:
             break;

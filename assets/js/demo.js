@@ -34,7 +34,7 @@ var WeezPdfEngine = (function ($, _, fabric) {
     var initToolbox = function () {
         $('#toolbox #text').on('click', function (e) {
             var coord = getRandomLeftTop();
-            var text = 'Lorem ipsum\nLorem ipsum';
+            var text = 'Lorem ipsum';
             var itext = new fabric.IText(text, {
                 left: coord.left,
                 top: coord.top,
