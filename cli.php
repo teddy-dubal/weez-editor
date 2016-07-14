@@ -26,38 +26,43 @@ $attributes = [
 ];
 $inner      = '';
 foreach ($object as $o) {
+    $elt_attributes = [
+        'top'        => pixelToMm($o['top']) . 'mm',
+        'left'       => pixelToMm($o['left']) . 'mm',
+        'width'  => pixelToMm($o['width']) . 'mm',
+        'height' => pixelToMm($o['height']) . 'mm',
+        'rotate' => -$o['angle'],
+    ];
+    var_dump($o['type']);
     switch ($o['type']) {
+        case 'textbox':
         case 'i-text':
-            if (isset($m[$o['tag']])) {
-                $o['text']      = $m[$o['tag']];
-                $elt_attributes = [
-                    'top'        => pixelToMm($o['top']) . 'mm',
-                    'left'       => pixelToMm($o['left']) . 'mm',
-                    'width'      => pixelToMm($o['width']) * $o['scaleY'] . 'mm',
-                    'height'     => pixelToMm($o['height']) * $o['scaleY'] . 'mm',
-                    'color'      => $o['fill'],
-                    'text-align' => $o['textAlign'],
-                    'font-size'  => $o['fontSize'],
-                    'rotate'     => -$o['angle'],
-                ];
-                $merge          = array_merge($attributes, $elt_attributes);
-                $r              = '';
-                foreach ($merge as $k => $v) {
-                    $r .= $k . ':' . $v . ';';
-                }
-                $inner .= '<div style="' . $r . '">' . $o['text'] . '</div>' . PHP_EOL;
-            }
-            break;
-        case 'image':
-            $elt_attributes = [
-                'top'    => pixelToMm($o['top']) . 'mm',
-                'left'   => pixelToMm($o['left']) . 'mm',
-                'width'  => pixelToMm($o['width']) * $o['scaleY'] . 'mm',
-                'height' => pixelToMm($o['height']) * $o['scaleY'] . 'mm',
-                'rotate' => -$o['angle'],
-            ];
+                $elt_attributes = array_merge($elt_attributes, [
+                'color'      => $o['fill'],
+                'text-align' => $o['textAlign'],
+                'font-size'  => $o['fontSize'],
+            ]);
             $merge          = array_merge($attributes, $elt_attributes);
             $r              = '';
+            foreach ($merge as $k => $v) {
+                $r .= $k . ':' . $v . ';';
+            }
+            if (isset($m[$o['tag']])) {
+                $o['text'] = $m[$o['tag']];
+            }
+            $inner .= '<div style="' . $r . '">' . $o['text'] . '</div>' . PHP_EOL;
+            break;
+        case 'image':
+            $merge = array_merge($attributes, $elt_attributes);
+            $r              = '';
+            foreach ($merge as $k => $v) {
+                $r .= $k . ':' . $v . ';';
+            }
+            $inner .= '<div style="' . $r . '"><img src="' . $o['src'] . '"/></div>' . PHP_EOL;
+            break;
+        case 'path-group':
+            $merge = array_merge($attributes, $elt_attributes);
+            $r     = '';
             foreach ($merge as $k => $v) {
                 $r .= $k . ':' . $v . ';';
             }
@@ -67,10 +72,10 @@ foreach ($object as $o) {
             break;
     }
 }
-//echo '<pre>';
-//var_dump(htmlentities($inner));
-//echo '</pre>';
-//exit;
+echo '<pre>';
+var_dump(htmlentities($inner));
+echo '</pre>';
+exit;
 $time_start = microtime(true);
 $content    = "<page>";
 $content .= $inner;

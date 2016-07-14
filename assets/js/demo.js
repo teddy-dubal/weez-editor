@@ -3,13 +3,14 @@ var WeezPdfEngine = (function ($, _, fabric) {
         return function () {
             return fabric.util.object.extend(toObject.call(this), {
 //                id: this.id,
-                tag: this.tag
+                tag: this.tag,
+                locked: this.locked || false
             });
         };
     })(fabric.Object.prototype.toObject);
 
     var $canvas = new fabric.Canvas('container', {
-        backgroundColor: 'green',
+        backgroundColor: 'white',
         height: fabric.util.parseUnit('297mm'),
         width: fabric.util.parseUnit('210mm'),
     });
@@ -32,37 +33,59 @@ var WeezPdfEngine = (function ($, _, fabric) {
      * @returns {undefined}
      */
     var initToolbox = function () {
-        $('#toolbox #text').on('click', function (e) {
-            var coord = getRandomLeftTop();
-            var text = 'Lorem ipsum';
-            var itext = new fabric.IText(text, {
-                left: coord.left,
-                top: coord.top,
-                fontFamily: 'helvetica',
-                angle: 0,
-                fill: '#' + getRandomColor(),
-                fontWeight: '',
-                originX: 'left',
-                hasRotatingPoint: true,
-                centerTransform: true
-            });
-
-            $canvas.add(itext);
+        $('#toolbox #textElts').on('click', function (e) {
+            var selectedOption = $('#tag option:selected');
+            var type = selectedOption.data('type') || 'i-text';
+            var text = selectedOption.text();
+            var elts = null;
+            switch (type) {
+                case 'textbox':
+                    elts = new fabric.Textbox(text, {
+                        left: 0,
+                        top: 0,
+                        fontFamily: 'helvetica',
+                        angle: 0,
+                        fill: '#' + getRandomColor(),
+                        fontWeight: '',
+                        originX: 'left',
+                        hasRotatingPoint: true,
+                        centerTransform: true
+                    });
+                    break;
+                default:
+                    elts = new fabric.IText(text, {
+                        left: 0,
+                        top: 0,
+                        fontFamily: 'helvetica',
+                        angle: 0,
+                        fill: '#' + getRandomColor(),
+                        fontWeight: '',
+                        originX: 'left',
+                        hasRotatingPoint: true,
+                        centerTransform: true
+                    });
+                    break;
+            }
+            elts.tag = selectedOption.val();
+            $canvas.add(elts);
         });
         $('#toolbox #img').on('click', function (e) {
-            var coord = getRandomLeftTop();
             fabric.Image.fromURL('/pdf/Homer_Dog_Tapped_Out.png', function (image) {
                 image.set({
-                    left: coord.left,
-                    top: coord.top,
-//                    angle: getRandomInt(-10, 10),
+                    left: 0,
+                    top: 0,
                     crossOrigin: 'anonymous'
                 }).setCoords();
                 $canvas.add(image);
             });
         });
         $('#toolbox #qrcode').on('click', function (e) {
-            console.info('qrcode');
+            fabric.loadSVGFromURL('/pdf/qrcode.svg', function (objects, options) {
+                var obj = fabric.util.groupSVGElements(objects, options);
+//                obj.tag = 'qrcode';
+                console.info(obj);
+                $canvas.add(obj).renderAll();
+            });
         });
         $('#toolbox #barcode').on('click', function (e) {
             console.info('barcode');
@@ -142,6 +165,30 @@ var WeezPdfEngine = (function ($, _, fabric) {
         $("#persoFile").change(function () {
             window.location.href = '/?file=' + $("#persoFile").val();
         });
+        $("#send-backwards").click(function () {
+            var activeObject = $canvas.getActiveObject();
+            if (activeObject) {
+                $canvas.sendBackwards(activeObject);
+            }
+        });
+        $("#send-to-back").click(function () {
+            var activeObject = $canvas.getActiveObject();
+            if (activeObject) {
+                $canvas.sendToBack(activeObject);
+            }
+        });
+        $("#bring-forward").click(function () {
+            var activeObject = $canvas.getActiveObject();
+            if (activeObject) {
+                $canvas.bringForward(activeObject);
+            }
+        });
+        $("#bring-to-front").click(function () {
+            var activeObject = $canvas.getActiveObject();
+            if (activeObject) {
+                $canvas.bringToFront(activeObject);
+            }
+        });
     };
     /**
      *
@@ -151,7 +198,12 @@ var WeezPdfEngine = (function ($, _, fabric) {
         $canvas.on("object:added", function (e) {
             switch (e.target.type) {
                 case 'i-text':
+                case 'textbox':
                     var itext = e.target;
+                    itext.on('scaling', function () {
+                        var data = this.toJSON();
+                        _updateForm(data);
+                    });
                     itext.on('moving', function () {
                         var data = this.toJSON();
                         _updateForm(data);
@@ -167,6 +219,27 @@ var WeezPdfEngine = (function ($, _, fabric) {
                     itext.on('selected', function () {
                         $('.all').hide();
                         $('.txt').show();
+                        var data = this.toJSON();
+                        _updateForm(data);
+                    });
+                    break;
+                case 'path-group':
+                    var image = e.target;
+                    image.on('moving', function () {
+                        var data = this.toJSON();
+                        _updateForm(data);
+                    });
+                    image.on('rotating', function () {
+                        var data = this.toJSON();
+                        _updateForm(data);
+                    });
+                    image.on('editing:exited', function () {
+                        var data = this.toJSON();
+                        _updateForm(data);
+                    });
+                    image.on('selected', function () {
+                        $('.all').hide();
+                        $('.img').show();
                         var data = this.toJSON();
                         _updateForm(data);
                     });
