@@ -154,7 +154,7 @@ var WeezPdfEngine = (function ($, _, fabric) {
         });
         $("#exportJson").click(function () {
             $('.all').hide();
-            console.info(JSON.stringify($canvas));
+            $('#exportJsonBox').text(JSON.stringify($canvas));
         });
 
         $("#validateEditorboxBtn").click(function () {

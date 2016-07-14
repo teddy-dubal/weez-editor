@@ -7,6 +7,7 @@
         <title>PDF</title>
         <link rel="stylesheet" href="/components/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="/components/bootstrap/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="/components/spectrum/spectrum.css">
         <link rel="stylesheet" href="/assets/css/demo.css" type="text/css">
     </head>
     <body>
@@ -27,6 +28,7 @@
                     <button type="button" class="btn btn-primary" id="deletePersoFile">Delete</button>
                     <button type="button" class="btn btn-primary" id="exportJson">Export JSON</button>
                     <button type="button" class="btn btn-primary" id="importJson">Load JSON</button>
+                    <button type="button" class="btn btn-primary" id="exportPdf">Export PDF</button>
                     <select class="form-control" name="{{name}}" id="persoFile">
                         {% for files in persoFiles %}
                             <option value="{{files}}" {% if json_file == files %}selected{%endif%}>{{ files }}</option>
@@ -97,12 +99,6 @@
                                     <span class="input-group-addon">y</span>
                                     <input type="text" class="form-control" placeholder="y" name="top" id="top">
                                 </div>
-                                {#
-                                <div class="input-group">
-                                    <span class="input-group-addon">z</span>
-                                    <input type="text" class="form-control" placeholder="z" name="z">
-                                </div>
-                                #}
                                 <div class="input-group">
                                     <span class="input-group-addon">w</span>
                                     <input type="text" class="form-control" placeholder="w" name="width" id="width">
@@ -127,15 +123,24 @@
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-addon">font-color</span>
-                                    <input type="text" class="form-control" placeholder="font-color" name="fill" id="fill">
+                                    <input type="color" class="form-control" placeholder="font-color" name="fill" id="fill">
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-addon">font-align</span>
-                                    <input type="text" class="form-control" placeholder="font-align" name="textAlign" id="textAlign">
+                                    <select class="form-control" id="textAlign" name="textAlign">
+                                        <option value="left">left</option>
+                                        <option value="center">center</option>
+                                        <option value="right">right</option>
+                                        <option value="justify">justify</option>
+                                    </select>
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-addon">font-style</span>
-                                    <input type="text" class="form-control" placeholder="font-style" name="fontStyle" id="fontStyle">
+                                    <select class="form-control" id="fontStyle" name="fontStyle">
+                                        <option value=""></option>
+                                        <option value="normal">normal</option>
+                                        <option value="italic">italic</option>
+                                    </select>
                                 </div>
 
                             </div>
@@ -154,6 +159,9 @@
                             </div>
                         </form>
                     </div>
+                    <div>
+                        <p id="exportJsonBox"></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -163,6 +171,7 @@
         <script src="/components/fabric.js/dist/fabric.min.js"></script>
         <script src="/components/bootstrap/js/bootstrap.min.js"></script>
         <script src="/components/Radio/radio.min.js"></script>
+        <script src="/components/spectrum/spectrum.js"></script>
         <!-- The File Upload validation plugin -->
         <script src="/assets/js/utils.js"></script>
         <script src="/assets/js/demo.js"></script>

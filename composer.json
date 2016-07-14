@@ -18,6 +18,7 @@
         "components/bootstrap": "3.3.6",
         "uxder/Radio": "dev-master",
         "twig/twig": "dev-master",
+        "bgrins/spectrum": "1.8.0",
         "paquettg/php-html-parser": "^1.7"
     },
     "repositories": [
@@ -67,6 +68,37 @@
                     "component": {
                         "scripts": [
                             "radio.min.js"
+                        ]
+                    }
+                },
+                "require": {
+                    "robloach/component-installer": "*"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "bgrins/spectrum",
+                "type": "component",
+                "version": "1.8.0",
+                "dist": {
+                    "url": "https://github.com/bgrins/spectrum/archive/1.8.0.zip",
+                    "type": "zip"
+                },
+                "source": {
+                    "url": "https://github.com/bgrins/spectrum.git",
+                    "type": "git",
+                    "reference": "1.8.0"
+                },
+                "extra": {
+                    "component": {
+                        "scripts": [
+                            "i18n/**",
+                            "spectrum.js"
+                        ],
+                        "styles": [
+                            "spectrum.css"
                         ]
                     }
                 },

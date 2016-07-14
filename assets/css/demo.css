@@ -5,4 +5,7 @@ body {
 .all {
     display: none;
 }
-
+#exportJsonBox {
+    background-color: white;
+    word-wrap: break-word;
+}

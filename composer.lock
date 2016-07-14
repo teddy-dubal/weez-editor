@@ -4,9 +4,39 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1154a9e08a46a4273b4bcbbfe8fbfd28",
-    "content-hash": "3dc9e419b7d3847c408588cc00d6befb",
+    "hash": "c8e8a44dab8efb20536380f930217e6a",
+    "content-hash": "fbfbd6093b55cd5ad1eb148ca77a5625",
     "packages": [
+        {
+            "name": "bgrins/spectrum",
+            "version": "1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bgrins/spectrum.git",
+                "reference": "1.8.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/bgrins/spectrum/archive/1.8.0.zip",
+                "reference": "1.8.0",
+                "shasum": null
+            },
+            "require": {
+                "robloach/component-installer": "*"
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "i18n/**",
+                        "spectrum.js"
+                    ],
+                    "styles": [
+                        "spectrum.css"
+                    ]
+                }
+            }
+        },
         {
             "name": "components/bootstrap",
             "version": "3.3.6",

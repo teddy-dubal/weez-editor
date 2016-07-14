@@ -23,14 +23,15 @@ $attributes = [
     'rotation'   => 0,
     'text-align' => 'right',
     'font-size'  => '4mm',
+    'font-style' => 'normal',
 ];
 $inner      = '';
 foreach ($object as $o) {
     $elt_attributes = [
         'top'    => pixelToMm($o['top']) . 'mm',
         'left'   => pixelToMm($o['left']) . 'mm',
-        'width'  => pixelToMm($o['width']) . 'mm',
-        'height' => pixelToMm($o['height']) . 'mm',
+        'width'  => pixelToMm($o['width']) * $o['scaleX'] . 'mm',
+        'height' => pixelToMm($o['height']) * $o['scaleY'] . 'mm',
         'rotate' => -$o['angle'],
     ];
     switch ($o['type']) {
@@ -48,6 +49,9 @@ foreach ($object as $o) {
             }
             if (isset($m[$o['tag']])) {
                 $o['text'] = $m[$o['tag']];
+            }
+            if ('italic' == $o['fontStyle']) {
+                $o['text'] = '<i>' . $o['text'] . '</i>';
             }
             $inner .= '<div style="' . $r . '">' . $o['text'] . '</div>' . PHP_EOL;
             break;
