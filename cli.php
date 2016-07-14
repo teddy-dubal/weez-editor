@@ -27,17 +27,16 @@ $attributes = [
 $inner      = '';
 foreach ($object as $o) {
     $elt_attributes = [
-        'top'        => pixelToMm($o['top']) . 'mm',
-        'left'       => pixelToMm($o['left']) . 'mm',
+        'top'    => pixelToMm($o['top']) . 'mm',
+        'left'   => pixelToMm($o['left']) . 'mm',
         'width'  => pixelToMm($o['width']) . 'mm',
         'height' => pixelToMm($o['height']) . 'mm',
         'rotate' => -$o['angle'],
     ];
-    var_dump($o['type']);
     switch ($o['type']) {
         case 'textbox':
         case 'i-text':
-                $elt_attributes = array_merge($elt_attributes, [
+            $elt_attributes = array_merge($elt_attributes, [
                 'color'      => $o['fill'],
                 'text-align' => $o['textAlign'],
                 'font-size'  => $o['fontSize'],
@@ -54,28 +53,30 @@ foreach ($object as $o) {
             break;
         case 'image':
             $merge = array_merge($attributes, $elt_attributes);
-            $r              = '';
-            foreach ($merge as $k => $v) {
-                $r .= $k . ':' . $v . ';';
-            }
-            $inner .= '<div style="' . $r . '"><img src="' . $o['src'] . '"/></div>' . PHP_EOL;
-            break;
-        case 'path-group':
-            $merge = array_merge($attributes, $elt_attributes);
             $r     = '';
             foreach ($merge as $k => $v) {
                 $r .= $k . ':' . $v . ';';
             }
-            $inner .= '<div style="' . $r . '"><img src="' . $o['src'] . '"/></div>' . PHP_EOL;
+            switch ($o['tag']) {
+                case "qrcode":
+                    $inner .= '<qrcode style="' . $r . '" value="' . $m['barcode_id'] . '" ec="H"></qrcode>' . PHP_EOL;
+                    break;
+                case "barcode":
+                    $inner .= '<barcode style="' . $r . '" value="' . $m['barcode_id'] . '" type="EAN13"></barcode>' . PHP_EOL;
+                    break;
+                default:
+                    $inner .= '<div style="' . $r . '"><img src="' . $o['src'] . '"/></div>' . PHP_EOL;
+                    break;
+            }
             break;
         default:
             break;
     }
 }
-echo '<pre>';
-var_dump(htmlentities($inner));
-echo '</pre>';
-exit;
+//echo '<pre>';
+//var_dump(htmlentities($inner));
+//echo '</pre>';
+//exit;
 $time_start = microtime(true);
 $content    = "<page>";
 $content .= $inner;

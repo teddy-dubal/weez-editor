@@ -80,15 +80,26 @@ var WeezPdfEngine = (function ($, _, fabric) {
             });
         });
         $('#toolbox #qrcode').on('click', function (e) {
-            fabric.loadSVGFromURL('/pdf/qrcode.svg', function (objects, options) {
-                var obj = fabric.util.groupSVGElements(objects, options);
-//                obj.tag = 'qrcode';
-                console.info(obj);
-                $canvas.add(obj).renderAll();
+            fabric.Image.fromURL('/pdf/qrcode.png', function (image) {
+                image.set({
+                    left: 0,
+                    top: 0,
+                    crossOrigin: 'anonymous'
+                }).setCoords();
+                image.tag = 'qrcode';
+                $canvas.add(image);
             });
         });
         $('#toolbox #barcode').on('click', function (e) {
-            console.info('barcode');
+            fabric.Image.fromURL('/pdf/barcode.png', function (image) {
+                image.set({
+                    left: 0,
+                    top: 0,
+                    crossOrigin: 'anonymous'
+                }).setCoords();
+                image.tag = 'barcode';
+                $canvas.add(image);
+            });
         });
     };
     /**
