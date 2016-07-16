@@ -10,8 +10,8 @@ var WeezPdfEngine = (function ($, _, fabric) {
 
     var $canvas = new fabric.Canvas('container', {
         backgroundColor: 'white',
-        height: fabric.util.parseUnit('297mm'),
-        width: fabric.util.parseUnit('210mm'),
+//        height: fabric.util.parseUnit('297mm'),
+//        width: fabric.util.parseUnit('210mm'),
     });
     var _debug = true;
     var _updateForm = function (_data) {
@@ -118,33 +118,35 @@ var WeezPdfEngine = (function ($, _, fabric) {
     var initBtn = function () {
         var ajaxObj = {
             type: "POST",
-            url: "ajax/save.php",
             data: {}
         };
-        $("#saveData").click(function () {
+        $("#save").click(function () {
             $('.all').hide();
             $canvas.deactivateAll().renderAll();
+            ajaxObj.url = 'ajax/save.php'
             ajaxObj.data.json = JSON.stringify($canvas);
-            ajaxObj.data.img = $canvas.toDataURL('png');
+            ajaxObj.data.format = $('#format').val();
             ajaxObj.data.file = $('#persoFile').val();
             $.ajax(ajaxObj).done(function (msg) {
                 //alert("Data Saved: ");
             });
         });
-        $("#duplicateData").click(function () {
+        $("#duplicate").click(function () {
             $('.all').hide();
             $canvas.deactivateAll().renderAll();
+            ajaxObj.url = 'ajax/save.php'
             ajaxObj.data.json = JSON.stringify($canvas);
             ajaxObj.data.file = $('#persoFile').val();
+            ajaxObj.data.format = $('#format').val();
             ajaxObj.data.duplicate = true;
             $.ajax(ajaxObj).done(function (msg) {
-                //alert("Data Saved: ");
                 window.location.reload();
             });
         });
         $("#importJson").click(function () {
+            var ts = (new Date()).getTime();
             $('.all').hide();
-            var url = '/data/perso/' + $('#persoFile').val();
+            var url = '/data/perso/' + $('#persoFile').val() + '?t=' + ts;
             $.getJSON(url, function (data) {
                 $canvas.loadFromJSON(data, function () {
                     $canvas.renderAll();
@@ -165,9 +167,20 @@ var WeezPdfEngine = (function ($, _, fabric) {
             $('.all').hide();
             $('#exportJsonBox').text(JSON.stringify($canvas));
         });
+        $("#exportZpl").click(function () {
+            $('.all').hide();
+            ajaxObj.url = '/_zpl.php'
+            ajaxObj.data.json = JSON.stringify($canvas);
+            ajaxObj.data.file = $('#persoFile').val();
+            ajaxObj.data.format = $('#format').val();
+            $.ajax(ajaxObj).done(function (msg) {
+                msg = JSON.parse(msg);
+                $('#exportJsonBox').text(msg.zpl);
+            });
+        });
         $("#exportPdf").click(function () {
             $('.all').hide();
-            window.open($(this).data('url'));
+            window.open($(this).data('url') + $('#persoFile').val());
         });
 
         $("#validateEditorboxBtn").click(function () {
@@ -191,13 +204,7 @@ var WeezPdfEngine = (function ($, _, fabric) {
             $canvas.remove(activeElement);
             $('.all').hide();
         });
-        $("#persoFile").change(function () {
-            window.location.href = '/?file=' + $("#persoFile").val();
-        });
-        $("#unit").change(function () {
-            $('.all').hide();
-            $canvas.deactivateAll().renderAll();
-        });
+
         $("#send-backwards").click(function () {
             var activeObject = $canvas.getActiveObject();
             if (activeObject) {
@@ -222,12 +229,28 @@ var WeezPdfEngine = (function ($, _, fabric) {
                 $canvas.bringToFront(activeObject);
             }
         });
+        $("#persoFile").change(function () {
+//            window.location.href = '/?file=' + $("#persoFile").val();
+        });
+        $("#format").change(function () {
+            window.location.href = '/?format=' + $("#format").val();
+        });
+        $("#unit").change(function () {
+            $('.all').hide();
+            $canvas.deactivateAll().renderAll();
+        });
     };
     /**
      *
      * @returns {undefined}
      */
     var initCanvas = function () {
+        var selectedOption = $('#format option:selected');
+        var dimentions = {
+            width: fabric.util.parseUnit(selectedOption.data('width') + 'mm'),
+            height: fabric.util.parseUnit(selectedOption.data('height') + 'mm')
+        };
+        $canvas.setDimensions(dimentions);
         $canvas.on("object:added", function (e) {
             switch (e.target.type) {
                 case 'i-text':

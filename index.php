@@ -16,50 +16,16 @@ $twig        = new Twig_Environment($loader, array(
 //    'cache' => $rootDir . '/cache',
     'debug' => true
         ));
-$defaultFile = 'default_a4.json';
-$json_file   = $file        = isset($_GET['file']) ? $_GET['file'] : $defaultFile;
-$udata       = isset($_POST['udata']) ? $_POST['udata'] : [];
-$persofiles  = array_merge(array($defaultFile), array_diff(scandir($rootDir . '/data/perso'), array(
-    '..', '.')));
-if (!file_exists($files       = $rootDir . '/data/' . $defaultFile) && !file_exists($files       = $rootDir . '/data/perso/' . $file)) {
-    die('no input data');
-    exit;
-}
-$fd = $rootDir . '/data/';
-if (isset($_GET['file'])) {
-    if ($_GET['file'] != $defaultFile) {
-        $fd = $rootDir . '/data/perso/';
-    }
-} else {
-    if (count($persofiles) > 1) {
-        $fd = $rootDir . '/data/perso/';
-    }
-}
+$format     = isset($_GET['format']) ? $_GET['format'] : 'a4';
+$fd         = $rootDir . '/data/perso/';
+
+$persofiles = array_diff(scandir($fd), array(
+    '..', '.'));
+
 $modeToInclude = 'editor.twig';
 $mode          = isset($_GET['mode']) ? $_GET['mode'] : 'web';
-if ('cli' == $mode) {
-    $modeToInclude = 'cli.twig';
-    $files         = $fd . $json_file;
-    $inputData     = json_decode(file_get_contents($files), true);
-    $object        = $inputData['objects'];
-    $m             = current($mock);
-    foreach ($object as &$o) {
-        switch ($o['type']) {
-            case 'i-text':
-                if (isset($m[$o['tag']])) {
-                    $o['text'] = $m[$o['tag']];
-                }
-                break;
 
-            default:
-                break;
-        }
-    }
-    $inputData['objects'] = $object;
-    $udata                = $inputData;
-}
 echo $twig->render($modeToInclude, array(
     'persoFiles' => $persofiles,
-    'json_file'  => $json_file,
-    'udata'      => json_encode($udata),
+    'format'     => $format,
 ));

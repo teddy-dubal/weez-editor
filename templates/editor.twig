@@ -20,18 +20,24 @@
         <div class="container-fluid">
             <div>
                 <h1>Weez Editor</h1>
+                <select class="form-control" id="format" name="format">
+                    <option value="a4" data-width="210" data-height="297" {% if format == 'a4' %}selected{%endif%}>a4</option>
+                    <option value="8x3" data-width="203" data-height="76.2" {% if format == '8x3' %}selected{%endif%}>8x3</option>
+                    <option value="3x3" data-width="79" data-height="87" {% if format == '3x3' %}selected{%endif%}>3x3</option>
+                </select>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-primary" id="saveData">Save</button>
-                    <button type="button" class="btn btn-primary" id="duplicateData">Duplicate</button>
+                    <button type="button" class="btn btn-primary" id="save">Save</button>
+                    <button type="button" class="btn btn-primary" id="duplicate">Duplicate</button>
                     <button type="button" class="btn btn-primary" id="deletePersoFile">Delete</button>
                     <button type="button" class="btn btn-primary" id="importJson">Load JSON</button>
                     <button type="button" class="btn btn-primary" id="exportJson">Export JSON</button>
-                    <button type="button" class="btn btn-primary" id="exportPdf" data-url="/cli.php?file={{json_file}}">Export PDF</button>
+                    <button type="button" class="btn btn-primary" id="exportPdf" data-url="/_pdf.php?file=">Export PDF</button>
+                    <button type="button" class="btn btn-primary" id="exportZpl">Export ZPL</button>
                     <select class="form-control" name="{{name}}" id="persoFile">
                         {% for files in persoFiles %}
-                            <option value="{{files}}" {% if json_file == files %}selected{%endif%}>{{ files }}</option>
+                            <option value="{{files}}">{{ files }}</option>
                         {% endfor %}
                     </select>
                 </div>

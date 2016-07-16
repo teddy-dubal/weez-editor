@@ -19,9 +19,13 @@
         "uxder/Radio": "dev-master",
         "twig/twig": "dev-master",
         "bgrins/spectrum": "1.8.0",
-        "paquettg/php-html-parser": "^1.7"
+        "weez/zpl": "dev-master"
     },
     "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:teddy-dubal/weez-zpl.git"
+        },
         {
             "type": "package",
             "package": {

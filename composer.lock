@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c8e8a44dab8efb20536380f930217e6a",
-    "content-hash": "fbfbd6093b55cd5ad1eb148ca77a5625",
+    "hash": "f4b68b16d3ade453c0cddf3681d7f9d4",
+    "content-hash": "67ece6e64c0e2f2f5ba2fd5dde0aaa97",
     "packages": [
         {
             "name": "bgrins/spectrum",
@@ -490,6 +490,51 @@
             "time": "2014-05-29 18:38:09"
         },
         {
+            "name": "robgridley/zebra",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/robgridley/zebra.git",
+                "reference": "f71f01c1d88d730be5342ef849338383e4512905"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/robgridley/zebra/zipball/f71f01c1d88d730be5342ef849338383e4512905",
+                "reference": "f71f01c1d88d730be5342ef849338383e4512905",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Zebra\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rob Gridley",
+                    "email": "me@robgridley.com"
+                }
+            ],
+            "description": "PHP ZPL builder, image conversion and a basic client for network-connected Zebra label printers.",
+            "keywords": [
+                "image",
+                "zebra",
+                "zpl"
+            ],
+            "time": "2016-04-04 18:26:59"
+        },
+        {
             "name": "robloach/component-installer",
             "version": "0.2.3",
             "source": {
@@ -849,6 +894,49 @@
                 }
             },
             "time": "2015-07-22 04:18:46"
+        },
+        {
+            "name": "weez/zpl",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/teddy-dubal/weez-zpl.git",
+                "reference": "4b757a0f2d06b14039bfd48498109858cb60cb73"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/teddy-dubal/weez-zpl/zipball/4b757a0f2d06b14039bfd48498109858cb60cb73",
+                "reference": "4b757a0f2d06b14039bfd48498109858cb60cb73",
+                "shasum": ""
+            },
+            "require": {
+                "robgridley/zebra": "^1.0"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "* v1.6.0",
+                "mockery/mockery": "^0.9.5",
+                "phpspec/phpspec": "^2.5",
+                "phpunit/phpunit": "^5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "tests": "",
+                    "Weez": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Teddy Dona",
+                    "email": "teddy.dona@gmail.com"
+                }
+            ],
+            "description": "Description of project weez-zpl.",
+            "support": {
+                "source": "https://github.com/teddy-dubal/weez-zpl/tree/master",
+                "issues": "https://github.com/teddy-dubal/weez-zpl/issues"
+            },
+            "time": "2016-07-16 19:37:41"
         }
     ],
     "packages-dev": [],
@@ -857,7 +945,8 @@
     "stability-flags": {
         "kangax/fabric.js": 20,
         "uxder/radio": 20,
-        "twig/twig": 20
+        "twig/twig": 20,
+        "weez/zpl": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
