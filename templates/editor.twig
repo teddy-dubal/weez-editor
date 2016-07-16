@@ -26,9 +26,9 @@
                     <button type="button" class="btn btn-primary" id="saveData">Save</button>
                     <button type="button" class="btn btn-primary" id="duplicateData">Duplicate</button>
                     <button type="button" class="btn btn-primary" id="deletePersoFile">Delete</button>
-                    <button type="button" class="btn btn-primary" id="exportJson">Export JSON</button>
                     <button type="button" class="btn btn-primary" id="importJson">Load JSON</button>
-                    <button type="button" class="btn btn-primary" id="exportPdf">Export PDF</button>
+                    <button type="button" class="btn btn-primary" id="exportJson">Export JSON</button>
+                    <button type="button" class="btn btn-primary" id="exportPdf" data-url="/cli.php?file={{json_file}}">Export PDF</button>
                     <select class="form-control" name="{{name}}" id="persoFile">
                         {% for files in persoFiles %}
                             <option value="{{files}}" {% if json_file == files %}selected{%endif%}>{{ files }}</option>
@@ -78,6 +78,15 @@
                                     </select>
                                     <div class="input-group-addon"><button id="textElts" class="btn btn-primary"><i class="fa fa-plus-square"></i></button></div>
 
+                                </div>
+                            </li>
+                            <li>
+                                <div class="input-group">
+                                    <span class="input-group-addon">Unit</span>
+                                    <select class="form-control" id="unit" name="unit">
+                                        <option value="pixel">pixel</option>
+                                        <option value="mm">mm</option>
+                                    </select>
                                 </div>
                             </li>
                             <li><button id="img" class="btn btn-primary">Add Img</button></li>
