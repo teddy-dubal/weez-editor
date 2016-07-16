@@ -54,10 +54,10 @@ $zebraLabel = new ZebraLabel($dimension['width'], $dimension['height']);
 $zebraLabel->setDefaultZebraFont(new ZebraFont(ZebraFont::ZEBRA_ZERO));
 foreach ($object as $o) {
     $elt_attributes = [
-        'top'    => pixelToMm($o['top']) . 'mm',
-        'left'   => pixelToMm($o['left']) . 'mm',
-        'width'  => pixelToMm($o['width']) * $o['scaleX'] . 'mm',
-        'height' => pixelToMm($o['height']) * $o['scaleY'] . 'mm',
+        'top'    => $o['top'],
+        'left'   => $o['left'],
+        'width'  => $o['width'] * $o['scaleX'],
+        'height' => $o['height'] * $o['scaleY'],
         'rotate' => -$o['angle'],
     ];
     switch ($o['type']) {
@@ -70,22 +70,22 @@ foreach ($object as $o) {
             if (isset($m[$o['tag']])) {
                 $o['text'] = $m[$o['tag']];
             }
-            $x = ZplUtils::convertPixelInDot($r['left'], ZebraPPP::DPI_203);
-            $y = ZplUtils::convertPixelInDot($r['top'], ZebraPPP::DPI_203);
+            $x = ZplUtils::convertPixelInDot($r['left'], ZebraPPP::DPI_300);
+            $y = ZplUtils::convertPixelInDot($r['top'], ZebraPPP::DPI_300);
             $zebraLabel->addElement(new ZebraText($x, $y, $o['text'], $r['font-size']));
             break;
         case 'image':
             $r = array_merge($attributes, $elt_attributes);
-            $x = ZplUtils::convertPixelInDot($r['left'], ZebraPPP::DPI_203);
-            $y = ZplUtils::convertPixelInDot($r['top'], ZebraPPP::DPI_203);
+            $x = ZplUtils::convertPixelInDot($r['left'], ZebraPPP::DPI_300);
+            $y = ZplUtils::convertPixelInDot($r['top'], ZebraPPP::DPI_300);
             switch ($o['tag']) {
                 case "qrcode":
                     $zebraLabel->addElement(new ZebraQrCode($x, $y, $m['barcode_id']));
                     //$inner .= '<qrcode style="' . $r . '" value="' . $m['barcode_id'] . '" ec="H"></qrcode>' . PHP_EOL;
                     break;
                 case "barcode":
-                    $w = ZplUtils::convertPixelInDot($r['width'], ZebraPPP::DPI_203);
-                    $h = ZplUtils::convertPixelInDot($r['height'], ZebraPPP::DPI_203);
+                    $w = ZplUtils::convertPixelInDot($r['width'], ZebraPPP::DPI_300);
+                    $h = ZplUtils::convertPixelInDot($r['height'], ZebraPPP::DPI_300);
                     $zebraLabel->addElement(new ZebraBarCode39($x, $y, $m['barcode_id'], $h, $w, 2));
                     //$inner .= '<barcode style="' . $r . '" value="' . $m['barcode_id'] . '" type="EAN13"></barcode>' . PHP_EOL;
                     break;
@@ -103,9 +103,3 @@ $time_end = microtime(true);
 $execution_time = number_format(($time_end - $time_start), 2);
 $result         = ['zpl' => $zebraLabel->getZplCode(), 'excTime' => $execution_time];
 echo json_encode($result);
-
-function pixelToMm($value) {
-    $DPI  = 96;
-    $rate = $DPI / 25.4;
-    return $value / $rate;
-}
