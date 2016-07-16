@@ -10,4 +10,4 @@ $ docker rmi $(docker images -q)
 rentrer dans un container en cours d'execution
 $ docker exec -it [container_id] bash
 
-sudo echo '127.0.0.1 bo.bring2me.lan api.bring2me.lan bring2me.lan static.bring2me.lan static.bo.bring2me.lan static.fo.bring2me.lan pushd.bring2me.lan' | sudo tee -a /etc/hosts
+sudo echo '127.0.0.1 localurl.dev' | sudo tee -a /etc/hosts
