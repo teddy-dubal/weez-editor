@@ -1,7 +1,18 @@
-weezeditor
+Weez-editor
 ==========
 
-launch server
+## Getting started
 
-cd RootDir
-php -S 0.0.0.0:8888
+Clone the repository and install dependencies:
+
+```bash
+$ git clone https://github.com/teddy-dubal/weez-editor.git
+$ cd weez-editor/Docker
+$ docker-compose up
+$ docker exec -it docker_editor_1 bash
+$ su application
+$ composer install
+
+```
+
+http://localhost:8080
