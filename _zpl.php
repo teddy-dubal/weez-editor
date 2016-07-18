@@ -70,23 +70,23 @@ foreach ($object as $o) {
             if (isset($m[$o['tag']])) {
                 $o['text'] = $m[$o['tag']];
             }
-            $x = ZplUtils::convertPixelInDot($r['left'], ZebraPPP::DPI_300);
-            $y = ZplUtils::convertPixelInDot($r['top'], ZebraPPP::DPI_300);
+            $x = ZplUtils::convertMmInDot(pixelToMm($r['left']), ZebraPPP::DPI_300);
+            $y = ZplUtils::convertMmInDot(pixelToMm($r['top']), ZebraPPP::DPI_300);
             $zebraLabel->addElement(new ZebraText($x, $y, $o['text'], $r['font-size']));
             break;
         case 'image':
             $r = array_merge($attributes, $elt_attributes);
-            $x = ZplUtils::convertPixelInDot($r['left'], ZebraPPP::DPI_300);
-            $y = ZplUtils::convertPixelInDot($r['top'], ZebraPPP::DPI_300);
+            $x = ZplUtils::convertMmInDot(pixelToMm($r['left']), ZebraPPP::DPI_300);
+            $y = ZplUtils::convertMmInDot(pixelToMm($r['top']), ZebraPPP::DPI_300);
             switch ($o['tag']) {
                 case "qrcode":
                     $zebraLabel->addElement(new ZebraQrCode($x, $y, $m['barcode_id']));
                     //$inner .= '<qrcode style="' . $r . '" value="' . $m['barcode_id'] . '" ec="H"></qrcode>' . PHP_EOL;
                     break;
                 case "barcode":
-                    $w = ZplUtils::convertPixelInDot($r['width'], ZebraPPP::DPI_300);
-                    $h = ZplUtils::convertPixelInDot($r['height'], ZebraPPP::DPI_300);
-                    $zebraLabel->addElement(new ZebraBarCode39($x, $y, $m['barcode_id'], $h, $w, 2));
+                    $w = ZplUtils::convertMmInDot(pixelToMm($r['width']), ZebraPPP::DPI_300);
+                    $h = ZplUtils::convertMmInDot(pixelToMm($r['height']), ZebraPPP::DPI_300);
+                    $zebraLabel->addElement(new ZebraBarCode39($x, $y, $m['barcode_id'], $h, 2, 2)); //118, 2, 2
                     //$inner .= '<barcode style="' . $r . '" value="' . $m['barcode_id'] . '" type="EAN13"></barcode>' . PHP_EOL;
                     break;
                 default:
@@ -99,7 +99,12 @@ foreach ($object as $o) {
     }
 }
 $time_end = microtime(true);
+function pixelToMm($value) {
+    $DPI  = 96;
+    $rate = $DPI / 25.4;
+    return $value / $rate;
+}
 
 $execution_time = number_format(($time_end - $time_start), 2);
-$result         = ['zpl' => $zebraLabel->getZplCode(), 'excTime' => $execution_time];
+$result         = ['zpl' => nl2br($zebraLabel->getZplCode()), 'excTime' => $execution_time];
 echo json_encode($result);

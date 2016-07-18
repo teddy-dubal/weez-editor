@@ -10,12 +10,9 @@ var WeezPdfEngine = (function ($, _, fabric) {
 
     var $canvas = new fabric.Canvas('container', {
         backgroundColor: 'white',
-//        height: fabric.util.parseUnit('297mm'),
-//        width: fabric.util.parseUnit('210mm'),
     });
     var _debug = true;
     var _updateForm = function (_data) {
-        console.info();
         var targetFormInput = $('#form').find('input,select,textarea');
         var fz = null;
         var unit = $('#unit').val();
@@ -175,7 +172,7 @@ var WeezPdfEngine = (function ($, _, fabric) {
             ajaxObj.data.format = $('#format').val();
             $.ajax(ajaxObj).done(function (msg) {
                 msg = JSON.parse(msg);
-                $('#exportJsonBox').text(msg.zpl);
+                $('#exportJsonBox').html(msg.zpl);
             });
         });
         $("#exportPdf").click(function () {
@@ -251,6 +248,7 @@ var WeezPdfEngine = (function ($, _, fabric) {
             height: fabric.util.parseUnit(selectedOption.data('height') + 'mm')
         };
         $canvas.setDimensions(dimentions);
+        $canvas.format = 'a4';
         $canvas.on("object:added", function (e) {
             switch (e.target.type) {
                 case 'i-text':

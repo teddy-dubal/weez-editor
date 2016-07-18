@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f4b68b16d3ade453c0cddf3681d7f9d4",
-    "content-hash": "67ece6e64c0e2f2f5ba2fd5dde0aaa97",
+    "hash": "a21c6bcefa0d73581781d1641d28880a",
+    "content-hash": "9a1c53f73c8d65e538c9d8075010ad28",
     "packages": [
         {
             "name": "bgrins/spectrum",
@@ -393,101 +393,6 @@
                 "minification"
             ],
             "time": "2015-11-12 13:51:40"
-        },
-        {
-            "name": "paquettg/php-html-parser",
-            "version": "1.7.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/paquettg/php-html-parser.git",
-                "reference": "18845e09831dd0772b88b51e788a4f74c701224c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/paquettg/php-html-parser/zipball/18845e09831dd0772b88b51e788a4f74c701224c",
-                "reference": "18845e09831dd0772b88b51e788a4f74c701224c",
-                "shasum": ""
-            },
-            "require": {
-                "paquettg/string-encode": "~0.1.0",
-                "php": ">=5.4"
-            },
-            "require-dev": {
-                "mockery/mockery": "~0.9.0",
-                "phpunit/phpunit": "~4.8.0",
-                "satooshi/php-coveralls": "~0.6.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "PHPHtmlParser": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Gilles Paquette",
-                    "email": "paquettg@gmail.com",
-                    "homepage": "http://gillespaquette.ca"
-                }
-            ],
-            "description": "An HTML DOM parser. It allows you to manipulate HTML. Find tags on an HTML page with selectors just like jQuery.",
-            "homepage": "https://github.com/paquettg/php-html-parser",
-            "keywords": [
-                "dom",
-                "html",
-                "parser"
-            ],
-            "time": "2016-04-06 15:24:40"
-        },
-        {
-            "name": "paquettg/string-encode",
-            "version": "0.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/paquettg/string-encoder.git",
-                "reference": "cf08343649701979f581c1601d01247fa3782439"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/paquettg/string-encoder/zipball/cf08343649701979f581c1601d01247fa3782439",
-                "reference": "cf08343649701979f581c1601d01247fa3782439",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.7.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "stringEncode": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Gilles Paquette",
-                    "email": "paquettg@gmail.com",
-                    "homepage": "http://gillespaquette.ca"
-                }
-            ],
-            "description": "Facilitating the process of altering string encoding in PHP.",
-            "homepage": "https://github.com/paquettg/string-encoder",
-            "keywords": [
-                "charset",
-                "encoding",
-                "string"
-            ],
-            "time": "2014-05-29 18:38:09"
         },
         {
             "name": "robgridley/zebra",
@@ -901,12 +806,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/teddy-dubal/weez-zpl.git",
-                "reference": "4b757a0f2d06b14039bfd48498109858cb60cb73"
+                "reference": "5cda5427245feb3a6d50178c3ae8436e53ac32e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/teddy-dubal/weez-zpl/zipball/4b757a0f2d06b14039bfd48498109858cb60cb73",
-                "reference": "4b757a0f2d06b14039bfd48498109858cb60cb73",
+                "url": "https://api.github.com/repos/teddy-dubal/weez-zpl/zipball/5cda5427245feb3a6d50178c3ae8436e53ac32e8",
+                "reference": "5cda5427245feb3a6d50178c3ae8436e53ac32e8",
                 "shasum": ""
             },
             "require": {
@@ -936,7 +841,7 @@
                 "source": "https://github.com/teddy-dubal/weez-zpl/tree/master",
                 "issues": "https://github.com/teddy-dubal/weez-zpl/issues"
             },
-            "time": "2016-07-16 19:37:41"
+            "time": "2016-07-18 00:30:37"
         }
     ],
     "packages-dev": [],
