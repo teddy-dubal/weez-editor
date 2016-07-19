@@ -110,6 +110,33 @@
                     "robloach/component-installer": "*"
                 }
             }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "enyo/dropzone",
+                "type": "component",
+                "version": "v4.3.0",
+                "dist": {
+                    "url": "https://github.com/enyo/dropzone/archive/v4.3.0.zip",
+                    "type": "zip"
+                },
+                "source": {
+                    "url": "https://github.com/enyo/dropzone.git",
+                    "type": "git",
+                    "reference": "v4.3.0"
+                },
+                "extra": {
+                    "component": {
+                        "scripts": [
+                            "dist/min/**"
+                        ]
+                    }
+                },
+                "require": {
+                    "robloach/component-installer": "*"
+                }
+            }
         }
     ]
 }

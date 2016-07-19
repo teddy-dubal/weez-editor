@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a21c6bcefa0d73581781d1641d28880a",
-    "content-hash": "9a1c53f73c8d65e538c9d8075010ad28",
+    "hash": "a5df833e4ce200fa1a84e0197b283b1d",
+    "content-hash": "1addaff9810f4e70a11abfe4a997299f",
     "packages": [
         {
             "name": "bgrins/spectrum",
@@ -203,35 +203,25 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/enyo/dropzone.git",
-                "reference": "d8ef7a82e6ab5447c1f2d9512c8e1bfd4de5ac9e"
+                "reference": "v4.3.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/enyo/dropzone/zipball/d8ef7a82e6ab5447c1f2d9512c8e1bfd4de5ac9e",
-                "reference": "d8ef7a82e6ab5447c1f2d9512c8e1bfd4de5ac9e",
-                "shasum": ""
+                "url": "https://github.com/enyo/dropzone/archive/v4.3.0.zip",
+                "reference": "v4.3.0",
+                "shasum": null
             },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Matias Meno",
-                    "email": "m@tias.me",
-                    "homepage": "http://www.matiasmeno.com"
+            "require": {
+                "robloach/component-installer": "*"
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "dist/min/**"
+                    ]
                 }
-            ],
-            "description": "Handles drag and drop of files for you.",
-            "homepage": "http://www.dropzonejs.com",
-            "keywords": [
-                "drag and drop",
-                "dragndrop",
-                "file upload",
-                "upload"
-            ],
-            "time": "2016-02-14 04:19:41"
+            }
         },
         {
             "name": "imagine/imagine",
@@ -806,12 +796,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/teddy-dubal/weez-zpl.git",
-                "reference": "5cda5427245feb3a6d50178c3ae8436e53ac32e8"
+                "reference": "56aaf00568342ec669e40e98a6f358fca49730b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/teddy-dubal/weez-zpl/zipball/5cda5427245feb3a6d50178c3ae8436e53ac32e8",
-                "reference": "5cda5427245feb3a6d50178c3ae8436e53ac32e8",
+                "url": "https://api.github.com/repos/teddy-dubal/weez-zpl/zipball/56aaf00568342ec669e40e98a6f358fca49730b8",
+                "reference": "56aaf00568342ec669e40e98a6f358fca49730b8",
                 "shasum": ""
             },
             "require": {
@@ -841,7 +831,7 @@
                 "source": "https://github.com/teddy-dubal/weez-zpl/tree/master",
                 "issues": "https://github.com/teddy-dubal/weez-zpl/issues"
             },
-            "time": "2016-07-18 00:30:37"
+            "time": "2016-07-18 22:25:21"
         }
     ],
     "packages-dev": [],

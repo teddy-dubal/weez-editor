@@ -1,4 +1,4 @@
-var WeezPdfEngine = (function ($, _, fabric) {
+var WeezPdfEngine = (function ($, Dropzone, fabric) {
     fabric.Object.prototype.toObject = (function (toObject) {
         return function () {
             return fabric.util.object.extend(toObject.call(this), {
@@ -76,14 +76,15 @@ var WeezPdfEngine = (function ($, _, fabric) {
             $canvas.add(elts);
         });
         $('#toolbox #img').on('click', function (e) {
-            fabric.Image.fromURL('/pdf/Homer_Dog_Tapped_Out.png', function (image) {
-                image.set({
-                    left: 0,
-                    top: 0,
-                    crossOrigin: 'anonymous'
-                }).setCoords();
-                $canvas.add(image);
-            });
+//            fabric.Image.fromURL('/pdf/Homer_Dog_Tapped_Out.png', function (image) {
+//                image.set({
+//                    left: 0,
+//                    top: 0,
+//                    crossOrigin: 'anonymous'
+//                }).setCoords();
+//                $canvas.add(image);
+//            });
+            $('.imgBox').show();
         });
         $('#toolbox #qrcode').on('click', function (e) {
             fabric.Image.fromURL('/pdf/qrcode.png', function (image) {
@@ -344,6 +345,62 @@ var WeezPdfEngine = (function ($, _, fabric) {
             }
         });
     };
+    var initImageHandler = function () {
+        _debug || console.log('initImageHandler');
+        var $dpz = $('.dropzone-previews');
+        if (!$dpz.length) {
+            return false;
+        }
+        Dropzone.autoDiscover = false;
+        var dpz = new Dropzone(".dropzone-previews", {
+            url: '/ajax/upload.php',
+            paramName: "file", // The name that will be used to transfer the file
+            maxFilesize: 2, // MB
+            uploadMultiple: true,
+            parallelUploads: 1,
+            acceptedFiles: 'image/*',
+            autoProcessQueue: false,
+//            previewTemplate: $dpz.data('template'),
+            clickable: '.dropzone-previews',
+            init: function () {
+//                var loader = $('.loadingPreview');
+//                this.on("addedfile", function (file) {
+//                    radio('form.modify.field').broadcast();
+//                    file.previewElement.addEventListener("click", function () {
+//                        $('.dropzone-previews').click();
+//                    });
+//                });
+//                this.on("maxfilesexceeded", function (file) {
+//                    this.removeAllFiles();
+//                    this.addFile(file);
+//                });
+//                this.on("sending", function (file, xhr, formData) {
+//                    $.each($('#form').serializeArray(), function (ind, val) {
+//                        formData.append(val.name, val.value);
+//                    });
+//                });
+//                this.on("processing", function (file) {
+//                    this.options.url = _getCurrentUrl();
+//                    loader.show();
+//                });
+//                this.on("success", function (file, data) {
+//                    var $target = _getCurrentTarget();
+//                    var t = (new Date).getTime();
+//                    $target.html($('<img/>').attr('src', data.img_url + '?t=' + t));
+//                    loader.hide();
+//                    $('#preview_btn').hide();
+//                    $('.validate_btn').show();
+//                });
+//                this.on("error", function (file, errorMessage) {
+//                    this.removeAllFiles();
+//                });
+            }
+        });
+    };
+    /**
+     *
+     * @returns {undefined}
+     */
     var initBase64 = function () {
         if ($('#base64')) {
             $canvas.loadFromJSON($('#base64').data('udata'), function () {
@@ -359,13 +416,14 @@ var WeezPdfEngine = (function ($, _, fabric) {
     var init = function () {
         initCanvas();
         initToolbox();
+        initImageHandler();
         initBtn();
         initBase64();
     };
     return {
         init: init
     };
-})(jQuery, _, fabric);
+})(jQuery, Dropzone, fabric);
 /**
  *
  * @param {type} param
