@@ -9,3 +9,7 @@ body {
     background-color: white;
     word-wrap: break-word;
 }
+.imgBox {
+    height: 150px;
+    background-color: red;
+}

@@ -1,20 +1,24 @@
 <?php
 
-$rootDir = __DIR__ . '/..';
+$rootDir   = __DIR__ . '/..';
 $vendorDir = $rootDir . '/vendor/';
-$tmpDir = sys_get_temp_dir() . '/';
+$tmpDir    = sys_get_temp_dir() . '/';
 
 require_once $vendorDir . 'autoload.php';
 
-class WeezUploadHandler extends UploadHandler {
-    protected function get_unique_filename($file_path, $name, $size, $type, $error, $index, $content_range) {
-        return $name;
+$ds = DIRECTORY_SEPARATOR;  //1
+$rpath       = '/data/img/';
+$storeFolder = $rootDir . $rpath;  //2
+
+if (!empty($_FILES)) {
+    foreach ($_FILES["files"]["error"] as $key => $error) {
+        if ($error == UPLOAD_ERR_OK) {
+            $tmp_name = $_FILES["files"]["tmp_name"][$key];
+            $name     = basename($_FILES["files"]["name"][$key]);
+            move_uploaded_file($tmp_name, $storeFolder . $name);
+            echo json_encode(['status' => 1, 'file' => $rpath . $name]);
+        }
     }
 }
 
-$uploadDir = $rootDir . '/tmp/';
-
-@mkdir($uploadDir);
-$options = array("upload_dir" => $uploadDir,"upload_url"=>'/tmp/');
-$upload_handler = new WeezUploadHandler($options);
 

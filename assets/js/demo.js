@@ -354,12 +354,12 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
         Dropzone.autoDiscover = false;
         var dpz = new Dropzone(".dropzone-previews", {
             url: '/ajax/upload.php',
-            paramName: "file", // The name that will be used to transfer the file
+            paramName: "files", // The name that will be used to transfer the file
             maxFilesize: 2, // MB
             uploadMultiple: true,
             parallelUploads: 1,
             acceptedFiles: 'image/*',
-            autoProcessQueue: false,
+//            autoProcessQueue: false,
 //            previewTemplate: $dpz.data('template'),
             clickable: '.dropzone-previews',
             init: function () {
@@ -383,17 +383,21 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
 //                    this.options.url = _getCurrentUrl();
 //                    loader.show();
 //                });
-//                this.on("success", function (file, data) {
-//                    var $target = _getCurrentTarget();
-//                    var t = (new Date).getTime();
-//                    $target.html($('<img/>').attr('src', data.img_url + '?t=' + t));
-//                    loader.hide();
-//                    $('#preview_btn').hide();
-//                    $('.validate_btn').show();
-//                });
-//                this.on("error", function (file, errorMessage) {
-//                    this.removeAllFiles();
-//                });
+                this.on("success", function (file, data) {
+                    var obj = JSON.parse(data);
+                    console.info(obj);
+                    fabric.Image.fromURL(obj.file, function (image) {
+                        image.set({
+                            left: 0,
+                            top: 0,
+                            crossOrigin: 'anonymous'
+                        }).setCoords();
+                        $canvas.add(image);
+                    });
+                });
+                this.on("error", function (file, errorMessage) {
+                    this.removeAllFiles();
+                });
             }
         });
     };
