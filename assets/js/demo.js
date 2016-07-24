@@ -2,6 +2,7 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
     fabric.Object.prototype.toObject = (function (toObject) {
         return function () {
             return fabric.util.object.extend(toObject.call(this), {
+                name: this.name,
                 tag: this.tag,
                 locked: this.locked || false
             });
@@ -76,14 +77,6 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             $canvas.add(elts);
         });
         $('#toolbox #img').on('click', function (e) {
-//            fabric.Image.fromURL('/pdf/Homer_Dog_Tapped_Out.png', function (image) {
-//                image.set({
-//                    left: 0,
-//                    top: 0,
-//                    crossOrigin: 'anonymous'
-//                }).setCoords();
-//                $canvas.add(image);
-//            });
             $('.imgBox').show();
         });
         $('#toolbox #qrcode').on('click', function (e) {
@@ -199,6 +192,7 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
         });
         $("#deleteEditorboxBtn").click(function () {
             var activeElement = $canvas.getActiveObject();
+            console.info(activeElement.toJSON());
             $canvas.remove(activeElement);
             $('.all').hide();
         });
@@ -359,8 +353,6 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             uploadMultiple: true,
             parallelUploads: 1,
             acceptedFiles: 'image/*',
-//            autoProcessQueue: false,
-//            previewTemplate: $dpz.data('template'),
             clickable: '.dropzone-previews',
             init: function () {
 //                var loader = $('.loadingPreview');
@@ -385,13 +377,14 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
 //                });
                 this.on("success", function (file, data) {
                     var obj = JSON.parse(data);
-                    console.info(obj);
                     fabric.Image.fromURL(obj.file, function (image) {
                         image.set({
                             left: 0,
                             top: 0,
                             crossOrigin: 'anonymous'
                         }).setCoords();
+                        image.tag = 'image';
+                        image.name = file.name;
                         $canvas.add(image);
                     });
                 });
