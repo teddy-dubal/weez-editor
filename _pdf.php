@@ -69,7 +69,7 @@ foreach ($object as $o) {
                     $inner .= '<barcode style="' . $r . '" value="' . $m['barcode_id'] . '" type="EAN13"></barcode>' . PHP_EOL;
                     break;
                 default:
-                    $inner .= '<div style="' . $r . '"><img src="' . $o['src'] . '"/></div>' . PHP_EOL;
+                    $inner .= '<div style="' . $r . '"><img src="' . str_replace("http://localhost:8080/","",$o['src']) . '"/></div>' . PHP_EOL;
                     break;
             }
             break;

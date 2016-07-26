@@ -76,9 +76,11 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             elts.tag = selectedOption.val();
             $canvas.add(elts);
         });
+/*
         $('#toolbox #img').on('click', function (e) {
             $('.imgBox').show();
         });
+*/
         $('#toolbox #qrcode').on('click', function (e) {
             fabric.Image.fromURL('/pdf/qrcode.png', function (image) {
                 image.set({
@@ -195,6 +197,19 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             console.info(activeElement.toJSON());
             $canvas.remove(activeElement);
             $('.all').hide();
+
+            var rawElement = $('.dropzone-previews').get(0);
+            var myDropzone = rawElement.dropzone;
+            console.info(myDropzone.files[0]);
+            console.info(activeElement);
+            if (activeElement.tag == "image"){
+                //alert("Ceci est une image et vas être supprimée de dropzone!");
+                $.each(myDropzone.files,function(i,elem){
+                    if (elem.newName == activeElement.name){
+                        myDropzone.removeFile(elem);
+                    }
+                });
+            }
         });
 
         $("#send-backwards").click(function () {
@@ -354,27 +369,32 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             parallelUploads: 1,
             acceptedFiles: 'image/*',
             clickable: '.dropzone-previews',
-            init: function () {
-//                var loader = $('.loadingPreview');
-//                this.on("addedfile", function (file) {
-//                    radio('form.modify.field').broadcast();
-//                    file.previewElement.addEventListener("click", function () {
-//                        $('.dropzone-previews').click();
-//                    });
-//                });
-//                this.on("maxfilesexceeded", function (file) {
-//                    this.removeAllFiles();
-//                    this.addFile(file);
-//                });
-//                this.on("sending", function (file, xhr, formData) {
-//                    $.each($('#form').serializeArray(), function (ind, val) {
-//                        formData.append(val.name, val.value);
-//                    });
-//                });
-//                this.on("processing", function (file) {
-//                    this.options.url = _getCurrentUrl();
-//                    loader.show();
-//                });
+            init:    function () {
+/*
+                var loader = $('.loadingPreview');
+                this.on("addedfile", function (file) {
+                    radio('form.modify.field').broadcast();
+                    file.previewElement.addEventListener("click", function () {
+                        $('.dropzone-previews').click();
+                    });
+                });
+                this.on("maxfilesexceeded", function (file) {
+                    this.removeAllFiles();
+                    this.addFile(file);
+                });
+                this.on("sending", function (file, xhr, formData) {
+                    $.each($('#form').serializeArray(), function (ind, val) {
+                        formData.append(val.name, val.value);
+                    });
+                });
+                this.on("processing", function (file) {
+                    this.options.url = _getCurrentUrl();
+                    loader.show();
+                });
+*/
+                this.on("processing",function(file){
+                   file.newName = file.name+file.size+new Date().getTime();
+                });
                 this.on("success", function (file, data) {
                     var obj = JSON.parse(data);
                     fabric.Image.fromURL(obj.file, function (image) {
@@ -384,7 +404,7 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                             crossOrigin: 'anonymous'
                         }).setCoords();
                         image.tag = 'image';
-                        image.name = file.name;
+                        image.name = file.newName;
                         $canvas.add(image);
                     });
                 });
@@ -428,7 +448,5 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
 jQuery(document).ready(function () {
     WeezPdfEngine.init();
 });
-
-
 
 
