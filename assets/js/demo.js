@@ -378,14 +378,8 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
         });
         $canvas.on("object:scaling", function (e){
             var obj = e.target;
-            if (obj.getWidth()>$canvas.getWidth()){
-                obj.width = Math.min(obj.getWidth(),$canvas.getWidth());
-                obj.left = 0;
-            }
-            if (obj.getHeight()>$canvas.getHeight()){
-                obj.height = Math.min(obj.getHeight(), $canvas.getHeight());
-                obj.top = 0;
-            }
+            obj.width = obj.getWidth();
+            obj.height = obj.getHeight();
         });
     };
     var initImageHandler = function () {
