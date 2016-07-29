@@ -21,21 +21,28 @@ if (empty($_POST)) {
 $time_start = microtime(true);
 $json_file  = isset($_POST['file']) ? $_POST['file'] : false;
 $udata     = isset($_POST['udata']) ? $_POST['udata'] : [];
-$format    = isset($_POST['format']) ? $_POST['format'] : '8x3';
-$dimension = []; //Dimension en dot pour 203 dot per inch
-switch ($format) {
-    case '8x3':
-        $dimension = ['width' => 1624, 'height' => 609.6];
-        break;
-    case '3x3':
-        $dimension = ['width' => 632, 'height' => 696];
-        break;
-    default:
-        break;
-}
+//$format    = isset($_POST['format']) ? $_POST['format'] : '8x3';
+//$dimension = []; //Dimension en dot pour 203 dot per inch
+//switch ($format) {
+//    case '8x3':
+//        $dimension = ['width' => 1624, 'height' => 609.6];
+//        break;
+//    case '3x3':
+//        $dimension = ['width' => 632, 'height' => 696];
+//        break;
+//    default:
+//        break;
+//}
+
+
+
 $fd         = $rootDir . '/data/perso/' . $json_file;
 $inputData  = json_decode(file_get_contents($fd), true);
-$object     = $inputData['objects'];
+$object      = $inputData['objects'];
+$format      = $inputData['format'];
+$format_name = $format['name'];
+$dimension   = $format['dimension'];
+$rate        = $dimension['px']['width'] / $dimension['mm']['width'];
 $m          = current($mock);
 $attributes = [
     'position'   => 'absolute',
@@ -50,7 +57,7 @@ $attributes = [
     'font-style' => 'normal',
 ];
 $inner      = '';
-$zebraLabel = new ZebraLabel($dimension['width'], $dimension['height']);
+$zebraLabel = new ZebraLabel();
 $zebraLabel->setDefaultZebraFont(new ZebraFont(ZebraFont::ZEBRA_ZERO));
 foreach ($object as $o) {
     $elt_attributes = [
@@ -70,22 +77,22 @@ foreach ($object as $o) {
             if (isset($m[$o['tag']])) {
                 $o['text'] = $m[$o['tag']];
             }
-            $x = ZplUtils::convertMmInDot(pixelToMm($r['left']), ZebraPPP::DPI_300);
-            $y = ZplUtils::convertMmInDot(pixelToMm($r['top']), ZebraPPP::DPI_300);
+            $x = ZplUtils::convertMmInDot(pixelToMm($r['left'], $rate), ZebraPPP::DPI_300);
+            $y = ZplUtils::convertMmInDot(pixelToMm($r['top'], $rate), ZebraPPP::DPI_300);
             $zebraLabel->addElement(new ZebraText($x, $y, $o['text'], $r['font-size']));
             break;
         case 'image':
             $r = array_merge($attributes, $elt_attributes);
-            $x = ZplUtils::convertMmInDot(pixelToMm($r['left']), ZebraPPP::DPI_300);
-            $y = ZplUtils::convertMmInDot(pixelToMm($r['top']), ZebraPPP::DPI_300);
+            $x = ZplUtils::convertMmInDot(pixelToMm($r['left'], $rate), ZebraPPP::DPI_300);
+            $y = ZplUtils::convertMmInDot(pixelToMm($r['top'], $rate), ZebraPPP::DPI_300);
             switch ($o['tag']) {
                 case "qrcode":
                     $zebraLabel->addElement(new ZebraQrCode($x, $y, $m['barcode_id']));
                     //$inner .= '<qrcode style="' . $r . '" value="' . $m['barcode_id'] . '" ec="H"></qrcode>' . PHP_EOL;
                     break;
                 case "barcode":
-                    $w = ZplUtils::convertMmInDot(pixelToMm($r['width']), ZebraPPP::DPI_300);
-                    $h = ZplUtils::convertMmInDot(pixelToMm($r['height']), ZebraPPP::DPI_300);
+                    $w = ZplUtils::convertMmInDot(pixelToMm($r['width'], $rate), ZebraPPP::DPI_300);
+                    $h = ZplUtils::convertMmInDot(pixelToMm($r['height'], $rate), ZebraPPP::DPI_300);
                     $zebraLabel->addElement(new ZebraBarCode39($x, $y, $m['barcode_id'], $h, 2, 2)); //118, 2, 2
                     //$inner .= '<barcode style="' . $r . '" value="' . $m['barcode_id'] . '" type="EAN13"></barcode>' . PHP_EOL;
                     break;

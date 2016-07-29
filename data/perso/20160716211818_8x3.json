@@ -181,5 +181,20 @@
             "styles": []
         }
     ],
-    "background": "white"
+    "background": "white",
+    "format": {
+        "format": {
+            "name": "8x3",
+            "dimension": {
+                "px": {
+                    "width": 767.24409448819,
+                    "height": 288
+                },
+                "mm": {
+                    "width": 203,
+                    "height": 76.2
+                }
+            }
+        }
+    }
 }

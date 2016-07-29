@@ -12,7 +12,12 @@ $udata     = isset($_POST['udata']) ? $_POST['udata'] : [];
 $fd         = $rootDir . '/data/perso/' . $json_file;
 $inputData  = json_decode(file_get_contents($fd), true);
 $object     = $inputData['objects'];
-$m          = current($mock);
+$format      = $inputData['format'];
+$format_name = $format['name'];
+$dimension   = $format['dimension'];
+$rate        = $dimension['px']['width'] / $dimension['mm']['width'];
+
+$m           = current($mock);
 $attributes = [
     'position'   => 'absolute',
     'top'        => '',
@@ -28,10 +33,10 @@ $attributes = [
 $inner      = '';
 foreach ($object as $o) {
     $elt_attributes = [
-        'top'    => pixelToMm($o['top']) . 'mm',
-        'left'   => pixelToMm($o['left']) . 'mm',
-        'width'  => pixelToMm($o['width']) * $o['scaleX'] . 'mm',
-        'height' => pixelToMm($o['height']) * $o['scaleY'] . 'mm',
+        'top'    => pixelToMm($o['top'], $rate) . 'mm',
+        'left'   => pixelToMm($o['left'], $rate) . 'mm',
+        'width'  => pixelToMm($o['width'], $rate) * $o['scaleX'] . 'mm',
+        'height' => pixelToMm($o['height'], $rate) * $o['scaleY'] . 'mm',
         'rotate' => -$o['angle'],
     ];
     switch ($o['type']) {
@@ -93,9 +98,7 @@ $time_end   = microtime(true);
 
 $execution_time = number_format(($time_end - $time_start), 2);
 
-function pixelToMm($value) {
-    $DPI  = 96;
-    $rate = $DPI / 25.4;
+function pixelToMm($value, $rate = 1) {
     return $value / $rate;
 }
 

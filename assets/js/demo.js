@@ -116,9 +116,9 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
         $("#save").click(function () {
             $('.all').hide();
             $canvas.deactivateAll().renderAll();
-            ajaxObj.url = 'ajax/save.php'
+            ajaxObj.url = 'ajax/save.php';
             ajaxObj.data.json = JSON.stringify($canvas);
-            ajaxObj.data.format = $('#format').val();
+            ajaxObj.data.format = JSON.stringify($canvas.format);
             ajaxObj.data.file = $('#persoFile').val();
             $.ajax(ajaxObj).done(function (msg) {
                 //alert("Data Saved: ");
@@ -130,7 +130,7 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             ajaxObj.url = 'ajax/save.php'
             ajaxObj.data.json = JSON.stringify($canvas);
             ajaxObj.data.file = $('#persoFile').val();
-            ajaxObj.data.format = $('#format').val();
+            ajaxObj.data.format = JSON.stringify($canvas.format);
             ajaxObj.data.duplicate = true;
             $.ajax(ajaxObj).done(function (msg) {
                 window.location.reload();
@@ -258,7 +258,13 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             height: fabric.util.parseUnit(selectedOption.data('height') + 'mm')
         };
         $canvas.setDimensions(dimentions);
-        $canvas.format = 'a4';
+        var obj = {
+            format: {
+                name: $('#format').val(),
+                dimension: {px: {width: $canvas.getWidth(), height: $canvas.getHeight()}, mm: {width: selectedOption.data('width'), height: selectedOption.data('height')}}
+            }
+        };
+        $canvas.format = obj;
         $canvas.on("object:added", function (e) {
             switch (e.target.type) {
                 case 'i-text':
@@ -387,7 +393,7 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                  formData.append(val.name, val.value);
                  });
                  });
-                 
+
                  */
                 this.on("processing", function (file) {
                     file.newName = file.name + file.size + new Date().getTime();
