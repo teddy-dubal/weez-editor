@@ -76,11 +76,9 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             elts.tag = selectedOption.val();
             $canvas.add(elts);
         });
-        /*
-         $('#toolbox #img').on('click', function (e) {
-         $('.imgBox').show();
-         });
-         */
+        $('#toolbox #imgBox').on('click', function (e) {
+            $('.imgBox').show();
+        });
         $('#toolbox #qrcode').on('click', function (e) {
             fabric.Image.fromURL('/pdf/qrcode.png', function (image) {
                 image.set({
