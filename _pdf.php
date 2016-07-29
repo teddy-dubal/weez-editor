@@ -12,9 +12,11 @@ $udata     = isset($_POST['udata']) ? $_POST['udata'] : [];
 $fd         = $rootDir . '/data/perso/' . $json_file;
 $inputData  = json_decode(file_get_contents($fd), true);
 $object     = $inputData['objects'];
-$format      = $inputData['format'];
+$format      = $inputData['format']['format'];
 $format_name = $format['name'];
 $dimension   = $format['dimension'];
+$pageWidth   = $dimension['mm']['width'];
+$pageHeight  = $dimension['mm']['height'];
 $rate        = $dimension['px']['width'] / $dimension['mm']['width'];
 
 $m           = current($mock);
@@ -72,11 +74,11 @@ foreach ($object as $o) {
                     break;
                 case "barcode":
                     $inner .= '<div style="' . $r . '">' . PHP_EOL;
-                    $inner .= '<barcode style="width: 100%;height:100%;" value="' . $m['barcode_id'] . '" type="EAN13"></barcode>' . PHP_EOL;
+                    $inner .= '<barcode value="' . $m['barcode_id'] . '" type="EAN13"></barcode>' . PHP_EOL;
                     $inner .= '</div>' . PHP_EOL;
                     break;
                 default:
-                    $inner .= '<div style="' . $r . '"><img src="' . str_replace("http://localhost:8080/","",$o['src']) . '"/></div>' . PHP_EOL;
+                    $inner .= '<div style="' . $r . '"><img style="width:100%;height:100%" src="' . str_replace("http://localhost:8080/","",$o['src']) . '"/></div>' . PHP_EOL;
                     break;
             }
             break;
@@ -89,10 +91,14 @@ foreach ($object as $o) {
 //echo '</pre>';
 //exit;
 $time_start = microtime(true);
-$content    = "<page>";
+if ($format_name=='8x3'){
+    $content = "<page orientation=paysage>";
+} else {
+    $content = "<page>";
+}
 $content .= $inner;
 $content .= "</page>";
-$html2pdf   = new HTML2PDF('P', 'A4', 'fr', true, 'UTF-8', [0, 0, 0, 0]);
+$html2pdf   = new HTML2PDF('P', array($pageWidth,$pageHeight), 'fr', true, 'UTF-8', [0, 0, 0, 0]);
 //$html2pdf->setModeDebug();
 $html2pdf->WriteHTML($content);
 $html2pdf->Output('exemple.pdf');

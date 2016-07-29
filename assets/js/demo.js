@@ -188,6 +188,19 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                     activeElement.set(_elt.name, _elt.value);
                 }
             });
+            if (activeElement.angle == 0){
+                activeElement.originX = "left";
+                activeElement.originY = "top";
+            } else if (activeElement.angle == 90){
+                activeElement.originX = "left";
+                activeElement.originY = "bottom";
+            } else if (activeElement.angle == 180){
+                activeElement.originX = "right";
+                activeElement.originY = "bottom";
+            } else if (activeElement.angle==270){
+                activeElement.originX = "right";
+                activeElement.originY = "top";
+            }
             $canvas.renderAll();
         });
         $("#deleteEditorboxBtn").click(function () {
@@ -262,6 +275,7 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                 dimension: {px: {width: $canvas.getWidth(), height: $canvas.getHeight()}, mm: {width: selectedOption.data('width'), height: selectedOption.data('height')}}
             }
         };
+        console.info(obj['format']["dimension"]['mm']);
         $canvas.format = obj;
         $canvas.on("object:added", function (e) {
             switch (e.target.type) {
@@ -353,8 +367,24 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             }
             // bot-right corner
             if (obj.top + obj.getHeight() > bounds.br.y || obj.left + obj.getWidth() > bounds.br.x) {
-                obj.top = Math.min(obj.top, $canvas.getHeight() - obj.getHeight());
-                obj.left = Math.min(obj.left, $canvas.getWidth() - obj.getWidth());
+                if (obj.angle == 90 || obj.angle == 270){
+                    obj.top = Math.min(obj.top, $canvas.getHeight() - obj.getWidth());
+                    obj.left = Math.min(obj.left, $canvas.getWidth() - obj.getHeight());
+                } else {
+                    obj.top = Math.min(obj.top, $canvas.getHeight() - obj.getHeight());
+                    obj.left = Math.min(obj.left, $canvas.getWidth() - obj.getWidth());
+                }
+            }
+        });
+        $canvas.on("object:scaling", function (e){
+            var obj = e.target;
+            if (obj.getWidth()>$canvas.getWidth()){
+                obj.width = Math.min(obj.getWidth(),$canvas.getWidth());
+                obj.left = 0;
+            }
+            if (obj.getHeight()>$canvas.getHeight()){
+                obj.height = Math.min(obj.getHeight(), $canvas.getHeight());
+                obj.top = 0;
             }
         });
     };
