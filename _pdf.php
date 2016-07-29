@@ -71,7 +71,9 @@ foreach ($object as $o) {
                     $inner .= '<qrcode style="' . $r . '" value="' . $m['barcode_id'] . '" ec="H"></qrcode>' . PHP_EOL;
                     break;
                 case "barcode":
-                    $inner .= '<barcode style="' . $r . '" value="' . $m['barcode_id'] . '" type="EAN13"></barcode>' . PHP_EOL;
+                    $inner .= '<div style="' . $r . '">' . PHP_EOL;
+                    $inner .= '<barcode style="width: 100%;height:100%;" value="' . $m['barcode_id'] . '" type="EAN13"></barcode>' . PHP_EOL;
+                    $inner .= '</div>' . PHP_EOL;
                     break;
                 default:
                     $inner .= '<div style="' . $r . '"><img src="' . str_replace("http://localhost:8080/","",$o['src']) . '"/></div>' . PHP_EOL;
