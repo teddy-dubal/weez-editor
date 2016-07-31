@@ -97,14 +97,14 @@
                                     </select>
                                 </div>
                             </li>
-                            <li><button id="imgBox" class="btn btn-primary">Add Img</button></li>
+                            <li><button id="image" class="btn btn-primary">Add Img</button></li>
                             <li><button id="qrcode" class="btn btn-primary">Add QRCode</button></li>
                             <li><button id="barcode" class="btn btn-primary">Add Barcode</button></li>
                         </ul>
                     </div>
                     <div id="editbox" class="">
                         <form action="" id="form" role="form">
-                            <div class="common all txt img qrcode barcode">
+                            <div class="common all txt image qrcode barcode">
                                 <input type="hidden" class="form-control"  id="id">
                                 <input type="hidden" class="form-control"  id="type">
                                 <input type="hidden" class="form-control"  id="default">
@@ -129,19 +129,25 @@
                                     <input type="number" class="form-control" placeholder="°" name="angle" id="angle">
                                 </div>
                             </div>
-                            <div id="txt" class="all txt">
+                            <div class="all txt">
                                 <div class="input-group">
                                     <span class="input-group-addon">font</span>
                                     <input type="text" class="form-control" placeholder="font" name="fontFamily" id="fontFamily">
                                 </div>
+                            </div>
+                            <div class="all txt">
                                 <div class="input-group">
                                     <span class="input-group-addon">font-size</span>
                                     <input type="number" class="form-control" placeholder="font-size" name="fontSize" id="fontSize">
                                 </div>
+                            </div>
+                            <div class="all txt qrcode barcode">
                                 <div class="input-group">
-                                    <span class="input-group-addon">font-color</span>
+                                    <span class="input-group-addon">color</span>
                                     <input type="color" class="form-control" placeholder="font-color" name="fill" id="fill">
                                 </div>
+                            </div>
+                            <div class="all txt">
                                 <div class="input-group">
                                     <span class="input-group-addon">font-align</span>
                                     <select class="form-control" id="textAlign" name="textAlign">
@@ -151,6 +157,8 @@
                                         <option value="justify">justify</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="all txt">
                                 <div class="input-group">
                                     <span class="input-group-addon">font-style</span>
                                     <select class="form-control" id="fontStyle" name="fontStyle">
@@ -159,21 +167,20 @@
                                         <option value="italic">italic</option>
                                     </select>
                                 </div>
-
                             </div>
-                            <div id="" class="all imgBox qrcode barcode">
+                            <div class="all image">
                                 <div class="form-group g_form_image">
                                     <div id="dz-preview" class="dropzone dropzone-previews">
                                     </div>
                                 </div>
                             </div>
-                            <div class="all img txt">
+                            <div class="all image txt qrcode barcode">
                                 <button type="button" class="btn btn-primary" id="send-backwards">Send backwards</button>
                                 <button type="button" class="btn btn-primary" id="send-to-back">Send to back</button>
                                 <button type="button" class="btn btn-primary" id="bring-forward">Bring forwards</button>
                                 <button type="button" class="btn btn-primary" id="bring-to-front">Bring to front</button>
                             </div>
-                            <div class="all txt img">
+                            <div class="all txt image qrcode barcode">
                                 <button type="button" class="btn btn-danger" id="deleteEditorboxBtn">Delete</button>
                                 <button type="button" class="btn btn-primary" id="validateEditorboxBtn">Validate</button>
                             </div>

@@ -76,8 +76,8 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             elts.tag = selectedOption.val();
             $canvas.add(elts);
         });
-        $('#toolbox #imgBox').on('click', function (e) {
-            $('.imgBox').show();
+        $('#toolbox #image').on('click', function (e) {
+            $('.image').show();
         });
         $('#toolbox #qrcode').on('click', function (e) {
             fabric.Image.fromURL('/pdf/qrcode.png', function (image) {
@@ -192,16 +192,11 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
         });
         $("#deleteEditorboxBtn").click(function () {
             var activeElement = $canvas.getActiveObject();
-            console.info(activeElement.toJSON());
             $canvas.remove(activeElement);
             $('.all').hide();
-
             var rawElement = $('.dropzone-previews').get(0);
             var myDropzone = rawElement.dropzone;
-            console.info(myDropzone.files[0]);
-            console.info(activeElement);
             if (activeElement.tag == "image") {
-                //alert("Ceci est une image et vas être supprimée de dropzone!");
                 $.each(myDropzone.files, function (i, elem) {
                     if (elem.newName == activeElement.name) {
                         myDropzone.removeFile(elem);
@@ -291,27 +286,6 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                         _updateForm(data);
                     });
                     break;
-                case 'path-group':
-                    var image = e.target;
-                    image.on('moving', function () {
-                        var data = this.toJSON();
-                        _updateForm(data);
-                    });
-                    image.on('rotating', function () {
-                        var data = this.toJSON();
-                        _updateForm(data);
-                    });
-                    image.on('editing:exited', function () {
-                        var data = this.toJSON();
-                        _updateForm(data);
-                    });
-                    image.on('selected', function () {
-                        $('.all').hide();
-                        $('.img').show();
-                        var data = this.toJSON();
-                        _updateForm(data);
-                    });
-                    break;
                 case 'image':
                     var image = e.target;
                     image.on('moving', function () {
@@ -328,7 +302,7 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                     });
                     image.on('selected', function () {
                         $('.all').hide();
-                        $('.img').show();
+                        $('.' + image.tag).show();
                         var data = this.toJSON();
                         _updateForm(data);
                     });
