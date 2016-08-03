@@ -84,6 +84,17 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             $('.backgroundBox').show();
             $('.imgBox').hide();
         });
+        $('#toolbox #deleteBackgroundBtn').on('click', function (e) {
+            var rawElement = $('.dropzone-previews-background').get(0);
+            var myDropzone = rawElement.dropzone;
+            $.each(myDropzone.files, function (i, elem) {
+                if (elem.newName == $canvas.backgroundImage.name) {
+                    myDropzone.removeFile(elem);
+                }
+            });
+            $canvas.setBackgroundImage(0);
+            $canvas.renderAll();
+        });
         $('#toolbox #qrcode').on('click', function (e) {
             fabric.Image.fromURL('/pdf/qrcode.png', function (image) {
                 image.set({
