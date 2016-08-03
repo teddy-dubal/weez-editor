@@ -78,6 +78,11 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
         });
         $('#toolbox #imgBox').on('click', function (e) {
             $('.imgBox').show();
+            $('.backgroundBox').hide();
+        });
+        $('#toolbox #backgroundBox').on('click', function (e) {
+            $('.backgroundBox').show();
+            $('.imgBox').hide();
         });
         $('#toolbox #qrcode').on('click', function (e) {
             fabric.Image.fromURL('/pdf/qrcode.png', function (image) {
@@ -275,7 +280,6 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                 dimension: {px: {width: $canvas.getWidth(), height: $canvas.getHeight()}, mm: {width: selectedOption.data('width'), height: selectedOption.data('height')}}
             }
         };
-        console.info(obj['format']["dimension"]['mm']);
         $canvas.format = obj;
         $canvas.on("object:added", function (e) {
             switch (e.target.type) {
@@ -367,11 +371,12 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             }
             // bot-right corner
             if (obj.top + obj.getHeight() > bounds.br.y || obj.left + obj.getWidth() > bounds.br.x) {
+                //-1 : Solution provisoire pour le bug lorsque les images touche le bord bas de la page
                 if (obj.angle == 90 || obj.angle == 270){
-                    obj.top = Math.min(obj.top, $canvas.getHeight() - obj.getWidth());
+                    obj.top = Math.min(obj.top, $canvas.getHeight() - obj.getWidth()-1);
                     obj.left = Math.min(obj.left, $canvas.getWidth() - obj.getHeight());
                 } else {
-                    obj.top = Math.min(obj.top, $canvas.getHeight() - obj.getHeight());
+                    obj.top = Math.min(obj.top, $canvas.getHeight() - obj.getHeight()-1);
                     obj.left = Math.min(obj.left, $canvas.getWidth() - obj.getWidth());
                 }
             }
@@ -431,6 +436,53 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                         image.tag = 'image';
                         image.name = file.newName;
                         $canvas.add(image);
+                    });
+                });
+                this.on("error", function (file, errorMessage) {
+                    this.removeAllFiles();
+                });
+            }
+        });
+        var dpz_background = new Dropzone(".dropzone-previews-background", {
+            url: '/ajax/upload.php',
+            paramName: "bgFiles", // The name that will be used to transfer the file
+            maxFilesize: 2, // MB
+            maxFiles : 2,
+            uploadMultiple: true,
+            parallelUploads: 1,
+            acceptedFiles: 'image/*',
+            clickable: '.dropzone-previews-background',
+            init: function () {
+                this.on("processing", function (file) {
+                    file.newName = file.name + file.size + new Date().getTime()+"Background";
+                });
+                this.on("sending", function (file, xhr, formData) {
+                    formData.append('width',$canvas.width);
+                    formData.append('height',$canvas.height);
+                });
+                this.on("success", function (file, data) {
+                    var obj = JSON.parse(data);
+                    /*$canvas.forEachObject(function(o){
+                        if (o.tag == "background"){
+                            $canvas.remove(o);
+                        }
+                    });*/
+                    //Remove old background from dropzone
+                    if (typeof this.files[1] != "undefined"){
+                        this.removeFile(this.files[0]);
+                    }
+                    fabric.Image.fromURL(obj.file, function (image) {
+                        image.set({
+                            left: 0,
+                            top: 0,
+                            width : $canvas.width,
+                            height : $canvas.height,
+                            crossOrigin: 'anonymous'
+                        }).setCoords();
+                        //image.tag = 'background';
+                        image.name = file.newName;
+                        $canvas.setBackgroundImage(image);
+                        $canvas.renderAll();
                     });
                 });
                 this.on("error", function (file, errorMessage) {

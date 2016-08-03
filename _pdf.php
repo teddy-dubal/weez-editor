@@ -9,9 +9,10 @@ require_once $rootDir . '/data/mock.php';
 $json_file = $file      = isset($_GET['file']) ? $_GET['file'] : $defaultFile;
 $udata     = isset($_POST['udata']) ? $_POST['udata'] : [];
 
-$fd         = $rootDir . '/data/perso/' . $json_file;
-$inputData  = json_decode(file_get_contents($fd), true);
-$object     = $inputData['objects'];
+$fd          = $rootDir . '/data/perso/' . $json_file;
+$inputData   = json_decode(file_get_contents($fd), true);
+$object      = $inputData['objects'];
+$background  = $inputData['backgroundImage'];
 $format      = $inputData['format']['format'];
 $format_name = $format['name'];
 $dimension   = $format['dimension'];
@@ -82,8 +83,6 @@ foreach ($object as $o) {
                     break;
             }
             break;
-        default:
-            break;
     }
 }
 //echo '<pre>';
@@ -91,11 +90,26 @@ foreach ($object as $o) {
 //echo '</pre>';
 //exit;
 $time_start = microtime(true);
+$orientation = '';
+$backimg  = '';
+$backimgx = '';
+$backimgy = '';
+$backimgw = '';
+
 if ($format_name=='8x3'){
-    $content = "<page orientation=paysage>";
-} else {
-    $content = "<page>";
+    $orientation = "paysage";
 }
+if (isset($background)){
+    $backimg  = str_replace("http://localhost:8080/","",$background['src']);
+    $backimgx = 'left';
+    $backimgy = 'top';
+    $backimgw = $background['width'];
+}
+if ($format_name=='8x3'){
+    $orientation = "paysage";
+}
+
+$content = "<page orientation='".$orientation."' backimg='".$backimg."' backimgx='".$backimgx."' backimgy='".$backimgy."' backimgw='".$backimgw."'>";
 $content .= $inner;
 $content .= "</page>";
 $html2pdf   = new HTML2PDF('P', array($pageWidth,$pageHeight), 'fr', true, 'UTF-8', [0, 0, 0, 0]);
