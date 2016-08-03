@@ -96,9 +96,6 @@ $backimgx = '';
 $backimgy = '';
 $backimgw = '';
 
-if ($format_name=='8x3'){
-    $orientation = "paysage";
-}
 if (isset($background)){
     $backimg  = str_replace("http://localhost:8080/","",$background['src']);
     $backimgx = 'left';
