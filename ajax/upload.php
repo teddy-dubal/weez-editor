@@ -8,7 +8,7 @@ require_once $vendorDir . 'autoload.php';
 
 $ds = DIRECTORY_SEPARATOR;  //1
 $rpath         = '/data/img/';
-$bgrpath       = '/data/bg/';
+$bgrpath        = (isset($_POST['format']))?'/data/bg/'.$_POST['format'].'/':'';
 $storeFolder   = $rootDir . $rpath;  //2  /weez-editor/data/img/
 $storeBgFolder = $rootDir . $bgrpath; //   /weez-editor/data/bg/
 $width         = (isset($_POST['width']))?$_POST['width']:'';

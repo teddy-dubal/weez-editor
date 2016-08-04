@@ -292,6 +292,14 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             }
         };
         $canvas.format = obj;
+        $("#toolbox #deleteBackgroundBtn").hide();
+        $canvas.on("after:render",function(){
+            if (this.backgroundImage == 0){
+                $("#toolbox #deleteBackgroundBtn").hide();
+            } else {
+                $("#toolbox #deleteBackgroundBtn").show();
+            }
+        });
         $canvas.on("object:added", function (e) {
             switch (e.target.type) {
                 case 'i-text':
@@ -468,6 +476,7 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                     file.newName = file.name + file.size + new Date().getTime()+"Background";
                 });
                 this.on("sending", function (file, xhr, formData) {
+                    formData.append('format',$canvas.format['format']['name']);
                     formData.append('width',$canvas.width);
                     formData.append('height',$canvas.height);
                 });
