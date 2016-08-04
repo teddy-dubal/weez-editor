@@ -2,6 +2,8 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
     fabric.Object.prototype.toObject = (function (toObject) {
         return function () {
             return fabric.util.object.extend(toObject.call(this), {
+                cx: this.cx,
+                cy: this.cy,
                 name: this.name,
                 tag: this.tag,
                 locked: this.locked || false
@@ -15,7 +17,6 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
     var _debug = true;
     var _updateForm = function (_data) {
         var targetFormInput = $('#form').find('input,select,textarea');
-        var fz = null;
         var unit = $('#unit').val();
         $.each(targetFormInput, function (index, _elt) {
             var res = _elt.id;
@@ -30,6 +31,7 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                         $(_elt).val(_data[res]);
                     }
                 } catch (e) {
+                    console.info(e);
                 }
             }
         });
@@ -140,6 +142,7 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             var url = '/data/perso/' + $('#persoFile').val() + '?t=' + ts;
             $.getJSON(url, function (data) {
                 $canvas.loadFromJSON(data, function () {
+                    $canvas.format = {format: $canvas.format};
                     $canvas.renderAll();
                 });
             });
@@ -177,10 +180,15 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
         $("#validateEditorboxBtn").click(function () {
             var activeElement = $canvas.getActiveObject();
             var eltValue = null;
+            var angle = 0, x = 0, y = 0, w = 0, h = 0;
             $.each($('#form').serializeArray(), function (index, _elt) {
+                if ('angle' === _elt.name) {
+                    angle = parseInt(_elt.value);
+                    return true;
+                }
                 if ($.isNumeric(_elt.value)) {
                     eltValue = parseFloat(_elt.value);
-                    if ($('#unit').val() == 'mm' && _elt.name != 'fontSize') {
+                    if ('mm' === $('#unit').val() && 'fontSize' !== _elt.name) {
                         eltValue = fabric.util.parseUnit(eltValue + 'mm');
                     }
                     activeElement.set(_elt.name, eltValue).setCoords();
@@ -188,6 +196,7 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                     activeElement.set(_elt.name, _elt.value);
                 }
             });
+            activeElement.setAngle(angle).setCoords();
             $canvas.renderAll();
         });
         $("#deleteEditorboxBtn").click(function () {
@@ -259,24 +268,38 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
         };
         $canvas.format = obj;
         $canvas.on("object:added", function (e) {
+            var target = e.target;
+            var center = null;
             switch (e.target.type) {
                 case 'i-text':
                 case 'textbox':
-                    var itext = e.target;
+                    var itext = target;
                     itext.on('scaling', function () {
                         var data = this.toJSON();
+                        center = this.getCenterPoint();
+                        this.cx = center.x;
+                        this.cy = center.y;
                         _updateForm(data);
                     });
                     itext.on('moving', function () {
                         var data = this.toJSON();
+                        center = this.getCenterPoint();
+                        this.cx = center.x;
+                        this.cy = center.y;
                         _updateForm(data);
                     });
                     itext.on('rotating', function () {
                         var data = this.toJSON();
+                        center = this.getCenterPoint();
+                        this.cx = center.x;
+                        this.cy = center.y;
                         _updateForm(data);
                     });
                     itext.on('editing:exited', function () {
                         var data = this.toJSON();
+                        center = this.getCenterPoint();
+                        this.cx = center.x;
+                        this.cy = center.y;
                         _updateForm(data);
                     });
                     itext.on('selected', function () {
@@ -287,17 +310,30 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                     });
                     break;
                 case 'image':
-                    var image = e.target;
+                    var image = target;
+                    var iw = image.getWidth();
+                    var ih = image.getHeight();
+                    var rw = $canvas.getWidth() / image.getWidth();
+                    var rh = $canvas.getHeight() / image.getHeight();
                     image.on('moving', function () {
                         var data = this.toJSON();
+                        center = this.getCenterPoint();
+                        this.cx = center.x;
+                        this.cy = center.y;
                         _updateForm(data);
                     });
                     image.on('rotating', function () {
                         var data = this.toJSON();
+                        center = this.getCenterPoint();
+                        this.cx = center.x;
+                        this.cy = center.y;
                         _updateForm(data);
                     });
                     image.on('editing:exited', function () {
                         var data = this.toJSON();
+                        center = this.getCenterPoint();
+                        this.cx = center.x;
+                        this.cy = center.y;
                         _updateForm(data);
                     });
                     image.on('selected', function () {
@@ -306,6 +342,12 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                         var data = this.toJSON();
                         _updateForm(data);
                     });
+                    if (image.getWidth() > $canvas.getWidth()) {
+                        image.setWidth(iw * rw);
+                    }
+                    if (image.getHeight() > $canvas.getHeight()) {
+                        image.setHeight(ih * rh);
+                    }
                     break;
             }
         });
@@ -348,25 +390,6 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             acceptedFiles: 'image/*',
             clickable: '.dropzone-previews',
             init: function () {
-                /*
-                 var loader = $('.loadingPreview');
-                 this.on("addedfile", function (file) {
-                 radio('form.modify.field').broadcast();
-                 file.previewElement.addEventListener("click", function () {
-                 $('.dropzone-previews').click();
-                 });
-                 });
-                 this.on("maxfilesexceeded", function (file) {
-                 this.removeAllFiles();
-                 this.addFile(file);
-                 });
-                 this.on("sending", function (file, xhr, formData) {
-                 $.each($('#form').serializeArray(), function (ind, val) {
-                 formData.append(val.name, val.value);
-                 });
-                 });
-
-                 */
                 this.on("processing", function (file) {
                     file.newName = file.name + file.size + new Date().getTime();
                 });
