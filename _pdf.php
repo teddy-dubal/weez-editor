@@ -46,6 +46,10 @@ foreach ($object as $o) {
         $t = $cy - $h / 2;
         $l = $cx - $w / 2;
     }
+    if ($o['angle'] == 90 || $o['angle'] == 270) {
+        $t = $cy - $w / 2;
+        $l = $cx - $h / 2;
+    }
     $elt_attributes = [
         'top'    => $t . 'mm',
         'left'   => $l . 'mm',
