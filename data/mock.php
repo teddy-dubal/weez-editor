@@ -13,10 +13,10 @@ $mock = array(
         'client_id'             => '8300487',
         'acheteur_id'           => '8300485',
         'ev_id'                 => '58995',
-        'ev_nom'                => 'test',
-        'lieu_nom'              => '',
-        'lieu_adresse'          => '',
-        'lieu_ville'            => '',
+        'ev_nom'                => 'Le nom de mon event super long',
+        'lieu_nom'              => 'Ceasar Army',
+        'lieu_adresse'          => 'St ann\'s fort',
+        'lieu_ville'            => 'Brigetown',
         'billet_nom'            => 'gratuit',
         'billet_categorie'      =>
         array(
@@ -48,7 +48,7 @@ $mock = array(
         'member_number'         => '',
         'id_transaction_billet' => '7819466',
         'ev_email'              => 't.erembertdubal@weezevent.com',
-        'address'               => '',
+        'address'               => '3 rue de la forge royal',
         'ev_orga_txt'           => 'Organisateur : Weez',
         'ev_tva'                =>
         array(

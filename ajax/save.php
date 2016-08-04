@@ -22,7 +22,7 @@ if (!file_exists($files     = $rootDir . '/data/perso/' . $file)) {
     die('no input data');
     exit;
 }
-$inputData = array_merge(json_decode($elt, true), ['format' => $data_format]);
+$inputData = array_merge(json_decode($elt, true), $data_format);
 
 if ($duplicate) {
     @mkdir($rootDir . '/data/perso');
