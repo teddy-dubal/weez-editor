@@ -80,6 +80,22 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
         });
         $('#toolbox #image').on('click', function (e) {
             $('.image').show();
+            $('.backgroundBox').hide();
+        });
+        $('#toolbox #backgroundBox').on('click', function (e) {
+            $('.backgroundBox').show();
+            $('.image').hide();
+        });
+        $('#toolbox #deleteBackgroundBtn').on('click', function (e) {
+            var rawElement = $('.dropzone-previews-background').get(0);
+            var myDropzone = rawElement.dropzone;
+            $.each(myDropzone.files, function (i, elem) {
+                if (elem.newName == $canvas.backgroundImage.name) {
+                    myDropzone.removeFile(elem);
+                }
+            });
+            $canvas.setBackgroundImage(0);
+            $canvas.renderAll();
         });
         $('#toolbox #qrcode').on('click', function (e) {
             fabric.Image.fromURL('/pdf/qrcode.png', function (image) {
@@ -197,6 +213,19 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                 }
             });
             activeElement.setAngle(angle).setCoords();
+            if (activeElement.angle == 0){
+                activeElement.originX = "left";
+                activeElement.originY = "top";
+            } else if (activeElement.angle == 90){
+                activeElement.originX = "left";
+                activeElement.originY = "bottom";
+            } else if (activeElement.angle == 180){
+                activeElement.originX = "right";
+                activeElement.originY = "bottom";
+            } else if (activeElement.angle==270){
+                activeElement.originX = "right";
+                activeElement.originY = "top";
+            }
             $canvas.renderAll();
         });
         $("#deleteEditorboxBtn").click(function () {
@@ -267,6 +296,14 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             }
         };
         $canvas.format = obj;
+        $("#toolbox #deleteBackgroundBtn").hide();
+        $canvas.on("after:render",function(){
+            if (this.backgroundImage == 0 || this.backgroundImage == null){
+                $("#toolbox #deleteBackgroundBtn").hide();
+            } else {
+                $("#toolbox #deleteBackgroundBtn").show();
+            }
+        });
         $canvas.on("object:added", function (e) {
             var target = e.target;
             var center = null;
@@ -369,10 +406,23 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             }
             // bot-right corner
             if (obj.top + obj.getHeight() > bounds.br.y || obj.left + obj.getWidth() > bounds.br.x) {
-                obj.top = Math.min(obj.top, $canvas.getHeight() - obj.getHeight());
-                obj.left = Math.min(obj.left, $canvas.getWidth() - obj.getWidth());
+                //-1 : Solution provisoire pour le bug lorsque les images touche le bord bas de la page
+                if (obj.angle == 90 || obj.angle == 270){
+                    obj.top = Math.min(obj.top, $canvas.getHeight() - obj.getWidth()-1);
+                    obj.left = Math.min(obj.left, $canvas.getWidth() - obj.getHeight());
+                } else {
+                    obj.top = Math.min(obj.top, $canvas.getHeight() - obj.getHeight()-1);
+                    obj.left = Math.min(obj.left, $canvas.getWidth() - obj.getWidth());
+                }
+                // obj.top = Math.min(obj.top, $canvas.getHeight() - obj.getHeight());
+                // obj.left = Math.min(obj.left, $canvas.getWidth() - obj.getWidth());
             }
         });
+        /*$canvas.on("object:modified",function(e){
+            var obj = e.target;
+            obj.width = obj.getWidth();
+            obj.height = obj.getHeight();
+        });*/
     };
     var initImageHandler = function () {
         _debug || console.log('initImageHandler');
@@ -404,6 +454,54 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                         image.tag = 'image';
                         image.name = file.newName;
                         $canvas.add(image);
+                    });
+                });
+                this.on("error", function (file, errorMessage) {
+                    this.removeAllFiles();
+                });
+            }
+        });
+        var dpz_background = new Dropzone(".dropzone-previews-background", {
+            url: '/ajax/upload.php',
+            paramName: "bgFiles", // The name that will be used to transfer the file
+            maxFilesize: 2, // MB
+            maxFiles : 2,
+            uploadMultiple: true,
+            parallelUploads: 1,
+            acceptedFiles: 'image/*',
+            clickable: '.dropzone-previews-background',
+            init: function () {
+                this.on("processing", function (file) {
+                    file.newName = file.name + file.size + new Date().getTime()+"Background";
+                });
+                this.on("sending", function (file, xhr, formData) {
+                    formData.append('format',$canvas.format['format']['name']);
+                    formData.append('width',$canvas.width);
+                    formData.append('height',$canvas.height);
+                });
+                this.on("success", function (file, data) {
+                    var obj = JSON.parse(data);
+                    /*$canvas.forEachObject(function(o){
+                        if (o.tag == "background"){
+                            $canvas.remove(o);
+                        }
+                    });*/
+                    //Remove old background from dropzone
+                    if (typeof this.files[1] != "undefined"){
+                        this.removeFile(this.files[0]);
+                    }
+                    fabric.Image.fromURL(obj.file, function (image) {
+                        image.set({
+                            left: 0,
+                            top: 0,
+                            width : $canvas.width,
+                            height : $canvas.height,
+                            crossOrigin: 'anonymous'
+                        }).setCoords();
+                        //image.tag = 'background';
+                        image.name = file.newName;
+                        $canvas.setBackgroundImage(image);
+                        $canvas.renderAll();
                     });
                 });
                 this.on("error", function (file, errorMessage) {

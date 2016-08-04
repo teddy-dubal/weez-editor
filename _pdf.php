@@ -12,6 +12,7 @@ $udata     = isset($_POST['udata']) ? $_POST['udata'] : [];
 $fd          = $rootDir . '/data/perso/' . $json_file;
 $inputData   = json_decode(file_get_contents($fd), true);
 $object      = $inputData['objects'];
+$background  = $inputData['backgroundImage'];
 $format      = $inputData['format'];
 $format_name = $format['name'];
 $dimension   = $format['dimension'];
@@ -44,6 +45,10 @@ foreach ($object as $o) {
     if ($o['angle'] % 360) {
         $t = $cy - $h / 2;
         $l = $cx - $w / 2;
+    }
+    if ($o['angle'] == 90 || $o['angle'] == 270) {
+        $t = $cy - $w / 2;
+        $l = $cx - $h / 2;
     }
     $elt_attributes = [
         'top'    => $t . 'mm',
@@ -94,8 +99,6 @@ foreach ($object as $o) {
                     break;
             }
             break;
-        default:
-            break;
     }
 }
 //echo '<pre>';
@@ -103,11 +106,23 @@ foreach ($object as $o) {
 //echo '</pre>';
 //exit;
 $time_start = microtime(true);
-if ($format_name == '8x3') {
-    $content = "<page orientation=paysage>";
-} else {
-    $content = "<page>";
+$orientation = '';
+$backimg  = '';
+$backimgx = '';
+$backimgy = '';
+$backimgw = '';
+
+if (isset($background)){
+    $backimg  = str_replace("http://localhost:8080/","",$background['src']);
+    $backimgx = 'left';
+    $backimgy = 'top';
+    $backimgw = $background['width'];
 }
+if ($format_name=='8x3'){
+    $orientation = "paysage";
+}
+
+$content = "<page orientation='".$orientation."' backimg='".$backimg."' backimgx='".$backimgx."' backimgy='".$backimgy."' backimgw='".$backimgw."'>";
 $content .= $inner;
 $content .= "</page>";
 $html2pdf = new HTML2PDF('P', array($pageWidth, $pageHeight), 'fr', true, 'UTF-8', [0, 0, 0, 0]);
