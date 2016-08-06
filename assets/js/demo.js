@@ -2,15 +2,14 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
     fabric.Object.prototype.toObject = (function (toObject) {
         return function () {
             return fabric.util.object.extend(toObject.call(this), {
-                cx: this.cx,
-                cy: this.cy,
+                bx: this.bx,
+                by: this.by,
                 name: this.name,
                 tag: this.tag,
                 locked: this.locked || false
             });
         };
     })(fabric.Object.prototype.toObject);
-
     var $canvas = new fabric.Canvas('container', {
         backgroundColor: 'white',
     });
@@ -36,7 +35,6 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             }
         });
     };
-
     /**
      *
      * @returns {undefined}
@@ -56,7 +54,8 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                         angle: 0,
                         fill: '#' + getRandomColor(),
                         fontWeight: '',
-                        originX: 'left',
+                        originX: 'center',
+                        originY: 'center',
                         hasRotatingPoint: true,
                         centerTransform: true
                     });
@@ -69,7 +68,8 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                         angle: 0,
                         fill: '#' + getRandomColor(),
                         fontWeight: '',
-                        originX: 'left',
+                        originX: 'center',
+                        originY: 'center',
                         hasRotatingPoint: true,
                         centerTransform: true
                     });
@@ -86,6 +86,8 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                 image.set({
                     left: 0,
                     top: 0,
+                    originX: 'center',
+                    originY: 'center',
                     crossOrigin: 'anonymous'
                 }).setCoords();
                 image.tag = 'qrcode';
@@ -97,6 +99,8 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                 image.set({
                     left: 0,
                     top: 0,
+                    originX: 'center',
+                    originY: 'center',
                     crossOrigin: 'anonymous'
                 }).setCoords();
                 image.tag = 'barcode';
@@ -127,7 +131,7 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
         $("#duplicate").click(function () {
             $('.all').hide();
             $canvas.deactivateAll().renderAll();
-            ajaxObj.url = 'ajax/save.php'
+            ajaxObj.url = 'ajax/save.php';
             ajaxObj.data.json = JSON.stringify($canvas);
             ajaxObj.data.file = $('#persoFile').val();
             ajaxObj.data.format = JSON.stringify($canvas.format);
@@ -147,7 +151,6 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                 });
             });
         });
-
         $("#exportImg").click(function () {
             $('.all').hide();
             $canvas.deactivateAll().renderAll();
@@ -163,7 +166,7 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
         });
         $("#exportZpl").click(function () {
             $('.all').hide();
-            ajaxObj.url = '/_zpl.php'
+            ajaxObj.url = '/_zpl.php';
             ajaxObj.data.json = JSON.stringify($canvas);
             ajaxObj.data.file = $('#persoFile').val();
             ajaxObj.data.format = $('#format').val();
@@ -176,24 +179,32 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             $('.all').hide();
             window.open($(this).data('url') + $('#persoFile').val());
         });
-
         $("#validateEditorboxBtn").click(function () {
             var activeElement = $canvas.getActiveObject();
-            var eltValue = null;
-            var angle = 0, x = 0, y = 0, w = 0, h = 0;
+            var eltValue = null, eltName = null;
+            var angle = 0, x = 0, y = 0, w = activeElement.getWidth(), h = activeElement.getHeight();
             $.each($('#form').serializeArray(), function (index, _elt) {
-                if ('angle' === _elt.name) {
+                eltName = _elt.name;
+                if ('angle' === eltName) {
                     angle = parseInt(_elt.value);
                     return true;
                 }
                 if ($.isNumeric(_elt.value)) {
                     eltValue = parseFloat(_elt.value);
-                    if ('mm' === $('#unit').val() && 'fontSize' !== _elt.name) {
+                    if ('mm' === $('#unit').val() && 'fontSize' !== eltName) {
                         eltValue = fabric.util.parseUnit(eltValue + 'mm');
                     }
-                    activeElement.set(_elt.name, eltValue).setCoords();
+                    if ('bx' === eltName) {
+                        eltName = 'left';
+                        eltValue += w / 2;
+                    }
+                    if ('by' === eltName) {
+                        eltName = 'top';
+                        eltValue += h / 2;
+                    }
+                    activeElement.set(eltName, eltValue).setCoords();
                 } else {
-                    activeElement.set(_elt.name, _elt.value);
+                    activeElement.set(eltName, _elt.value);
                 }
             });
             activeElement.setAngle(angle).setCoords();
@@ -213,7 +224,6 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                 });
             }
         });
-
         $("#send-backwards").click(function () {
             var activeObject = $canvas.getActiveObject();
             if (activeObject) {
@@ -267,111 +277,86 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             }
         };
         $canvas.format = obj;
-        $canvas.on("object:added", function (e) {
-            var target = e.target;
-            var center = null;
-            switch (e.target.type) {
-                case 'i-text':
-                case 'textbox':
-                    var itext = target;
-                    itext.on('scaling', function () {
-                        var data = this.toJSON();
-                        center = this.getCenterPoint();
-                        this.cx = center.x;
-                        this.cy = center.y;
-                        _updateForm(data);
-                    });
-                    itext.on('moving', function () {
-                        var data = this.toJSON();
-                        center = this.getCenterPoint();
-                        this.cx = center.x;
-                        this.cy = center.y;
-                        _updateForm(data);
-                    });
-                    itext.on('rotating', function () {
-                        var data = this.toJSON();
-                        center = this.getCenterPoint();
-                        this.cx = center.x;
-                        this.cy = center.y;
-                        _updateForm(data);
-                    });
-                    itext.on('editing:exited', function () {
-                        var data = this.toJSON();
-                        center = this.getCenterPoint();
-                        this.cx = center.x;
-                        this.cy = center.y;
-                        _updateForm(data);
-                    });
-                    itext.on('selected', function () {
-                        $('.all').hide();
-                        $('.txt').show();
-                        var data = this.toJSON();
-                        _updateForm(data);
-                    });
-                    break;
-                case 'image':
-                    var image = target;
-                    var iw = image.getWidth();
-                    var ih = image.getHeight();
-                    var rw = $canvas.getWidth() / image.getWidth();
-                    var rh = $canvas.getHeight() / image.getHeight();
-                    image.on('moving', function () {
-                        var data = this.toJSON();
-                        center = this.getCenterPoint();
-                        this.cx = center.x;
-                        this.cy = center.y;
-                        _updateForm(data);
-                    });
-                    image.on('rotating', function () {
-                        var data = this.toJSON();
-                        center = this.getCenterPoint();
-                        this.cx = center.x;
-                        this.cy = center.y;
-                        _updateForm(data);
-                    });
-                    image.on('editing:exited', function () {
-                        var data = this.toJSON();
-                        center = this.getCenterPoint();
-                        this.cx = center.x;
-                        this.cy = center.y;
-                        _updateForm(data);
-                    });
-                    image.on('selected', function () {
-                        $('.all').hide();
-                        $('.' + image.tag).show();
-                        var data = this.toJSON();
-                        _updateForm(data);
-                    });
-                    if (image.getWidth() > $canvas.getWidth()) {
-                        image.setWidth(iw * rw);
-                    }
-                    if (image.getHeight() > $canvas.getHeight()) {
-                        image.setHeight(ih * rh);
-                    }
-                    break;
-            }
-        });
+        initCanvasAdd();
         $canvas.on("selection:cleared", function (e) {
             $('.all').hide();
         });
+        $canvas.on('after:render', function () {
+            $canvas.contextContainer.strokeStyle = '#555';
+            $canvas.forEachObject(function (obj) {
+                var bound = obj.getBoundingRect();
+                $canvas.contextContainer.strokeRect(
+                        bound.left + 0.5,
+                        bound.top + 0.5,
+                        bound.width,
+                        bound.height
+                        );
+            });
+        });
         $canvas.on("object:moving", function (e) {
             var obj = e.target;
-            var halfw = obj.getWidth() / 2;
-            var halfh = obj.getHeight() / 2;
+            var center = obj.getCenterPoint();
+            var bounding = obj.getBoundingRect();
+            var halfw = bounding.width / 2;
+            var halfh = bounding.height / 2;
             var bounds = {
                 tl: {x: halfw, y: halfh},
                 br: {x: obj.canvas.getWidth(), y: obj.canvas.getHeight()}
             };
-            // top-left  corner
+//            // top-left  corner
             if (obj.top < bounds.tl.y || obj.left < bounds.tl.x) {
-                obj.top = Math.max(obj.top, 0);
-                obj.left = Math.max(obj.left, 0);
+                obj.top = Math.max(obj.top, halfh);
+                obj.left = Math.max(obj.left, halfw);
             }
             // bot-right corner
-            if (obj.top + obj.getHeight() > bounds.br.y || obj.left + obj.getWidth() > bounds.br.x) {
-                obj.top = Math.min(obj.top, $canvas.getHeight() - obj.getHeight());
-                obj.left = Math.min(obj.left, $canvas.getWidth() - obj.getWidth());
+            if (obj.top + halfh > bounds.br.y || obj.left + halfw > bounds.br.x) {
+                obj.top = Math.min(obj.top, $canvas.getHeight() - halfh);
+                obj.left = Math.min(obj.left, $canvas.getWidth() - halfw);
             }
+        });
+    };
+    /**
+     *
+     * @returns {undefined}
+     */
+    var initCanvasAdd = function () {
+        $canvas.on("object:added", function (e) {
+            var target = e.target;
+            //Binding for bounding rect of object
+            var setCoords = target.setCoords.bind(target);
+            target.on({
+                moving: setCoords,
+                scaling: setCoords,
+                rotating: setCoords
+            });
+            var _update_form = function () {
+                var data = this.toJSON();
+                var bound = this.getBoundingRect();
+                data.bx = this.bx = bound.left;
+                data.by = this.by = bound.top;
+                if ('image' === this.type) {
+                    var iw = this.getWidth();
+                    var ih = this.getHeight();
+                    var rw = $canvas.getWidth() / this.getWidth();
+                    var rh = $canvas.getHeight() / this.getHeight();
+                    if (this.getWidth() > $canvas.getWidth()) {
+                        this.setWidth(iw * rw);
+                    }
+                    if (this.getHeight() > $canvas.getHeight()) {
+                        this.setHeight(ih * rh);
+                    }
+                }
+                $('.all').hide();
+                $('.' + this.tag).show();
+                _updateForm(data);
+            };
+            target.on({
+                moving: _update_form,
+                scaling: _update_form,
+                rotating: _update_form,
+                selected: _update_form,
+                'editing:exited': _update_form
+            });
         });
     };
     var initImageHandler = function () {
@@ -397,8 +382,10 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                     var obj = JSON.parse(data);
                     fabric.Image.fromURL(obj.file, function (image) {
                         image.set({
-                            left: 0,
-                            top: 0,
+                            left: image.getWidth() / 2,
+                            top: image.getHeight() / 2,
+                            originX: 'center',
+                            originY: 'center',
                             crossOrigin: 'anonymous'
                         }).setCoords();
                         image.tag = 'image';
@@ -433,7 +420,7 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
         initToolbox();
         initImageHandler();
         initBtn();
-        initBase64();
+//        initBase64();
     };
     return {
         init: init

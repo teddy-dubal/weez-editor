@@ -36,15 +36,9 @@ $inner      = '';
 foreach ($object as $o) {
     $w  = pixelToMm($o['width'], $rate) * $o['scaleX'];
     $h  = pixelToMm($o['height'], $rate) * $o['scaleY'];
-    $l  = pixelToMm($o['left'], $rate);
-    $t  = pixelToMm($o['top'], $rate);
-    $cx = pixelToMm($o['cx'], $rate);
-    $cy = pixelToMm($o['cy'], $rate);
+    $l  = pixelToMm($o['bx'], $rate);
+    $t  = pixelToMm($o['by'], $rate);
 
-    if ($o['angle'] % 360) {
-        $t = $cy - $h / 2;
-        $l = $cx - $w / 2;
-    }
     $elt_attributes = [
         'top'    => $t . 'mm',
         'left'   => $l . 'mm',
