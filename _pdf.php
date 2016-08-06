@@ -21,29 +21,31 @@ $rate        = $dimension['px']['width'] / $dimension['mm']['width'];
 
 $m          = current($mock);
 $attributes = [
-    'position'   => 'absolute',
-    'top'        => '',
-    'left'       => '',
-    'width'      => '',
-    'height'     => '',
-    'color'      => 'black',
-    'text-align' => 'right',
-    'font-size'  => '4mm',
-    'font-style' => 'normal',
+    'position'     => 'absolute',
+    'top'          => '',
+    'left'         => '',
+    'width'        => '',
+    'height'       => '',
+    'color'        => 'black',
+    'text-align'   => 'right',
+    'fill-opacity' => '1',
+    'font-size'    => '4mm',
+    'font-style'   => 'normal',
 ];
 $inner      = '';
 foreach ($object as $o) {
-    $w  = pixelToMm($o['width'], $rate) * $o['scaleX'];
-    $h  = pixelToMm($o['height'], $rate) * $o['scaleY'];
-    $l  = pixelToMm($o['bx'], $rate);
-    $t  = pixelToMm($o['by'], $rate);
+    $w = pixelToMm($o['width'], $rate) * $o['scaleX'];
+    $h = pixelToMm($o['height'], $rate) * $o['scaleY'];
+    $l = pixelToMm($o['bx'], $rate);
+    $t = pixelToMm($o['by'], $rate);
 
     $elt_attributes = [
-        'top'    => $t . 'mm',
-        'left'   => $l . 'mm',
-        'width'  => $w . 'mm',
-        'height' => $h . 'mm',
-        'rotate' => -$o['angle'],
+        'top'          => $t . 'mm',
+        'left'         => $l . 'mm',
+        'width'        => $w . 'mm',
+        'height'       => $h . 'mm',
+        'rotate'       => -$o['angle'],
+        'fill-opacity' => $o['opacity'],
     ];
     switch ($o['type']) {
         case 'textbox':
@@ -100,11 +102,11 @@ $time_start = microtime(true);
 $content    = "<page>";
 $content .= $inner;
 $content .= "</page>";
-$html2pdf = new HTML2PDF('P', array($pageWidth, $pageHeight), 'fr', true, 'UTF-8', [0, 0, 0, 0]);
+$html2pdf   = new HTML2PDF('P', array($pageWidth, $pageHeight), 'fr', true, 'UTF-8', [0, 0, 0, 0]);
 //$html2pdf->setModeDebug();
 $html2pdf->WriteHTML($content);
 $html2pdf->Output('exemple.pdf');
-$time_end = microtime(true);
+$time_end   = microtime(true);
 
 $execution_time = number_format(($time_end - $time_start), 2);
 
