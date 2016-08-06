@@ -48,8 +48,8 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             switch (type) {
                 case 'textbox':
                     elts = new fabric.Textbox(text, {
-                        left: 0,
-                        top: 0,
+                        left: $canvas.getWidth() / 2,
+                        top: $canvas.getHeight() / 2,
                         fontFamily: 'helvetica',
                         angle: 0,
                         fill: '#' + getRandomColor(),
@@ -62,8 +62,8 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                     break;
                 default:
                     elts = new fabric.IText(text, {
-                        left: 0,
-                        top: 0,
+                        left: $canvas.getWidth() / 2,
+                        top: $canvas.getHeight() / 2,
                         fontFamily: 'helvetica',
                         angle: 0,
                         fill: '#' + getRandomColor(),
@@ -84,8 +84,8 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
         $('#toolbox #qrcode').on('click', function (e) {
             fabric.Image.fromURL('/pdf/qrcode.png', function (image) {
                 image.set({
-                    left: 0,
-                    top: 0,
+                    left: image.getWidth() / 2,
+                    top: image.getHeight() / 2,
                     originX: 'center',
                     originY: 'center',
                     crossOrigin: 'anonymous'
@@ -97,8 +97,8 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
         $('#toolbox #barcode').on('click', function (e) {
             fabric.Image.fromURL('/pdf/barcode.png', function (image) {
                 image.set({
-                    left: 0,
-                    top: 0,
+                    left: image.getWidth() / 2,
+                    top: image.getHeight() / 2,
                     originX: 'center',
                     originY: 'center',
                     crossOrigin: 'anonymous'
@@ -295,7 +295,6 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
         });
         $canvas.on("object:moving", function (e) {
             var obj = e.target;
-            var center = obj.getCenterPoint();
             var bounding = obj.getBoundingRect();
             var halfw = bounding.width / 2;
             var halfh = bounding.height / 2;
@@ -348,6 +347,9 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                 }
                 $('.all').hide();
                 $('.' + this.tag).show();
+                if ('i-text' === this.type || 'textbox' === this.type) {
+                    $('.txt').show();
+                }
                 _updateForm(data);
             };
             target.on({

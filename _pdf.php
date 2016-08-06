@@ -27,7 +27,6 @@ $attributes = [
     'width'      => '',
     'height'     => '',
     'color'      => 'black',
-    'rotation'   => 0,
     'text-align' => 'right',
     'font-size'  => '4mm',
     'font-style' => 'normal',
@@ -52,7 +51,7 @@ foreach ($object as $o) {
             $elt_attributes = array_merge($elt_attributes, [
                 'color'      => $o['fill'],
                 'text-align' => $o['textAlign'],
-                'font-size'  => $o['fontSize'],
+                'font-size'  => ($o['fontSize'] - 1) . 'px',
             ]);
             $merge          = array_merge($attributes, $elt_attributes);
             $r              = '';
@@ -65,7 +64,8 @@ foreach ($object as $o) {
             if ('italic' == $o['fontStyle']) {
                 $o['text'] = '<i>' . $o['text'] . '</i>';
             }
-            $inner .= '<div style="border: solid 1mm red;' . $r . '">' . $o['text'] . '</div>' . PHP_EOL;
+//            $inner .= '<div style="border: solid 0.5mm red;' . $r . '">' . $o['text'] . '</div>' . PHP_EOL;
+            $inner .= '<div style="' . $r . '">' . $o['text'] . '</div>' . PHP_EOL;
             break;
         case 'image':
             $merge = array_merge($attributes, $elt_attributes, ['color' => $o['fill']]);
@@ -97,11 +97,7 @@ foreach ($object as $o) {
 //echo '</pre>';
 //exit;
 $time_start = microtime(true);
-if ($format_name == '8x3') {
-    $content = "<page orientation=paysage>";
-} else {
-    $content = "<page>";
-}
+$content    = "<page>";
 $content .= $inner;
 $content .= "</page>";
 $html2pdf = new HTML2PDF('P', array($pageWidth, $pageHeight), 'fr', true, 'UTF-8', [0, 0, 0, 0]);
