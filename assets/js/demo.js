@@ -430,7 +430,7 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
         initToolbox();
         initImageHandler();
         initBtn();
-        initBase64();
+//        initBase64();
     };
     return {
         init: init
