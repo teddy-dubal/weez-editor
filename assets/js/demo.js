@@ -36,7 +36,12 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
         });
     };
 
-    var $importedFontsString =
+    var $importedFontsString = $('#fontList').attr("href").slice(40).replace(/\+/g, " ");
+    var $importedFontsArray  = ($importedFontsString.length == 0) ? [] : $importedFontsString.split("|");
+    console.info ($importedFontsArray);
+    $.each($importedFontsArray, function (index, fontName) {
+        $('#fontFamily').append('<option value="' + fontName + '">' + fontName + '</option>');
+    });
 
     /**
      *

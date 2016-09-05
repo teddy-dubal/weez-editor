@@ -46,6 +46,7 @@ foreach ($object as $o) {
         'height'       => $h . 'mm',
         'rotate'       => -$o['angle'],
         'fill-opacity' => $o['opacity'],
+        'font-family'  => $o['fontFamily'],
     ];
     switch ($o['type']) {
         case 'textbox':
@@ -103,6 +104,9 @@ $content    = "<page>";
 $content .= $inner;
 $content .= "</page>";
 $html2pdf   = new HTML2PDF('P', array($pageWidth, $pageHeight), 'fr', true, 'UTF-8', [0, 0, 0, 0]);
+
+
+
 //$html2pdf->setModeDebug();
 $html2pdf->WriteHTML($content);
 $html2pdf->Output('exemple.pdf');
