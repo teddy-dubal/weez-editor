@@ -35,6 +35,9 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
             }
         });
     };
+
+    var $importedFontsString =
+
     /**
      *
      * @returns {undefined}
