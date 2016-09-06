@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="/components/dropzone/dist/min/basic.min.css">
         <link rel="stylesheet" href="/components/dropzone/dist/min/dropzone.min.css">
         <link rel="stylesheet" href="/assets/css/demo.css" type="text/css">
+        <link id="fontList" href="https://fonts.googleapis.com/css?family=Philosopher:400,400i,700,700i|Cormorant:400,400i,700,700i|Noto+Serif:400,400i,700,700i|Roboto+Mono:400,400i,700,700i" rel="stylesheet">
     </head>
     <body>
         <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -131,13 +132,34 @@
                             <div class="all txt">
                                 <div class="input-group">
                                     <span class="input-group-addon">font</span>
-                                    <input type="text" class="form-control" placeholder="font" name="fontFamily" id="fontFamily">
+                                    <select class="form-control" name="fontFamily" id="fontFamily">
+                                        <option value="Helvetica">Helvetica</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="all txt">
+                                <div class="input-group">
+                                    <span class="input-group-addon">font-align</span>
+                                    <select class="form-control" id="textAlign" name="textAlign">
+                                        <option value="left">left</option>
+                                        <option value="center">center</option>
+                                        <option value="right">right</option>
+                                        {# Html2pdf ne semble pas reconnaître text-align : justify
+                                        <option value="justify">justify</option>
+                                        #}
+                                    </select>
                                 </div>
                             </div>
                             <div class="all txt">
                                 <div class="input-group">
                                     <span class="input-group-addon">font-size</span>
-                                    <input type="number" class="form-control" placeholder="font-size" name="fontSize" id="fontSize">
+                                    <input type="range" class="form-control" value min="1" value max="120" step="1" default value="40" name="fontSize" id="fontSize">
+                                </div>
+                            </div>
+                            <div class="all txt">
+                                <div class="input-group">
+                                    <span class="input-group-addon">line-height</span>
+                                    <input type="range" class="form-control" value min="0" value max="10" step="0.1" default value="1.1" name="lineHeight" id="lineHeight">
                                 </div>
                             </div>
                             <div class="all txt qrcode barcode">
@@ -155,24 +177,16 @@
                             </div>
                             #}
                             <div class="all txt">
-                                <div class="input-group">
-                                    <span class="input-group-addon">font-align</span>
-                                    <select class="form-control" id="textAlign" name="textAlign">
-                                        <option value="left">left</option>
-                                        <option value="center">center</option>
-                                        <option value="right">right</option>
-                                        <option value="justify">justify</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="all txt">
-                                <div class="input-group">
-                                    <span class="input-group-addon">font-style</span>
-                                    <select class="form-control" id="fontStyle" name="fontStyle">
-                                        <option value=""></option>
-                                        <option value="normal">normal</option>
-                                        <option value="italic">italic</option>
-                                    </select>
+                                <div class="input-group" id="textDecorationBox">
+                                    <span class="input-group-addon">text-decoration</span>
+                                    <ul>
+                                        <li><button type="button" class="btn btn-primary" id="italic" style="font-style:italic">Italic</button></li>
+                                        <li><button type="button" class="btn btn-primary" id="bold" style="font-weight:bold">Bold</button></li>
+                                        <li><button type="button" class="btn btn-primary" id="overline" value=" overline" style="text-decoration:overline">Overline</button></li>
+                                        <li><button type="button" class="btn btn-primary" id="lineThrough" value=" line-through" style="text-decoration:line-through">Line-through</button></li>
+                                        <li><button type="button" class="btn btn-primary" id="underline" value=" underline" style="text-decoration:underline">Underline</button></li>
+                                    </ul>
+
                                 </div>
                             </div>
                             <div class="all image">

@@ -18,6 +18,7 @@ $dimension   = $format['dimension'];
 $pageWidth   = $dimension['mm']['width'];
 $pageHeight  = $dimension['mm']['height'];
 $rate        = $dimension['px']['width'] / $dimension['mm']['width'];
+$fontFamily  = array();
 
 $m          = current($mock);
 $attributes = [
@@ -31,6 +32,7 @@ $attributes = [
     'fill-opacity' => '1',
     'font-size'    => '4mm',
     'font-style'   => 'normal',
+    'font-family'  => '',
 ];
 $inner      = '';
 foreach ($object as $o) {
@@ -46,14 +48,35 @@ foreach ($object as $o) {
         'height'       => $h . 'mm',
         'rotate'       => -$o['angle'],
         'fill-opacity' => $o['opacity'],
+        'font-family'  => $o['fontFamily'],
     ];
     switch ($o['type']) {
         case 'textbox':
         case 'i-text':
+            if (isset($o['fontFamily'])){
+                if ($o['fontFamily'] != 'helvetica' || $o['fontFamily'] != 'Helvetica'){
+                    $font = $o['fontFamily'];
+                    if ('bold' == $o['fontWeight']) {
+                        $font .= 'b';
+                    }
+                    if ('italic' == $o['fontStyle']) {
+                        $font .= 'i';
+                    }
+                    $fontFamily[] = $font;
+                } else {
+                    $defaultFontBold   = ('bold' == $o['fontWeight']) ? true : false;
+                    $defaultFontItalic = ('italic' == $o['fontStyle']) ? true : false;
+                }
+            }
             $elt_attributes = array_merge($elt_attributes, [
-                'color'      => $o['fill'],
-                'text-align' => $o['textAlign'],
-                'font-size'  => ($o['fontSize'] - 1) . 'px',
+                'color'           => $o['fill'],
+                'text-align'      => $o['textAlign'],
+                'font-size'       => ($o['fontSize'] - 1) . 'px',
+                'font-family'     => isset($font) ? $font : '',
+                'text-decoration' => $o['textDecoration'],
+                'line-height'     => $o['lineHeight'],
+                'font-style'      => isset($defaultFontItalic) ? ($defaultFontItalic) ? 'italic' : '' : '',
+                'font-weight'     => isset($defaultFontBold) ? ($defaultFontBold) ? 'bold' : '' : '',
             ]);
             $merge          = array_merge($attributes, $elt_attributes);
             $r              = '';
@@ -63,11 +86,12 @@ foreach ($object as $o) {
             if (isset($m[$o['tag']])) {
                 $o['text'] = $m[$o['tag']];
             }
-            if ('italic' == $o['fontStyle']) {
+            $text = nl2br($o['text']);
+            /*if ('italic' == $o['fontStyle']) {
                 $o['text'] = '<i>' . $o['text'] . '</i>';
-            }
+            }*/
 //            $inner .= '<div style="border: solid 0.5mm red;' . $r . '">' . $o['text'] . '</div>' . PHP_EOL;
-            $inner .= '<div style="' . $r . '">' . $o['text'] . '</div>' . PHP_EOL;
+            $inner .= '<div style="' . $r . '">' . $text . '</div>' . PHP_EOL;
             break;
         case 'image':
             $merge = array_merge($attributes, $elt_attributes, ['color' => $o['fill']]);
@@ -103,6 +127,17 @@ $content    = "<page>";
 $content .= $inner;
 $content .= "</page>";
 $html2pdf   = new HTML2PDF('P', array($pageWidth, $pageHeight), 'fr', true, 'UTF-8', [0, 0, 0, 0]);
+
+foreach ($fontFamily as $fontName){
+    /*
+     * Si le fichier fontName.php n'est pas dans le dossier :
+     * - Télécharger la font nécessaire sur fonts.google.com
+     * - Déplacer le fichier font.ttf dans le dossier data/fonts du projet
+     * - Dans le terminal, depuis la racine du projet : vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php -i data/fonts/font.ttf
+     */
+    $html2pdf->addFont($fontName,'','data/fonts/'.str_replace(" ", "", strtolower($fontName)).".php");
+}
+
 //$html2pdf->setModeDebug();
 $html2pdf->WriteHTML($content);
 $html2pdf->Output('exemple.pdf');
