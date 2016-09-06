@@ -115,6 +115,49 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                 $canvas.add(image);
             });
         });
+        $('#textDecorationBox #italic').on('click', function (e) {
+            var activeElement = $canvas.getActiveObject();
+            if (activeElement.fontStyle == 'italic'){
+                activeElement.fontStyle = '';
+            } else {
+                activeElement.fontStyle = 'italic';
+            }
+            $canvas.renderAll();
+        });
+        $('#textDecorationBox #bold').on('click', function (e) {
+            var activeElement = $canvas.getActiveObject();
+            if (activeElement.fontWeight == 'bold'){
+                activeElement.fontWeight = '';
+            } else {
+                activeElement.fontWeight = 'bold';
+            }
+            $canvas.renderAll();
+        });
+        $('#textDecorationBox #overline, #textDecorationBox #lineThrough, #textDecorationBox #underline').on('click', function (e) {
+           var activeElement = $canvas.getActiveObject();
+           var $value = $(this).val();
+           if (activeElement.textDecoration.search($value) == -1){
+               activeElement.textDecoration = activeElement.textDecoration + $value;
+           } else {
+               activeElement.textDecoration = activeElement.textDecoration.replace($value, '');
+           }
+            $canvas.renderAll();
+        });
+        $('#fontFamily').on('change', function(e){
+            var activeElement = $canvas.getActiveObject();
+            activeElement.fontFamily = $(this).val();
+            $canvas.renderAll();
+        });
+        $('#fontSize').on('change', function(e){
+            var activeElement = $canvas.getActiveObject();
+            activeElement.fontSize = $(this).val();
+            $canvas.renderAll();
+        });
+        $('#lineHeight').on('change', function(e){
+            var activeElement = $canvas.getActiveObject();
+            activeElement.lineHeight = $(this).val();
+            $canvas.renderAll();
+        });
     };
     /**
      *

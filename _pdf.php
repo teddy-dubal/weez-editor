@@ -54,20 +54,29 @@ foreach ($object as $o) {
         case 'textbox':
         case 'i-text':
             if (isset($o['fontFamily'])){
-                $font = $o['fontFamily'];
-                if ('bold' == $o['fontWeight']) {
-                    $font .= 'b';
+                if ($o['fontFamily'] != 'helvetica' || $o['fontFamily'] != 'Helvetica'){
+                    $font = $o['fontFamily'];
+                    if ('bold' == $o['fontWeight']) {
+                        $font .= 'b';
+                    }
+                    if ('italic' == $o['fontStyle']) {
+                        $font .= 'i';
+                    }
+                    $fontFamily[] = $font;
+                } else {
+                    $defaultFontBold   = ('bold' == $o['fontWeight']) ? true : false;
+                    $defaultFontItalic = ('italic' == $o['fontStyle']) ? true : false;
                 }
-                if ('italic' == $o['fontStyle']) {
-                    $font .= 'i';
-                }
-                $fontFamily[] = $font;
             }
             $elt_attributes = array_merge($elt_attributes, [
-                'color'      => $o['fill'],
-                'text-align' => $o['textAlign'],
-                'font-size'  => ($o['fontSize'] - 1) . 'px',
-                'font-family'=> isset($font) ? $font : '',
+                'color'           => $o['fill'],
+                'text-align'      => $o['textAlign'],
+                'font-size'       => ($o['fontSize'] - 1) . 'px',
+                'font-family'     => isset($font) ? $font : '',
+                'text-decoration' => $o['textDecoration'],
+                'line-height'     => $o['lineHeight'],
+                'font-style'      => isset($defaultFontItalic) ? ($defaultFontItalic) ? 'italic' : '' : '',
+                'font-weight'     => isset($defaultFontBold) ? ($defaultFontBold) ? 'bold' : '' : '',
             ]);
             $merge          = array_merge($attributes, $elt_attributes);
             $r              = '';
@@ -77,11 +86,12 @@ foreach ($object as $o) {
             if (isset($m[$o['tag']])) {
                 $o['text'] = $m[$o['tag']];
             }
+            $text = nl2br($o['text']);
             /*if ('italic' == $o['fontStyle']) {
                 $o['text'] = '<i>' . $o['text'] . '</i>';
             }*/
 //            $inner .= '<div style="border: solid 0.5mm red;' . $r . '">' . $o['text'] . '</div>' . PHP_EOL;
-            $inner .= '<div style="' . $r . '">' . $o['text'] . '</div>' . PHP_EOL;
+            $inner .= '<div style="' . $r . '">' . $text . '</div>' . PHP_EOL;
             break;
         case 'image':
             $merge = array_merge($attributes, $elt_attributes, ['color' => $o['fill']]);
