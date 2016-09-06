@@ -36,7 +36,7 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
         });
     };
 
-    var $importedFontsString = $('#fontList').attr("href").slice(40).replace(/\+/g, " ");
+    var $importedFontsString = $('#fontList').attr("href").slice(40).replace(/\+/g, " ").replace(/:400,400i,700,700i/g, "");
     var $importedFontsArray  = ($importedFontsString.length == 0) ? [] : $importedFontsString.split("|");
     console.info ($importedFontsArray);
     $.each($importedFontsArray, function (index, fontName) {

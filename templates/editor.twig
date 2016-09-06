@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="/components/dropzone/dist/min/basic.min.css">
         <link rel="stylesheet" href="/components/dropzone/dist/min/dropzone.min.css">
         <link rel="stylesheet" href="/assets/css/demo.css" type="text/css">
-        <link id="fontList" href="https://fonts.googleapis.com/css?family=Cutive+Mono|Lobster+Two|Lora|Anton|Pacifico" rel="stylesheet">
+        <link id="fontList" href="https://fonts.googleapis.com/css?family=Philosopher:400,400i,700,700i|Cormorant:400,400i,700,700i|Noto+Serif:400,400i,700,700i|Roboto+Mono:400,400i,700,700i" rel="stylesheet">
     </head>
     <body>
         <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -22,7 +22,7 @@
         </div>
         <div class="container-fluid">
             <div>
-                <h1>Weez Editor</h1>
+                <h1 style="font-family: Pacifico;font-size:70px;font-weight:bold;font-style:italic">Weez Editor</h1>
                 <select class="form-control" id="format" name="format">
                     <option value="a4" data-width="210" data-height="297" {% if format == 'a4' %}selected{%endif%}>a4</option>
                     <option value="8x3" data-width="203" data-height="76.2" {% if format == '8x3' %}selected{%endif%}>8x3</option>
@@ -175,6 +175,16 @@
                                         <option value=""></option>
                                         <option value="normal">normal</option>
                                         <option value="italic">italic</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="all txt">
+                                <div class="input-group">
+                                    <span class="input-group-addon">font-weight</span>
+                                    <select class="form-control" id="fontStyle" name="fontWeight">
+                                        <option value=""></option>
+                                        <option value="normal">normal</option>
+                                        <option value="bold">bold</option>
                                     </select>
                                 </div>
                             </div>

@@ -53,10 +53,21 @@ foreach ($object as $o) {
     switch ($o['type']) {
         case 'textbox':
         case 'i-text':
+            if (isset($o['fontFamily'])){
+                $font = $o['fontFamily'];
+                if ('bold' == $o['fontWeight']) {
+                    $font .= 'b';
+                }
+                if ('italic' == $o['fontStyle']) {
+                    $font .= 'i';
+                }
+                $fontFamily[] = $font;
+            }
             $elt_attributes = array_merge($elt_attributes, [
                 'color'      => $o['fill'],
                 'text-align' => $o['textAlign'],
                 'font-size'  => ($o['fontSize'] - 1) . 'px',
+                'font-family'=> isset($font) ? $font : '',
             ]);
             $merge          = array_merge($attributes, $elt_attributes);
             $r              = '';
@@ -66,12 +77,9 @@ foreach ($object as $o) {
             if (isset($m[$o['tag']])) {
                 $o['text'] = $m[$o['tag']];
             }
-            if ('italic' == $o['fontStyle']) {
+            /*if ('italic' == $o['fontStyle']) {
                 $o['text'] = '<i>' . $o['text'] . '</i>';
-            }
-            if (isset($o['fontFamily'])){
-                $fontFamily[] = $o['fontFamily'];
-            }
+            }*/
 //            $inner .= '<div style="border: solid 0.5mm red;' . $r . '">' . $o['text'] . '</div>' . PHP_EOL;
             $inner .= '<div style="' . $r . '">' . $o['text'] . '</div>' . PHP_EOL;
             break;
