@@ -100,11 +100,14 @@
                             <li><button id="image" class="btn btn-primary">Add Img</button></li>
                             <li><button id="qrcode" class="btn btn-primary">Add QRCode</button></li>
                             <li><button id="barcode" class="btn btn-primary">Add Barcode</button></li>
+                            <li><button id="rectangle" class="btn btn-primary">Add Rectangle</button></li>
+                            <li><button id="circle" class="btn btn-primary">Add Circle</button></li>
+                            <li><button id="line" class="btn btn-primary">Add Line</button></li>
                         </ul>
                     </div>
                     <div id="editbox" class="">
                         <form action="" id="form" role="form">
-                            <div class="common all txt image qrcode barcode">
+                            <div class="common all txt image qrcode barcode rectangle circle line">
                                 <input type="hidden" class="form-control"  id="id">
                                 <input type="hidden" class="form-control"  id="type">
                                 <input type="hidden" class="form-control"  id="default">
@@ -144,9 +147,6 @@
                                         <option value="left">left</option>
                                         <option value="center">center</option>
                                         <option value="right">right</option>
-                                        {# Html2pdf ne semble pas reconnaître text-align : justify
-                                        <option value="justify">justify</option>
-                                        #}
                                     </select>
                                 </div>
                             </div>
@@ -162,20 +162,24 @@
                                     <input type="range" class="form-control" value min="0" value max="10" step="0.1" default value="1.1" name="lineHeight" id="lineHeight">
                                 </div>
                             </div>
-                            <div class="all txt qrcode barcode">
+                            <div class="all txt qrcode barcode rectangle circle">
                                 <div class="input-group">
                                     <span class="input-group-addon">color</span>
                                     <input type="color" class="form-control" placeholder="font-color" name="fill" id="fill">
                                 </div>
                             </div>
-                            {#
-                            <div class="all txt image">
+                            <div class="all image rectangle circle line">
                                 <div class="input-group">
-                                    <span class="input-group-addon">opacity</span>
-                                    <input type="range" class="form-control" placeholder="opacity" name="opacity" id="opacity" min="0" max="1" step="0.1">
+                                    <span class="input-group-addon">border-width</span>
+                                    <input type="range" class="form-control" value min="0" value max="20" step="1" default value="1" name="strokeWidth" id="strokeWidth">
                                 </div>
                             </div>
-                            #}
+                            <div class="all image rectangle circle line">
+                                <div class="input-group">
+                                    <span class="input-group-addon">border-color</span>
+                                    <input type="color" class="form-control" placeholder="font-color" name="stroke" id="stroke">
+                                </div>
+                            </div>
                             <div class="all txt">
                                 <div class="input-group" id="textDecorationBox">
                                     <span class="input-group-addon">text-decoration</span>
@@ -195,13 +199,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="all image txt qrcode barcode">
+                            <div class="all image txt qrcode barcode rectangle circle line">
                                 <button type="button" class="btn btn-primary" id="send-backwards">Send backwards</button>
                                 <button type="button" class="btn btn-primary" id="send-to-back">Send to back</button>
                                 <button type="button" class="btn btn-primary" id="bring-forward">Bring forwards</button>
                                 <button type="button" class="btn btn-primary" id="bring-to-front">Bring to front</button>
                             </div>
-                            <div class="all txt image qrcode barcode">
+                            <div class="all txt image qrcode barcode rectangle circle line">
                                 <button type="button" class="btn btn-danger" id="deleteEditorboxBtn">Delete</button>
                                 <button type="button" class="btn btn-primary" id="validateEditorboxBtn">Validate</button>
                             </div>

@@ -47,8 +47,6 @@ foreach ($object as $o) {
         'width'        => $w . 'mm',
         'height'       => $h . 'mm',
         'rotate'       => -$o['angle'],
-        'fill-opacity' => $o['opacity'],
-        'font-family'  => $o['fontFamily'],
     ];
     switch ($o['type']) {
         case 'textbox':
@@ -87,14 +85,16 @@ foreach ($object as $o) {
                 $o['text'] = $m[$o['tag']];
             }
             $text = nl2br($o['text']);
-            /*if ('italic' == $o['fontStyle']) {
-                $o['text'] = '<i>' . $o['text'] . '</i>';
-            }*/
 //            $inner .= '<div style="border: solid 0.5mm red;' . $r . '">' . $o['text'] . '</div>' . PHP_EOL;
             $inner .= '<div style="' . $r . '">' . $text . '</div>' . PHP_EOL;
             break;
         case 'image':
-            $merge = array_merge($attributes, $elt_attributes, ['color' => $o['fill']]);
+            $merge = array_merge($attributes, $elt_attributes, [
+                'color' => $o['fill'],
+                'border-style' => 'solid', //A modifier
+                'border-color' => $o['stroke'],
+                'border-width' => $o['strokeWidth'],
+            ]);
             $r     = '';
             foreach ($merge as $k => $v) {
                 $r .= $k . ':' . $v . ';';
@@ -114,6 +114,57 @@ foreach ($object as $o) {
                     break;
             }
             break;
+        case 'rect':
+            $strokeW = pixelToMm($o['strokeWidth'], $rate) * $o['scaleX'];
+            $strokeH = pixelToMm($o['strokeWidth'], $rate) * $o['scaleY'];
+            $elt_attributes = array_merge($elt_attributes, [
+                'background-color' => $o['fill'],
+                'border-style'     => 'solid',
+                'border-color'     => $o['stroke'],
+                'border-width'     => $strokeH .'mm '.$strokeW . 'mm',
+                'width'            => $w - ($strokeW) .'mm',
+                'height'           => $h - ($strokeH) .'mm',
+            ]);
+            $merge = array_merge($attributes, $elt_attributes);
+            $r = '';
+            foreach ($merge as $k => $v) {
+                $r .= $k . ':' . $v . ';';
+            }
+            $inner .= '<div style="' . $r . '"></div>' . PHP_EOL;
+            break;
+        case 'circle':
+            $strokeW = pixelToMm($o['strokeWidth'], $rate) * $o['scaleX'];
+            $strokeH = pixelToMm($o['strokeWidth'], $rate) * $o['scaleY'];
+            $elt_attributes = array_merge($elt_attributes, [
+                'background-color' => $o['fill'],
+                'border-style'     => 'solid',
+                'border-color'     => $o['stroke'],
+                'border-width'     => $strokeH .'mm '.$strokeW . 'mm',
+                'border-radius'    => ($w+$strokeW) / 2 . 'mm / ' . ($h+$strokeH) / 2 . 'mm', //html2pdf n'accepte pas les pourcentages
+                'width'            => $w - ($strokeW) .'mm',
+                'height'           => $h - ($strokeH) .'mm',
+            ]);
+            $merge = array_merge($attributes, $elt_attributes);
+            $r = '';
+            foreach ($merge as $k => $v) {
+                $r .= $k . ':' . $v . ';';
+            }
+            $inner .= '<div style="' . $r . '"></div>' . PHP_EOL;
+            break;
+        case 'line':
+            $strokeH = pixelToMm($o['strokeWidth'], $rate) * $o['scaleY'];
+            $elt_attributes = array_merge($elt_attributes, [
+                'background-color' => $o['stroke'],
+                'border-color'     => $o['stroke'],
+                'height'           => $strokeH .'mm',
+            ]);
+            $merge = array_merge($attributes, $elt_attributes);
+            $r = '';
+            foreach ($merge as $k => $v) {
+                $r .= $k . ':' . $v . ';';
+            }
+            $inner .= '<div style="' . $r . '"></div>' . PHP_EOL;
+            break;
         default:
             break;
     }
@@ -123,7 +174,11 @@ foreach ($object as $o) {
 //echo '</pre>';
 //exit;
 $time_start = microtime(true);
-$content    = "<page>";
+if ($format_name == '8x3') {
+    $content = "<page orientation=paysage>";
+} else {
+    $content = "<page>";
+}
 $content .= $inner;
 $content .= "</page>";
 $html2pdf   = new HTML2PDF('P', array($pageWidth, $pageHeight), 'fr', true, 'UTF-8', [0, 0, 0, 0]);

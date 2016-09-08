@@ -115,6 +115,48 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                 $canvas.add(image);
             });
         });
+        $('#toolbox #rectangle').on('click', function (e) {
+            var rect = new fabric.Rect({
+                width: 100,
+                height: 100,
+                left: $canvas.width / 2,
+                top: $canvas.height / 2,
+                fill: '#' + getRandomColor(),
+                stroke:'black',
+                strokeWidth:1,
+                originX: 'center',
+                originY: 'center',
+            });
+            rect.tag = 'rectangle';
+            $canvas.add(rect);
+        });
+        $('#toolbox #circle').on('click', function (e) {
+            var circle = new fabric.Circle({
+                radius:50,
+                left: $canvas.width / 2,
+                top: $canvas.height / 2,
+                fill: '#' + getRandomColor(),
+                stroke:'black',
+                strokeWidth:1,
+                originX: 'center',
+                originY: 'center',
+            });
+            circle.tag = 'circle';
+            $canvas.add(circle);
+        });
+        $('#toolbox #line').on('click', function (e) {
+            var line = new fabric.Line([50,50,300,50],{
+                left: $canvas.width / 2,
+                top: $canvas.height / 2,
+                stroke : '#' + getRandomColor(),
+                strokeWidth : 3,
+                originX: 'center',
+                originY: 'center',
+            });
+            line.setControlsVisibility({bl:false,br:false,mb:false,ml:true,mr:true,mt:false,tl:false,tr:false,mtr:false});
+            line.tag = 'line';
+            $canvas.add(line);
+        });
         $('#textDecorationBox #italic').on('click', function (e) {
             var activeElement = $canvas.getActiveObject();
             if (activeElement.fontStyle == 'italic'){
@@ -199,6 +241,12 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                 $canvas.loadFromJSON(data, function () {
                     $canvas.format = {format: $canvas.format};
                     $canvas.renderAll();
+                    console.info($canvas.objects);
+                    $.each($canvas._objects , function (index, obj) {
+                        if (obj.type === 'line'){
+                            obj.setControlsVisibility({bl:false,br:false,mb:false,ml:true,mr:true,mt:false,tl:false,tr:false,mtr:false});
+                        }
+                    });
                 });
             });
         });
@@ -400,6 +448,11 @@ var WeezPdfEngine = (function ($, Dropzone, fabric) {
                 $('.' + this.tag).show();
                 if ('i-text' === this.type || 'textbox' === this.type) {
                     $('.txt').show();
+                }
+                if ('line' === this.type) {
+                    $('#strokeWidth').attr('min',1);
+                } else {
+                    $('#strokeWidth').attr('min',0);
                 }
                 _updateForm(data);
             };
